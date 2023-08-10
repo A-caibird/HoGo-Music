@@ -1,27 +1,17 @@
 <script setup>
-import HelloWorld from '@/components/index/HelloWorld.vue'
+import { ref } from 'vue'
+
 </script>
-
 <template>
-    <h1 class="text-3xl font-bold underline">
-        Hello world!
-    </h1>
-    <HelloWorld></HelloWorld>
+    <div style="width:400px;height:200px;margin:200px auto;">
+        <div style="font-size: 20px">
+            <!-- 由于SVG图标默认不携带任何属性 -->
+            <!-- 你需要直接提供它们 -->
+            <i-ep-Edit style="width: 1em; height: 1em; margin-right: 8px" />
+            <i-ep-Share style="width: 1em; height: 1em; margin-right: 8px" />
+            <i-ep-Delete style="width: 1em; height: 1em; margin-right: 8px" />
+            <i-ep-Search style="width: 1em; height: 1em; margin-right: 8px" />
+        </div>
+    </div>
 </template>
-
-<style scoped>
-.logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
-}
-
-.logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-}
-
-.logo.vue:hover {
-    filter: drop-shadow(0 0 2em #42b883aa);
-}
-</style>
+<style></style>
