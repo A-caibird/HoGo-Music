@@ -31,3 +31,7 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 安装vue-router :`pnpm i vue-router@4`
 
 ## [安装tailwind-css框架](https://www.tailwindcss.cn/docs/guides/vite#vue)
+
+
+## [自动导入element-plus的icon图标](https://blog.csdn.net/qq_39111074/article/details/130063159)
+使用需要加上前缀 `i-ep-` `<i-ep-Edit style="width: 1em; height: 1em; margin-right: 8px" />`

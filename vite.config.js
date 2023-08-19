@@ -6,6 +6,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import Postcss from 'postcss'
 export default defineConfig({
     outDir: path.resolve(__dirname, ""),
     plugins: [vue(),
@@ -33,7 +34,7 @@ export default defineConfig({
         }
     },
     server: {
-        open: '/src/pages/index/index.html', //设置项目启动打开的首页
+        open: '/src/pages/login/index.html', //设置项目启动打开的首页
     },
     build: {
         rollupOptions: {
