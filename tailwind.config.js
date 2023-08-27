@@ -22,6 +22,7 @@ export default {
             },
             fontFamily: {
                 sans: [
+                    '-apple-system',
                     'PingFangSC-Medium',
                     'PingFang SC',
                     ...defaultTheme.fontFamily.sans,

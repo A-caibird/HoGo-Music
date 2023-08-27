@@ -1,3 +1,12 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@tailwind base;/* 元素默认样式或者对元素重设规则 The base layer is for things like reset rules or default styles applied to plain HTML elements. */
+@tailwind components;/* The components layer is for class-based styles that you want to be able to override with utilities.*/
+@tailwind utilities; /*  */
+
+@layer utilities {
+    .a {
+        color: red;
+    }
+}
+
+/* Path: src/pages/index/style.css */
+/*  */

@@ -7,6 +7,7 @@ import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 import Postcss from 'postcss'
+const pathSrc = path.resolve(__dirname, 'src')
 export default defineConfig({
     outDir: path.resolve(__dirname, ""),
     plugins: [vue(),
@@ -18,12 +19,14 @@ export default defineConfig({
                 prefix: 'Icon',
             }),
         ],
+        dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
     }),
     Components({
         resolvers: [ElementPlusResolver(),
         IconsResolver({
             enabledCollections: ['ep'],
         }),],
+        dts: path.resolve(pathSrc, 'components.d.ts'),
     }),
     Icons({
         autoInstall: true,
@@ -34,7 +37,14 @@ export default defineConfig({
         }
     },
     server: {
-        open: '/src/pages/login/index.html', //设置项目启动打开的首页
+        open: '/src/pages/login/index.html', //设置项目启动打开的首页,
+        proxy: {                              //配置跨域请求
+            "/api": {
+                target: "http://localhost:8000",
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, ""),
+            }
+        }
     },
     build: {
         rollupOptions: {
