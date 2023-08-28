@@ -24,6 +24,7 @@ declare module 'vue' {
     IEpSearch: typeof import('~icons/ep/search')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
     Index: typeof import('./components/index/index.vue')['default']
+    Mine: typeof import('./components/mine/mine.vue')['default']
     Nav: typeof import('./components/nav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

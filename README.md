@@ -42,7 +42,9 @@ This template should help get you started developing with Vue 3 in Vite. The tem
 
 ### [安装mysql2,支持myql8](https://www.npmjs.com/package/mysql2)
 
-##  [nodejs服务器,安装cors,解决跨域请求问题](https://juejin.cn/post/6844903945656074248)
+### [安装pinia实现vue共享状态](https://pinia.vuejs.org/zh/core-concepts/)
+
+###  [nodejs服务器,安装cors,解决跨域请求问题](https://juejin.cn/post/6844903945656074248)
 ```js
 npm install cors --save-dev
 const cors = require('cors');

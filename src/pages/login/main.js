@@ -1,4 +1,4 @@
-import { LogIn, SignUp } from '/src/api/api.js';
+import { LogIn, SignUp } from '@/api/api.js';
 
 // 获取DOM元素
 

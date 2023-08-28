@@ -16,7 +16,9 @@ let CarouselHeight = ref('') //高度
 let MusicName = ref('') //歌曲名
 </script>
 <template>
-    <div class="grid grid-rows-[repeat(2,1fr)]">
+
+    <!-- 这里设置为repeat(1,1fr)可以添加歌曲列表什么的 -->
+    <div class="grid grid-rows-[repeat(1,1fr)]">
         <div class="w-full grid grid-cols-[1fr_2fr_1fr] grid-rows-[120px_1fr_2fr] ">
             <div class="w-full  col-start-2 col-end-3 row-span-1  grid place-items-center">
                 <div class="bg-[white]  w-full   rounded-[20px] p-2 flex flex-row  items-center" style="font-family: ;">

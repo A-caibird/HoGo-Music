@@ -33,7 +33,8 @@ export default defineConfig({
     }),],
     resolve: {
         alias: {
-            '@': '/src',
+            '@': path.join(__dirname, "src"),
+            'root': __dirname,
         }
     },
     server: {
