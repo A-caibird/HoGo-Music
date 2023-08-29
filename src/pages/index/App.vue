@@ -9,10 +9,13 @@ function handleSelect(index) {
     if (index == '1') {
         router.replace({ path: '/' })
     }
-    else if (index == '3') {
+    else if (index == '3-1') {
         router.replace({ path: '/mine' })
     }
-    else if(index == '2-4'){
+    else if (index == '3-2') {
+        location.href = '/src/pages/login/index.html'
+    }
+    else if (index == '2-4') {
         router.replace({ path: '/userMange' })
     }
 }
@@ -44,12 +47,14 @@ onMounted(() => {
                     <el-menu-item index="2-2">专辑管理</el-menu-item>
                     <el-menu-item index="2-3">版权交易</el-menu-item>
                     <template v-if="displayUserMange">
-                        <el-menu-item index="2-4" >用户管理</el-menu-item>
+                        <el-menu-item index="2-4">用户管理</el-menu-item>
                     </template>
                 </el-sub-menu>
-                <el-menu-item index="3">
-                    <router-link to="/mine"><el-icon><i-ep-User /></el-icon>用户中心</router-link>
-                </el-menu-item>
+                <el-sub-menu index="3">
+                    <template #title><el-icon><i-ep-User /></el-icon>用户中心</template>
+                    <el-menu-item index="3-1">账号管理</el-menu-item>
+                    <el-menu-item index="3-2">退出账号</el-menu-item>
+                </el-sub-menu>
                 <el-menu-item index="4"><el-icon><i-ep-Promotion /></el-icon>VIP</el-menu-item>
                 <el-menu-item index="5">
                     <el-icon color="red">
