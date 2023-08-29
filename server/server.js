@@ -68,7 +68,13 @@ app.post('/SignUp', (req, res) => {
     })
 })
 
-
+// 4.拿到
+app.get('/userList', (req, res) => {
+    let query = 'select * from users ';
+    connetion.query(query, (err, results, fields) => {
+        res.send(results);
+    })
+})
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
@@ -9,10 +9,27 @@ function handleSelect(index) {
     if (index == '1') {
         router.replace({ path: '/' })
     }
-    else if(index == '3'){
+    else if (index == '3') {
         router.replace({ path: '/mine' })
     }
+    else if(index == '2-4'){
+        router.replace({ path: '/userMange' })
+    }
 }
+
+// 获取存储的用户信息
+let displayUserMange = ref(false)
+onMounted(() => {
+    let name = localStorage.getItem('name')
+    console.log(name)
+    displayUserMange = computed(() => {
+        if (name == 'root') {
+            return true
+        } else {
+            return false
+        }
+    })
+})
 </script>
 <template>
     <div class="container absolute inset-0 bg-slate-50  overflow-y-auto font-sans">
@@ -26,7 +43,9 @@ function handleSelect(index) {
                     <el-menu-item index="2-1">专辑发布</el-menu-item>
                     <el-menu-item index="2-2">专辑管理</el-menu-item>
                     <el-menu-item index="2-3">版权交易</el-menu-item>
-
+                    <template v-if="displayUserMange">
+                        <el-menu-item index="2-4" >用户管理</el-menu-item>
+                    </template>
                 </el-sub-menu>
                 <el-menu-item index="3">
                     <router-link to="/mine"><el-icon><i-ep-User /></el-icon>用户中心</router-link>

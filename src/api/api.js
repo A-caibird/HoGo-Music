@@ -16,5 +16,8 @@ export function SignUp(userData) {
     return axios.post('/api/SignUp', userData);
 };
 
+export function userList() {
+    return instance.get('/api/userList');
+}
 
 

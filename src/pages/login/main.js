@@ -32,6 +32,7 @@ let getButtons = (e) => {
         }).then(response => {
             // handle success
             console.log(response);
+            localStorage.setItem("name",UserName);
             window.location.href = "/src/pages/index/index.html";
         }).catch(error => {
             // handle error
@@ -57,6 +58,7 @@ let getButtons = (e) => {
             }
             else if (response.data == 'sign up success') {
                 alert("注册成功,即将跳转到首页");
+                localStorage.setItem("name",UserName);
                 window.location.href = "/src/pages/index/index.html";
             }
         }).catch(error => {
