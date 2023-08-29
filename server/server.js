@@ -37,12 +37,14 @@ app.get('/', (req, res) => {
 app.post('/LogIn', (req, res) => {
     const name = req.body.name;
     const password = req.body.password;
-    let query = 'select * from users where name=? and password=?';
-    connetion.query(query, [name, password], (err, results, fields) => {
+    let query = 'select * from users where name=?';
+    connetion.query(query, [name], (err, results, fields) => {
         if (results.length) {
+            if (results[0].password != password) { return res.send('fail'); }
+            if (results[0].active == 0) { return res.send('deactive'); }
             return res.send('success');
         }
-        return res.send('fail');
+        return res.send('no this user');
     })
 })
 
@@ -98,7 +100,7 @@ app.post('/stopUser', (req, res) => {
         }
         return res.send('stop success');
     })
- })
+})
 
 
 // 启动服务器

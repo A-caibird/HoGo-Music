@@ -24,16 +24,28 @@ let getButtons = (e) => {
     e.preventDefault();
     console.log(e.target.textContent);
     if (e.target.textContent == "SIGN IN") {
-        let UserName = LogIn_Name.value;
-        let Password = LogIn_Password.value;
+        let UserName = LogIn_Name.value.trim();
+        let Password = LogIn_Password.value.trim();
+        if (!UserName || !Password) {
+            alert("用户名或密码不能为空");
+            return;
+        }
         LogIn({
             name: UserName,
             password: Password
         }).then(response => {
             // handle success
-            console.log(response);
-            localStorage.setItem("name",UserName);
-            window.location.href = "/src/pages/index/index.html";
+            if (response.data == 'deactive') {
+                alert("该账户已被停用,请联系管理员");
+            }
+            else if (response.data == 'success') {
+                localStorage.setItem("name", UserName);
+                window.location.href = "/src/pages/index/index.html";
+            } else if (response.data == 'fail') {
+                alert("用户名或密码错误,请重新输入");
+            } else if (response.data == 'no this user') {
+                alert("该用户不存在,请注册");
+            }
         }).catch(error => {
             // handle error
             console.log(error);
@@ -58,7 +70,7 @@ let getButtons = (e) => {
             }
             else if (response.data == 'sign up success') {
                 alert("注册成功,即将跳转到首页");
-                localStorage.setItem("name",UserName);
+                localStorage.setItem("name", UserName);
                 window.location.href = "/src/pages/index/index.html";
             }
         }).catch(error => {
