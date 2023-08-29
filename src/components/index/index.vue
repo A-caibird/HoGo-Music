@@ -11,12 +11,59 @@ onMounted(() => {
 // 轮播图
 const elCarousel1 = ref(null) //获取DOM元素
 let CarouselHeight = ref('') //高度
-
+//轮播图列表
+let itemList = ref([[{
+    imgPath: '/carousel/1.png',
+    title: '古风前奏 | 曲悠悠入人心'
+}, {
+    imgPath: '/carousel/2.png',
+    title: '抖音热歌：全网最火超好听的歌曲'
+}, {
+    imgPath: '/carousel/3.png',
+    title: '抖音热歌：全网最火首首入心'
+}, {
+    imgPath: '/carousel/4.png',
+    title: '0.8×降调情歌：emo慢放更显深刻'
+}, {
+    imgPath: '/carousel/5.png',
+    title: '有故事的人，听了一定会落泪'
+},],
+[{
+    imgPath: '/carousel/6.png',
+    title: '舒压轻音：安静听风，将疲惫暂缓'
+}, {
+    imgPath: '/carousel/7.png',
+    title: '韩流音乐节开SHOW！'
+}, {
+    imgPath: '/carousel/8.png',
+    title: '抖音热播单曲收录（持续更新）'
+}, {
+    imgPath: '/carousel/9.png',
+    title: '全网超好听抖音情歌（持续更新）'
+}, {
+    imgPath: '/carousel/10.png',
+    title: '周深 · 治愈人心的天籁歌手'
+},],
+[{
+    imgPath: '/carousel/11.png',
+    title: '抖音劲爆中文DJ（持续更新）'
+}, {
+    imgPath: '/carousel/12.png',
+    title: '英文治愈良方：愿日子清透且干净'
+}, {
+    imgPath: '/carousel/13.png',
+    title: '驾车良曲：耳机里的是专属温柔'
+}, {
+    imgPath: '/carousel/14.png',
+    title: '深情烟嗓：开口即是沧桑泪'
+}, {
+    imgPath: '/carousel/15.png',
+    title: '伯远 · 热血难凉的追梦少年'
+},]])
 // 歌曲部分
 let MusicName = ref('') //歌曲名
 </script>
 <template>
-
     <!-- 这里设置为repeat(1,1fr)可以添加歌曲列表什么的 -->
     <div class="grid grid-rows-[repeat(1,1fr)]">
         <div class="w-full grid grid-cols-[1fr_2fr_1fr] grid-rows-[120px_1fr_2fr] ">
@@ -43,12 +90,14 @@ let MusicName = ref('') //歌曲名
             </div>
             <div class="col-span-3 " ref="elCarousel1">
                 <el-carousel :height="CarouselHeight">
-                    <el-carousel-item v-for="item1 in 3" :key="item1" class="grid grid-cols-[repeat(5,1fr)] gap-[0_20px] ">
-                        <div class="  bg-[yellowgreen] w-full  h-full inline-block" v-for="item2 in 5" :key="item2">
-                            <div class="w-full h-[70%] bg-white border-none ">
-                                <img class=" " />
+                    <el-carousel-item v-for="(item1, index) in itemList" :key="index"
+                        class="grid grid-cols-[repeat(5,1fr)] gap-[0_20px] ">
+                        <div class="   w-full  h-full inline-block" v-for="(item2, index) in item1" :key="index">
+                            <div class="w-full h-[70%] bg-white border-none overflow-hidden">
+                                <img class="w-full h-full transition ease-in-out delay-150 hover:scale-[1.2]"
+                                    :src="item2.imgPath" alt="a" />
                             </div>
-                            <p class="text-blue-600/100">{{ item2 }}</p>
+                            <p class="text-blue-600/50  hover:text-green-300 mt-[20px]">{{ item2.title }}</p>
                         </div>
                     </el-carousel-item>
                 </el-carousel>
