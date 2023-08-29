@@ -39,7 +39,13 @@ let getButtons = (e) => {
                 alert("该账户已被停用,请联系管理员");
             }
             else if (response.data == 'success') {
+
+                // 存储用户信息
                 localStorage.setItem("name", UserName);
+
+                //设置cookie
+                document.cookie = "name=" + UserName;
+                document.cookie = "password=" + Password;
                 window.location.href = "/src/pages/index/index.html";
             } else if (response.data == 'fail') {
                 alert("用户名或密码错误,请重新输入");
@@ -111,4 +117,18 @@ let shell = (e) => {
 
     }
 }
-window.addEventListener("load", shell);
+window.addEventListener("load", function () {
+    shell();
+
+    // 解析cookie,自动填充表单
+    let cookieString = document.cookie;
+    if (cookieString == '') return;
+    const cookies = cookieString.split('; ');
+    const parsedCookies = {};
+    cookies.forEach(cookie => {
+        const [name, value] = cookie.split('=');
+        parsedCookies[name] = value;
+    });
+    LogIn_Name.value = parsedCookies.name;
+    LogIn_Password.value = parsedCookies.password;
+});
