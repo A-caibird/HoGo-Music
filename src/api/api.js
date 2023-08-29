@@ -20,4 +20,6 @@ export function userList() {
     return instance.get('/api/userList');
 }
 
-
+export function deleteUser(name) {
+    return instance.post('/api/deleteUser', name);
+}

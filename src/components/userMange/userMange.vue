@@ -1,9 +1,11 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-import { userList } from '/src/api/api.js';
+import { userList, deleteUser } from '/src/api/api.js';
 
-let tableData = ref([]);
+let tableData = ref([]); // 所有表格数据
 let userName = ref('');
+
+// 网页上显示的表格数据
 let displayTable = computed(() => {
     if (userName.value == '') {
 
@@ -23,19 +25,36 @@ let displayTable = computed(() => {
     }
 })
 
+// 生命周期,网页加载以后第一次去拿用户列表数据
 onMounted(() => {
-    (userList().then((res) => {
-        console.log(res.data);
+    // 页面加载以后拿到一次表格数据
+    userList().then((res) => {
         tableData.value = res.data;
     }).catch(error => {
         // handle error
         console.log(error);
-    }));
+    });
 });
 
-function deleteRow(index, rows) {
-    rows.splice(index, 1);
+//
+// 删除账户
+function handleDelete(index, rows) {
+    console.log(index, rows.name);
+    deleteUser({
+        name: rows.name
+    }).then((res) => {
+        userList().then((res) => {
+            tableData.value = res.data;
+        }).catch(error => {
+            // handle error
+            console.log(error);
+        });
+    }).catch(error => {
+        // handle error
+        console.log(error);
+    })
 }
+
 </script>
 <template>
     <div class="flex flex-col items-center w-full ">
@@ -61,7 +80,8 @@ function deleteRow(index, rows) {
                     <el-table-column label="操作" width="260">
                         <template #default="scope">
                             <el-button size="small" type="primary" round> 冻结账户</el-button>
-                            <el-button size="small" type="danger" round>删除账户</el-button>
+                            <el-button size="small" type="danger" round
+                                @click="handleDelete(scope.$index, scope.row)">删除账户</el-button>
                         </template>
                     </el-table-column>
                 </el-table>

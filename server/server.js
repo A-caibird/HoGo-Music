@@ -68,11 +68,23 @@ app.post('/SignUp', (req, res) => {
     })
 })
 
-// 4.拿到
+// 4.拿到用户列表
 app.get('/userList', (req, res) => {
     let query = 'select * from users ';
     connetion.query(query, (err, results, fields) => {
         res.send(results);
+    })
+})
+
+// 5.删除用户
+app.post('/deleteUser', (req, res) => {
+    let name = req.body.name;
+    let query = "delete from users where name=?";
+    connetion.execute(query, [name], (err, results, fields) => {
+        if (err) {
+            return res.send('delete fail');
+        }
+        return res.send('delete success');
     })
 })
 // 启动服务器
