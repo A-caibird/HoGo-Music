@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-import { userList, deleteUser } from '/src/api/api.js';
+import { userList, deleteUser, deactiveUser } from '/src/api/api.js';
 
 let tableData = ref([]); // 所有表格数据
 let userName = ref('');
@@ -27,7 +27,6 @@ let displayTable = computed(() => {
 
 // 生命周期,网页加载以后第一次去拿用户列表数据
 onMounted(() => {
-    // 页面加载以后拿到一次表格数据
     userList().then((res) => {
         tableData.value = res.data;
     }).catch(error => {
@@ -36,14 +35,15 @@ onMounted(() => {
     });
 });
 
-//
+
 // 删除账户
-function handleDelete(index, rows) {
-    console.log(index, rows.name);
+function handleDelete(index, row) {
+    console.log(index, row.name);
     deleteUser({
-        name: rows.name
+        name: row.name
     }).then((res) => {
         userList().then((res) => {
+            alert('账户删除成功');
             tableData.value = res.data;
         }).catch(error => {
             // handle error
@@ -55,6 +55,17 @@ function handleDelete(index, rows) {
     })
 }
 
+// 停用账户
+function handleDeactive(index, row) {
+    console.log(index, row.name);
+    deactiveUser({
+        name: row.name
+    }).then((res) => {
+        alert('账户停用成功');
+    }).catch(error => {
+        console.log(error);
+    })
+}
 </script>
 <template>
     <div class="flex flex-col items-center w-full ">
@@ -79,7 +90,8 @@ function handleDelete(index, rows) {
                     <el-table-column prop="password" label="密码" width="200" />
                     <el-table-column label="操作" width="260">
                         <template #default="scope">
-                            <el-button size="small" type="primary" round> 冻结账户</el-button>
+                            <el-button size="small" type="primary" round @click="handleDeactive(scope.$index, scope.row)">
+                                冻结账户</el-button>
                             <el-button size="small" type="danger" round
                                 @click="handleDelete(scope.$index, scope.row)">删除账户</el-button>
                         </template>

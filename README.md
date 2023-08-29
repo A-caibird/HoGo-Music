@@ -84,5 +84,9 @@ UPDATE users SET email =
     END;
 ```
 
+增加账户是否激活状态,默认设置为1,也就是激活的状态
+```mysql
+ALTER TABLE users ADD active INT DEFAULT 1;
+```
 
 ## [vite配置反向代理,解决跨域问题](https://zxuqian.cn/vite-proxy-config/)

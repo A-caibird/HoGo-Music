@@ -23,3 +23,7 @@ export function userList() {
 export function deleteUser(name) {
     return instance.post('/api/deleteUser', name);
 }
+
+export function deactiveUser(name) {
+    return instance.post('/api/stopUser', name);
+}

@@ -76,7 +76,7 @@ app.get('/userList', (req, res) => {
     })
 })
 
-// 5.删除用户
+// 5. 删除用户
 app.post('/deleteUser', (req, res) => {
     let name = req.body.name;
     let query = "delete from users where name=?";
@@ -87,6 +87,20 @@ app.post('/deleteUser', (req, res) => {
         return res.send('delete success');
     })
 })
+
+// 6. 停用账户
+app.post('/stopUser', (req, res) => {
+    let name = req.body.name;
+    let query = "update users set active=0 where name=?";
+    connetion.execute(query, [name], (err, results, fields) => {
+        if (err) {
+            return res.send('stop fail');
+        }
+        return res.send('stop success');
+    })
+ })
+
+
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');
