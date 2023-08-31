@@ -1,13 +1,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 
 // 生命周期钩子
 onMounted(() => {
-
     // 计算轮播图高度
     CarouselHeight.value = elCarousel1.value.offsetHeight + 'px';
 })
-
+// 跳转到不同歌单的音乐详情里面去
+function goMusicList() {
+    router.replace({ path: '/musicList' })
+}
 // 轮播图
 const elCarousel1 = ref(null) //获取DOM元素
 let CarouselHeight = ref('') //高度
@@ -62,6 +67,9 @@ let itemList = ref([[{
 },]])
 // 歌曲部分
 let MusicName = ref('') //歌曲名
+
+
+
 </script>
 <template>
     <!-- 这里设置为repeat(1,1fr)可以添加歌曲列表什么的 -->
@@ -92,9 +100,10 @@ let MusicName = ref('') //歌曲名
                 <el-carousel :height="CarouselHeight">
                     <el-carousel-item v-for="(item1, index) in itemList" :key="index"
                         class="grid grid-cols-[repeat(5,1fr)] gap-[0_20px] ">
-                        <div class="   w-full  h-full inline-block" v-for="(item2, index) in item1" :key="index">
+                        <div class="w-full  h-full inline-block" v-for="(item2, index) in item1" :key="index"
+                            @click="goMusicList">
                             <div class="w-full h-[70%] bg-white border-none overflow-hidden">
-                                <img class="w-full h-full transition ease-in-out delay-150 hover:scale-[1.2]"
+                                <img class="w-full h-full transition ease-in-out delay-200 hover:scale-[1.2]"
                                     :src="item2.imgPath" alt="a" />
                             </div>
                             <p class="text-blue-600/50  hover:text-green-300 mt-[20px]">{{ item2.title }}</p>

@@ -103,6 +103,14 @@ app.post('/stopUser', (req, res) => {
 })
 
 
+// 7. 拿到歌曲列表
+app.get('/getSongList', (req, res) => {
+    const query = 'select * from musicList';
+    connetion.query(query, (err, results, fields) => {
+        res.send(results);
+    })
+})
+
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

@@ -27,3 +27,7 @@ export function deleteUser(name) {
 export function deactiveUser(name) {
     return instance.post('/api/stopUser', name);
 }
+
+export function getSongList() {
+    return instance.get('/api/getSongList');
+}

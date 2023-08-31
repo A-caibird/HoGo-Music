@@ -1,11 +1,15 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
+import Home from '/src/components/index/index.vue';
 const router = useRouter()
 const route = useRoute()
 // 导航栏
-let activeIndex = ref('1');
+const defalutActiveIndex = ref('1');
+let currentIndex = ref('1');
 function handleSelect(index) {
+
+    currentIndex.value = index;
     if (index == '1') {
         router.replace({ path: '/' })
     }
@@ -33,14 +37,17 @@ onMounted(() => {
         }
     })
 })
+
+// 歌曲部分
+let MusicName = ref('') //歌曲名
 </script>
 <template>
     <div class="container absolute inset-0 bg-slate-50  overflow-y-auto font-sans">
         <div class="nav">
-            <el-menu :default-active="activeIndex" class="el-menu-demo flex justify-around" mode="horizontal"
+            <el-menu :default-active="defalutActiveIndex" class="el-menu-demo flex justify-around" mode="horizontal"
                 background-color="#020617" text-color="#ffffff" active-text-color="#67e8f9" @select="handleSelect"
                 :unique-opened="true" menu-trigger="hover">
-                <el-menu-item index="1"> <router-link to="/">首页</router-link></el-menu-item>
+                <el-menu-item index="1">发现音乐</el-menu-item>
                 <el-sub-menu index="2">
                     <template #title>工作区</template>
                     <el-menu-item index="2-1">专辑发布</el-menu-item>
