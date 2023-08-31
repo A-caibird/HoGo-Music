@@ -89,4 +89,36 @@ UPDATE users SET email =
 ALTER TABLE users ADD active INT DEFAULT 1;
 ```
 
+歌曲列表
+```mysql
+CREATE TABLE `musicList` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `musicName` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `singerName_album` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `timeLength` varchar(10) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `url` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```
+
+歌曲评价列表
+```mysql
+CREATE TABLE `commentList` (
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `musicName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `singerName_album` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `userName` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `commentContent` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `data` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+```
 ## [vite配置反向代理,解决跨域问题](https://zxuqian.cn/vite-proxy-config/)
+
+
+## [audio元素创建,播放音频](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/audio)
+
+
+## vue路由
+router.push跳转路由有浏览器缓存记录,如果当前页面是/,点击a以后url为/a,点击b以后会为/b,而不是/a/b;
+

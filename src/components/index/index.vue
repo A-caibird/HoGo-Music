@@ -131,7 +131,7 @@ function goSearch() {
 }
 
 :deep(.el-carousel__arrow--left) {
-    left: 0;
+    left: 12px;
 }
 
 
