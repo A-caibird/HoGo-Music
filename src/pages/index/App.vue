@@ -10,16 +10,16 @@ function handleSelect(index) {
 
     currentIndex.value = index;
     if (index == '1') {
-        router.replace({ path: '/' })
+        router.push({ path: '/' })
     }
     else if (index == '3-1') {
-        router.replace({ path: '/mine' })
+        router.push({ path: '/mine' })
     }
     else if (index == '3-2') {
         location.href = '/src/pages/login/index.html'
     }
     else if (index == '2-4') {
-        router.replace({ path: '/userMange' })
+        router.push({ path: '/userMange' })
     }
 }
 

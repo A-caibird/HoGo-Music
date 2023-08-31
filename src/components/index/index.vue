@@ -11,7 +11,7 @@ onMounted(() => {
 })
 // 跳转到不同歌单的音乐详情里面去
 function goMusicList() {
-    router.replace({ path: '/musicList' })
+    router.push({ path: '/musicList' })
 }
 // 轮播图
 const elCarousel1 = ref(null) //获取DOM元素
@@ -68,13 +68,13 @@ let itemList = ref([[{
 // 歌曲部分
 let musicName = ref('') //歌曲名
 
-function goSearch(){
+function goSearch() {
     console.log(musicName.value);
 
     // https://blog.csdn.net/youhebuke225/article/details/125447520 路由传参
     let pathUrl = '/musicList/' + musicName.value;
     console.log(pathUrl);
-    router.replace({ path: pathUrl })
+    router.push({ path: pathUrl })
 }
 
 </script>
