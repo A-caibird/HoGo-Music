@@ -1,7 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
-import Home from '/src/components/index/index.vue';
 const router = useRouter()
 const route = useRoute()
 // 导航栏

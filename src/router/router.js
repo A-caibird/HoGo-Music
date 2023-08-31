@@ -8,6 +8,7 @@ const routes = [
     { path: '/mine', component: mine },
     { path: '/userMange', component: userMange },
     { path: '/musicList', component: musicList },
+    { path: '/musicList/:musicName', component: musicList },
 ];
 const router = createRouter({
     history: createWebHashHistory(),

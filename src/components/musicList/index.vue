@@ -3,7 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSongList } from '/src/api/api.js';
 const router = useRouter();
-const ruote = useRoute();
+const route = useRoute();
 
 // 音乐播放状态管理
 let playState = ref(false);
@@ -26,17 +26,8 @@ function playMusic(path, index, state) {
     }
 }
 
-// 拿到数据库的音乐列表
-const songList = ref([]);
-onMounted(() => {
-    getSongList().then((res) => {
-        songList.value = res.data;
-        console.log(res);
-    });
-});
-
 // 搜索框歌曲名
-let musicName = ref('')
+let musicName = ref('');
 
 // 网页上显示的表格数据
 let displayTable = computed(() => {
@@ -51,6 +42,19 @@ let displayTable = computed(() => {
         });
     }
 })
+
+// 拿到数据库的音乐列表
+const songList = ref([]);
+onMounted(() => {
+    getSongList().then((res) => {
+        songList.value = res.data;
+        console.log(res);
+    });
+   if(typeof route.params.musicName != 'undefined'){
+       musicName.value = route.params.musicName;
+   }
+});
+
 </script>
 <template>
     <div class="container flex flex-col items-center w-full font-sans">

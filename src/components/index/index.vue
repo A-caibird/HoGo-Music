@@ -66,9 +66,16 @@ let itemList = ref([[{
     title: '伯远 · 热血难凉的追梦少年'
 },]])
 // 歌曲部分
-let MusicName = ref('') //歌曲名
+let musicName = ref('') //歌曲名
 
+function goSearch(){
+    console.log(musicName.value);
 
+    // https://blog.csdn.net/youhebuke225/article/details/125447520 路由传参
+    let pathUrl = '/musicList/' + musicName.value;
+    console.log(pathUrl);
+    router.replace({ path: pathUrl })
+}
 
 </script>
 <template>
@@ -78,8 +85,8 @@ let MusicName = ref('') //歌曲名
             <div class="w-full  col-start-2 col-end-3 row-span-1  grid place-items-center">
                 <div class="bg-[white]  w-full   rounded-[20px] p-2 flex flex-row  items-center" style="font-family: ;">
                     <el-icon><i-ep-Search /></el-icon>
-                    <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="MusicName"
-                        input-style="font-family:PingFang SC;color:">
+                    <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
+                        input-style="font-family:PingFang SC;color:" @keydown.enter="goSearch">
                     </el-input>
                 </div>
             </div>
