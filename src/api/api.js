@@ -9,7 +9,7 @@ const instance = axios.create({
 
 // 定义接口函数
 export function LogIn(userData) {
-    return instance.post('/api/LogIn',userData);
+    return instance.post('/api/LogIn', userData);
 };
 
 export function SignUp(userData) {
@@ -30,4 +30,12 @@ export function deactiveUser(name) {
 
 export function getSongList() {
     return instance.get('/api/getSongList');
+}
+
+export function getSongByName(name) {
+    return instance.get('/api/getSongByName', name);
+}
+
+export function getSongComment(name) {
+    return instance.get('/api/getSongComment', name);
 }

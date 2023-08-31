@@ -43,6 +43,17 @@ let displayTable = computed(() => {
     }
 })
 
+// 跳转到音乐详情页面
+function goToMusicHome(name, time, singer) {
+    localStorage.setItem('musicName', name);
+    localStorage.setItem('musicTimeLength', time);
+    localStorage.setItem('singerName_album', singer);
+    let pathUrl = '/songHome/' + name;
+    router.push({
+        path: pathUrl,
+    });
+}
+
 // 拿到数据库的音乐列表
 const songList = ref([]);
 onMounted(() => {
@@ -50,9 +61,9 @@ onMounted(() => {
         songList.value = res.data;
         console.log(res);
     });
-   if(typeof route.params.musicName != 'undefined'){
-       musicName.value = route.params.musicName;
-   }
+    if (typeof route.params.musicName != 'undefined') {
+        musicName.value = route.params.musicName;
+    }
 });
 
 </script>
@@ -106,7 +117,7 @@ onMounted(() => {
                                 <i-ep-Share />
                             </el-icon>
                         </span>
-                        <span>
+                        <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
                             <el-icon>
                                 <i-ep-Comment />
                             </el-icon>

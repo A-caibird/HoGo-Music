@@ -61,7 +61,7 @@ app.use(cors());
 
 ## 数据库表结构
 
-### 用户信息表
+### 用户信息表table
 ```mysql
 CREATE TABLE `users` (
   `name` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -88,7 +88,7 @@ UPDATE users SET email =
 ```mysql
 ALTER TABLE users ADD active INT DEFAULT 1;
 ```
-
+### 歌曲列表table
 歌曲列表
 ```mysql
 CREATE TABLE `musicList` (
@@ -101,18 +101,25 @@ CREATE TABLE `musicList` (
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
 
+### 歌曲列表table
 歌曲评价列表
 ```mysql
 CREATE TABLE `commentList` (
   `Id` int NOT NULL AUTO_INCREMENT,
   `musicName` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `singerName_album` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `userName` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `commentContent` varchar(500) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `data` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
 ```
+
+修改歌曲评价列表时间列,让时间为更新列表的时间,如果新增元组,默认是新增时候的元组
+```mysql
+alter table  `commentList`
+modify `date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+```
+
 ## [vite配置反向代理,解决跨域问题](https://zxuqian.cn/vite-proxy-config/)
 
 

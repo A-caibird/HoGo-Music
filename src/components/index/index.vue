@@ -70,11 +70,9 @@ let musicName = ref('') //歌曲名
 
 function goSearch() {
     console.log(musicName.value);
-
     // https://blog.csdn.net/youhebuke225/article/details/125447520 路由传参
     let pathUrl = '/musicList/' + musicName.value;
-    console.log(pathUrl);
-    router.push({ path: pathUrl })
+    router.push({ path: pathUrl})
 }
 
 </script>

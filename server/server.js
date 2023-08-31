@@ -107,7 +107,27 @@ app.post('/stopUser', (req, res) => {
 app.get('/getSongList', (req, res) => {
     const query = 'select * from musicList';
     connetion.query(query, (err, results, fields) => {
-        res.send(results);
+        return res.send(results);
+    })
+})
+
+// 8. 拿到歌曲评论
+app.get('/getSongComment', (req, res) => {
+    let name = req.query.name;
+    const query = 'select * from commentList where musicName=? ORDER BY date DESC';
+    connetion.query(query, [name], (err, results, fields) => {
+        // console.log(results)
+        return res.send(results);
+    })
+})
+
+
+// 9. 通过歌曲名字拿到歌曲信息
+app.get('/getSongByName', (req, res) => {
+    let name = req.query.name;
+    const query = 'select * from musicList where name=?';
+    connetion.query(query, [name], (err, results, fields) => {
+        return res.send(results);
     })
 })
 
