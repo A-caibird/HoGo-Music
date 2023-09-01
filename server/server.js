@@ -122,11 +122,14 @@ app.get('/getSongComment', (req, res) => {
 })
 
 
-// 9. 通过歌曲名字拿到歌曲信息
-app.get('/getSongByName', (req, res) => {
-    let name = req.query.name;
-    const query = 'select * from musicList where name=?';
-    connetion.query(query, [name], (err, results, fields) => {
+// 9. 新增对歌曲的评论
+app.post('/commentSong', (req, res) => {
+    let userName = req.body.userName;
+    let commentContent = req.body.comment;
+    let musicName = req.body.musicName;
+    const query = 'insert into commentList (userName,commentContent,musicName) values (?,?,?)';
+    connetion.execute(query, [userName,commentContent,musicName], (err, results, fields) => {
+        // console.log(results)
         return res.send(results);
     })
 })

@@ -32,8 +32,8 @@ export function getSongList() {
     return instance.get('/api/getSongList');
 }
 
-export function getSongByName(name) {
-    return instance.get('/api/getSongByName', name);
+export function commentSong(name) {
+    return instance.post('/api/commentSong', name);
 }
 
 export function getSongComment(name) {

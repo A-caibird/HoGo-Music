@@ -1,14 +1,50 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getSongComment, getSongByName } from '/src/api/api.js';
+import { getSongComment, commentSong } from '/src/api/api.js';
 const router = useRouter();
 const route = useRoute();
+
+// 获取路由参数
 const musicName = route.params.musicName;
+
+// 读取浏览器存储的歌曲信息
 const time = localStorage.musicTimeLength;
 const singer = localStorage.singerName_album;
+
+// 我的评论
 let yourComment = ref('');
 let musicComment = ref([]);
+
+// 新增我的评论
+function handleComment() {
+    if (yourComment.value.trim().length < 5) {
+        alert('评论至少需要五个字符以上,请重新输入')
+        return;
+    }
+    commentSong({
+        musicName: musicName,
+        comment: yourComment.value.trim(),
+        userName:localStorage.name
+    }).then(
+        (res) => {
+            getSongComment({
+                params: {
+                    name: musicName
+                }
+            }).then((res) => {
+                musicComment.value = res.data;
+                console.log(musicComment.value);
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
+    ).catch((err) => {
+        console.log(err);
+    })
+}
+
+// 页面加载,拿到歌曲评论列表
 onMounted(() => {
     getSongComment({
         params: {
@@ -43,7 +79,7 @@ onMounted(() => {
                         </p>
                     </div>
                     <el-input v-model="yourComment" :rows="2" type="textarea" placeholder="留下评论,共探讨音乐的美好"
-                        class="font-san" />
+                        class="font-san" @keydown.enter="handleComment"/>
                 </span>
             </div>
             <!-- 歌曲评论 -->
