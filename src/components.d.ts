@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AboutUs: typeof import('./components/aboutUs/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
@@ -22,6 +23,7 @@ declare module 'vue' {
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
     ElTag: typeof import('element-plus/es')['ElTag']
     HelloWorld: typeof import('./components/index/HelloWorld.vue')['default']
+    IEpChromeFilled: typeof import('~icons/ep/chrome-filled')['default']
     IEpComment: typeof import('~icons/ep/comment')['default']
     IEpDownload: typeof import('~icons/ep/download')['default']
     IEpElementPlus: typeof import('~icons/ep/element-plus')['default']

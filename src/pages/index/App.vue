@@ -21,6 +21,9 @@ function handleSelect(index) {
     else if (index == '2-4') {
         router.push({ path: '/userMange' })
     }
+    else if(index == '7'){
+        router.push ({path:'/aboutUs'})
+    }
 }
 
 // 获取存储的用户信息
@@ -42,7 +45,7 @@ let MusicName = ref('') //歌曲名
 </script>
 <template>
     <div class="container absolute inset-0 bg-slate-50  overflow-y-auto font-sans">
-        <div class="nav">
+        <div class="nav sticky inset-0" ref="realNav">
             <el-menu :default-active="defalutActiveIndex" class="el-menu-demo flex justify-around" mode="horizontal"
                 background-color="#020617" text-color="#ffffff" active-text-color="#67e8f9" @select="handleSelect"
                 :unique-opened="true" menu-trigger="hover">
