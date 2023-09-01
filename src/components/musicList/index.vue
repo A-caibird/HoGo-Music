@@ -20,6 +20,8 @@ function playMusic(path, index, state) {
                 audio.value = new Audio(path);
                 audio.value.play();
                 playState.value = true;
+                playIndex.value = index;
+                return;
             }
             audio.value.pause();
             playState.value = false;
@@ -30,6 +32,7 @@ function playMusic(path, index, state) {
         playState.value = true;
     }
 }
+
 
 // 搜索框歌曲名
 let musicName = ref('');
