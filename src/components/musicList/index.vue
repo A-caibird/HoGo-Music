@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, ref, computed } from 'vue';
+import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSongList } from '/src/api/api.js';
 const router = useRouter();
@@ -59,13 +59,17 @@ const songList = ref([]);
 onMounted(() => {
     getSongList().then((res) => {
         songList.value = res.data;
-        console.log(res);
+        // console.log(res);
     });
     if (typeof route.params.musicName != 'undefined') {
         musicName.value = route.params.musicName;
     }
 });
-
+onUnmounted(() => {
+    if (playState) {
+        audio.value.pause();
+    }
+})
 </script>
 <template>
     <div class="container flex flex-col items-center w-full font-sans">
