@@ -1,0 +1,109 @@
+<script setup>
+import { onMounted, ref, computed, onUnmounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { getSongList } from '/src/api/api.js';
+const router = useRouter();
+const route = useRoute();
+
+// 搜索框歌曲名
+let musicName = ref('');
+
+// 网页上显示的表格数据
+let displayTable = computed(() => {
+    if (musicName.value == '') {
+        return songList.value;
+    }
+    else {
+        return songList.value.filter(function (item, index) {
+            if (item.musicName.includes(musicName.value)) {
+                return item;
+            }
+        });
+    }
+})
+
+// 跳转到音乐详情页面
+function goToMusicHome(name, time, singer) {
+    localStorage.setItem('musicName', name);
+    localStorage.setItem('musicTimeLength', time);
+    localStorage.setItem('singerName_album', singer);
+    let pathUrl = '/songHome/' + name;
+    router.push({
+        path: pathUrl,
+    });
+}
+
+// 拿到数据库的音乐列表
+const songList = ref([]);
+onMounted(() => {
+    getSongList().then((res) => {
+        songList.value = res.data;
+        // console.log(res);
+    });
+    if (typeof route.params.musicName != 'undefined') {
+        musicName.value = route.params.musicName;
+    }
+});
+</script>
+<template>
+    <div class="container flex flex-col items-center w-full font-sans">
+        <!-- 搜索框 -->
+        <div class="bg-[white]  w-[1050px]   mt-[40px] rounded-[20px] p-2 flex flex-row  items-center"
+            style="font-family: ;">
+            <el-icon><i-ep-Search /></el-icon>
+            <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
+                input-style="font-family:PingFang SC;color:">
+            </el-input>
+        </div>
+        <!-- 音乐部分 -->
+        <div class="mt-[60px] " ref="musicList">
+            <!-- 歌曲头部 -->
+            <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]">
+                <div class=" w-[560px]">歌曲名</div>
+                <div class=" w-[280px]">专辑/歌手</div>
+                <div class=" w-[160px] flex flex-row justify-end">
+                    时长
+                </div>
+                <div class="w-[200px] ">
+                    <span class="ml-[113px]"> 操作</span>
+                </div>
+            </div>
+            <!-- 歌曲列表 -->
+            <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group" v-for="(item, index) of displayTable"
+                :key="index">
+                <div class=" w-[560px]">{{ item.musicName }}</div>
+                <div class=" w-[280px]">{{ item.singerName_album }}</div>
+                <div class=" w-[160px] flex flex-row justify-end items-center">
+                    <span>
+                        {{ item.timeLength }}
+                    </span>
+                </div>
+                <div class="w-[200px] flex justify-end gap-[0_10px] ">
+                    <span class=" rounded-2xl bg-[#a5f3fc] px-[5px]">
+                        删除
+                    </span>
+                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]"
+                        @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
+                        详情
+                    </span>
+                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]">
+                        修改
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+<style scoped>
+:deep(.el-icon) {
+    color: #64748b !important;
+}
+
+:deep(.stop>.el-icon) {
+    color: red !important;
+}
+
+:deep(.el-input__wrapper) {
+    box-shadow: none !important;
+}
+</style>

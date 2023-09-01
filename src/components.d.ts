@@ -39,6 +39,7 @@ declare module 'vue' {
     Mine: typeof import('./components/mine/mine.vue')['default']
     MusicComment: typeof import('./components/musicComment/index.vue')['default']
     MusicList: typeof import('./components/musicList/index.vue')['default']
+    MusicMange: typeof import('./components/musicMange/index.vue')['default']
     Nav: typeof import('./components/nav.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
