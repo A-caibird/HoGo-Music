@@ -7,7 +7,7 @@ const route = useRoute();
 
 // 音乐播放状态管理
 let playState = ref(false);
-let playIndex = ref(0);
+let playIndex = ref(-1);
 let audio = ref(null);
 function playMusic(path, index, state) {
     if (state == 'stop') {
@@ -16,6 +16,11 @@ function playMusic(path, index, state) {
     }
     else {
         if (index != playIndex.value) {
+            if (playIndex.value == -1) {
+                audio.value = new Audio(path);
+                audio.value.play();
+                playState.value = true;
+            }
             audio.value.pause();
             playState.value = false;
             playIndex.value = index;
