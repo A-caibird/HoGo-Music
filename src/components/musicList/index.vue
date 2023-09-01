@@ -104,7 +104,7 @@ onUnmounted(() => {
                 <div class=" w-[160px] flex flex-row justify-end items-center">
                     <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
                         <template v-if="(playState == true) && playIndex == index">
-                            <span @click="playMusic(item.url, index, 'stop')">
+                            <span @click="playMusic(item.url, index, 'stop')" class="stop">
                                 <el-icon><i-ep-VideoPause /></el-icon>
                             </span>
                         </template>
@@ -145,6 +145,9 @@ onUnmounted(() => {
     color: #64748b !important;
 }
 
+:deep(.stop>.el-icon) {
+    color: red !important;
+}
 
 :deep(.el-input__wrapper) {
     box-shadow: none !important;
