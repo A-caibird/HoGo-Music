@@ -74,7 +74,7 @@ onMounted(() => {
     }
 });
 onUnmounted(() => {
-    if (playState) {
+    if (playState.value) {
         audio.value.pause();
     }
 })
