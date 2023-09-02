@@ -128,12 +128,19 @@ app.post('/commentSong', (req, res) => {
     let commentContent = req.body.comment;
     let musicName = req.body.musicName;
     const query = 'insert into commentList (userName,commentContent,musicName) values (?,?,?)';
-    connetion.execute(query, [userName,commentContent,musicName], (err, results, fields) => {
+    connetion.execute(query, [userName, commentContent, musicName], (err, results, fields) => {
         // console.log(results)
         return res.send(results);
     })
 })
-
+// 10. 删除歌曲
+app.post('/deleteMusic', (req, res) => {
+    let musicName = req.body.musicName;
+    const query = 'delete from musicList where musicName=?';
+    connetion.execute(query, [musicName], (err, results, fields) => {
+        return res.send('删除成功');
+    })
+})
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

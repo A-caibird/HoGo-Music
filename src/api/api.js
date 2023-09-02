@@ -39,3 +39,6 @@ export function commentSong(name) {
 export function getSongComment(name) {
     return instance.get('/api/getSongComment', name);
 }
+export function deleteMusic(name) {
+    return instance.post('/api/deleteMusic', name);
+}

@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getSongList } from '/src/api/api.js';
+import { getSongList, deleteMusic } from '/src/api/api.js';
 const router = useRouter();
 const route = useRoute();
 
@@ -32,7 +32,19 @@ function goToMusicHome(name, time, singer) {
         path: pathUrl,
     });
 }
-
+function handleDelete(name) {
+    deleteMusic({
+        musicName: name
+    }).then((res) => {
+        alert(res.data);
+        getSongList().then((res) => {
+            songList.value = res.data;
+            console.log(res);
+        });
+    }).catch((err) => {
+        console.log(err);
+    })
+}
 // 拿到数据库的音乐列表
 const songList = ref([]);
 onMounted(() => {
@@ -79,7 +91,7 @@ onMounted(() => {
                     </span>
                 </div>
                 <div class="w-[200px] flex justify-end gap-[0_10px] ">
-                    <span class=" rounded-2xl bg-[#a5f3fc] px-[5px]">
+                    <span class=" rounded-2xl bg-[#a5f3fc] px-[5px]" @click="handleDelete(item.musicName)">
                         删除
                     </span>
                     <span class="rounded-2xl bg-[#a5f3fc] px-[5px]"
