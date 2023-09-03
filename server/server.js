@@ -180,6 +180,20 @@ app.post('/addMusic', (req, res) => {
     })
 })
 
+// 13. 修改音乐信息
+app.post('/modifyMusic',(req,res)=>{
+    const musicOriginName = req.body.musicOriginName;
+    const musicNewName = req.body.musicNewName;
+    const singerName_album = req.body.newSingerName_album;
+    const timeLength = req.body.newTimeLength;
+    let query = 'update musicList set musicName=?,singerName_album=?,timeLength=? where musicName=?';
+    connetion.execute(query,[musicNewName,singerName_album,timeLength,musicOriginName],(err,results,fields)=>{
+        if(err){
+            return res.send('修改失败');
+        }
+        return res.send('修改成功');
+    })
+})
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

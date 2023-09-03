@@ -47,10 +47,15 @@ function handleDelete(name) {
         console.log(err);
     })
 }
-// 修改音乐
-function handleModify(musicName) {
-    router.push({ path: '/addMusic' })
+
+// 修改音乐,跳转到修改页面
+function handleModify(musicName,singerName,length) {
+    localStorage.setItem('modifyMusicName', musicName);
+    localStorage.setItem('modifyAlbumName', singerName);
+    localStorage.setItem('modifyLength', length);
+    router.push({ path: `/modifyMusic/${musicName}` });
 }
+
 // 拿到数据库的音乐列表
 const songList = ref([]);
 onMounted(() => {
@@ -104,7 +109,7 @@ onMounted(() => {
                         @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
                         详情
                     </span>
-                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]" @click="handleModify(item.musicName)">
+                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]" @click="handleModify(item.musicName,item.singerName_album,item.timeLength)">
                         修改
                     </span>
                 </div>

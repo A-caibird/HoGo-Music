@@ -50,3 +50,7 @@ export function uploadMusicFile(formData) {
 export function addMusic(params) {
     return instance.post('/api/addMusic',params);
 }
+
+export function modifyMusic(params) {
+    return instance.post('/api/modifyMusic',params);
+}

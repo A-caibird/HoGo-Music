@@ -67,33 +67,33 @@ function submitForm() {
             <!-- 右边 -->
             <div class="col-span-1 p-[20px] box-border h-full flex flex-col">
                 <div class="w-full text-center mb-[60px]">
-                    <span>单曲添加</span>
+                    <span class="text-[20px] text-red-400">专辑单曲添加</span>
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">
-                        <div class="w-[100px] whitespace-nowrap">
+                        <div class="w-[100px] whitespace-nowrap text-red-300">
                             歌曲名</div>
                         <el-input v-model="modifyMusicName" placeholder="歌曲名" />
                     </div>
                     <div class="flex items-center mt-[20px]">
-                        <div class="w-[100px] whitespace-nowrap">歌手/专辑名</div>
+                        <div class="w-[100px] whitespace-nowrap text-red-300">歌手/专辑名</div>
                         <el-input v-model="modifyAlbumName" placeholder="歌曲名" />
                     </div>
                     <div class="flex items-center mt-[20px]">
-                        <div class="w-[100px] whitespace-nowrap"> 时长</div>
+                        <div class="w-[100px] whitespace-nowrap text-red-300"> 时长</div>
                         <el-input v-model="modifyLength" placeholder="如3:42" />
                     </div>
                     <div class="mt-[20px]">
-                        <span @click="handleSelectFile" class="inline-block w-[90px]">
+                        <span @click="handleSelectFile" class="inline-block w-[90px] text-red-300">
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
-                        <span class="" :class="{ 'text-[red]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                        <span class="font-serif text-[12px]" :class="{ 'text-[red]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
                         }}</span>
                     </div>
                 </div>
                 <div class=" flex flex-col items-center justify-center box-border  h-full">
-                    <div class="inline-block rounded-2xl bg-slate-300 px-[100px] py-[5px] hover:bg-blue-300"
+                    <div class="inline-block rounded-2xl bg-slate-300 px-[100px] py-[5px] hover:bg-blue-300 text-red-400"
                         @click="submitForm">
                         完成
                     </div>
