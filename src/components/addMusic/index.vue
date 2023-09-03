@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue';
-import { uploadMusicFile } from '/src/api/api.js'
+import { uploadMusicFile, addMusic } from '/src/api/api.js'
 let modifyMusicName = ref('');
 let modifyAlbumName = ref('');
 let modifyLength = ref('');
@@ -18,19 +18,46 @@ function getFile() {
 }
 // 提交专辑信息
 function submitForm() {
-    // 上传mp3文件
-    const formData = new FormData();
-    formData.append('mp3', fileInput.value.files[0]);
-    uploadMusicFile(formData).then((res) => {
-        console.log(res.data);
-    }).catch((err) => {
-        console.error(err);
-    })
+    if (fileInput.value.files.length == 0) {
+        alert('请选择音乐文件!');
+        return;
+    }
+    if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
+        alert('请完善歌曲信息!')
+        return;
+    }
+
+    // 使用了立即执行函数（IIFE）的形式
+    (async () => {
+        try {
+            const formData = new FormData();
+            formData.append('mp3', fileInput.value.files[0]);
+            const res = await uploadMusicFile(formData);   // 上传mp3文件
+            // 拿到歌曲名称,指定路径
+            const url = `/mp3/${res.data}`;
+            addMusic({
+                musicName: modifyMusicName.value,
+                singerName_album: modifyAlbumName.value,
+                timeLength: modifyLength.value,
+                url
+            }).then(res => {
+                alert('歌曲添加成功')
+                console.log(res);
+            }).catch(err => {
+                console.error('歌曲添加失败' + err);
+            })
+        }
+        catch (err) {
+            console.error(err);
+        }
+    })();
 }
+
+// 等待请求完成以后才处理
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-cols-[400px_800px] h-[500px] bg-[#a5f3fc]">
+        <div class="grid grid-cols-[400px_800px] h-[500px] bg-[#a5f3fc] mt-[20px]">
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
@@ -40,7 +67,7 @@ function submitForm() {
             <!-- 右边 -->
             <div class="col-span-1 p-[20px] box-border h-full flex flex-col">
                 <div class="w-full text-center mb-[60px]">
-                    <span>歌曲添加</span>
+                    <span>单曲添加</span>
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">

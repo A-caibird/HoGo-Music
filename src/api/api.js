@@ -46,3 +46,7 @@ export function deleteMusic(name) {
 export function uploadMusicFile(formData) {
     return instance.post('/api/uploadMusicFile',formData);
 }
+
+export function addMusic(params) {
+    return instance.post('/api/addMusic',params);
+}

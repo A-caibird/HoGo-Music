@@ -164,6 +164,22 @@ app.post('/uploadMusicFile', uploadFile.single('mp3'), (req, res) => {
     return res.send(req.file.originalname); //返回详细文件名称
 })
 
+
+// 12. 添加音乐
+app.post('/addMusic', (req, res) => {
+    const musicName = req.body.musicName;
+    const singerName_album = req.body.singerName_album;
+    const timeLength = req.body.timeLength;
+    const url = req.body.url;
+    let query = 'insert into musicList (musicName,singerName_album,timeLength,url) values (?,?,?,?)';
+    connetion.execute(query,[musicName,singerName_album,timeLength,url],(err,results,fields)=>{
+        if(err){
+            return res.send('添加失败');
+        }
+        return res.send('添加成功');
+    })
+})
+
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

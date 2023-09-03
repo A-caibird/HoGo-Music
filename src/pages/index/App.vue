@@ -27,6 +27,9 @@ function handleSelect(index) {
     else if(index == '2-2'){
         router.push({path: '/musicMange'})
     }
+    else if(index == '2-1'){
+        router.push({path: '/addMusic'})
+    }
 }
 
 // 获取存储的用户信息
