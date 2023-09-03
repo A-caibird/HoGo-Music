@@ -42,3 +42,7 @@ export function getSongComment(name) {
 export function deleteMusic(name) {
     return instance.post('/api/deleteMusic', name);
 }
+
+export function uploadMusicFile(formData) {
+    return instance.post('/api/uploadMusicFile',formData);
+}

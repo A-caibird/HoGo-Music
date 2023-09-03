@@ -1,6 +1,9 @@
 import cors from 'cors';
 import express from 'express'
 import mysql from 'mysql2'; // https://www.npmjs.com/package/mysql2 官方api文档
+import multer from 'multer';
+import path from 'path';
+// const uploadFile = multer({ dest: '../public/mp3/' })
 const connetion = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -9,11 +12,24 @@ const connetion = mysql.createConnection({
 })
 const app = express();
 
+// 使用multer.diskStorage磁盘控制引擎,修改文件名称
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../public/mp3/'); // 指定上传的目标文件夹
+    },
+    filename: function (req, file, cb) {
+        const originalFileName = file.originalname;  // 获取文件名称
+        const extension = path.extname(originalFileName); // 获取文件的扩展名
+        const fileName = originalFileName.slice(0, originalFileName.lastIndexOf(extension));
+        cb(null, fileName + extension);
+        // cb(null, fileName + '-' + Date.now() + extension); // 添加时间戳以确保文件名的唯一性
+    }
+});
+const uploadFile = multer({ storage });
 
 //配置中间件
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
 
 // 设置允许跨域访问的源
 // 1. 使用cors包
@@ -141,6 +157,13 @@ app.post('/deleteMusic', (req, res) => {
         return res.send('删除成功');
     })
 })
+
+// 11. 上传自己的专辑文件
+app.post('/uploadMusicFile', uploadFile.single('mp3'), (req, res) => {
+    // console.log(req.file);
+    return res.send(req.file.originalname); //返回详细文件名称
+})
+
 // 启动服务器
 app.listen(8000, () => {
     console.log('express listen on 8000');

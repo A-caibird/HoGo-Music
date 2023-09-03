@@ -6,6 +6,7 @@ import musicList from '/src/components/musicList/index.vue';
 import songHome from '/src/components/musicComment/index.vue';
 import aboutUs from '/src/components/aboutUs/index.vue';
 import musicMange from '/src/components/musicMange/index.vue';
+import addMusic from '/src/components/addMusic/index.vue';
 const routes = [
     { path: '/', component: Home },
     { path: '/mine', component: mine },
@@ -14,7 +15,8 @@ const routes = [
     { path: '/musicList/:musicName', component: musicList },
     { path: '/songHome/:musicName', component: songHome },
     { path: '/aboutUs', component: aboutUs },
-    { path: '/musicMange', component: musicMange }
+    { path: '/musicMange', component: musicMange },
+    { path: '/addMusic', component: addMusic },
 ];
 const router = createRouter({
     history: createWebHashHistory(),

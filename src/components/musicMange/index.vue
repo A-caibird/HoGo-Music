@@ -32,6 +32,8 @@ function goToMusicHome(name, time, singer) {
         path: pathUrl,
     });
 }
+
+// 删除音乐
 function handleDelete(name) {
     deleteMusic({
         musicName: name
@@ -44,6 +46,10 @@ function handleDelete(name) {
     }).catch((err) => {
         console.log(err);
     })
+}
+// 修改音乐
+function handleModify(musicName) {
+    router.push({ path: '/addMusic' })
 }
 // 拿到数据库的音乐列表
 const songList = ref([]);
@@ -98,7 +104,7 @@ onMounted(() => {
                         @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
                         详情
                     </span>
-                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]">
+                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]" @click="handleModify(item.musicName)">
                         修改
                     </span>
                 </div>

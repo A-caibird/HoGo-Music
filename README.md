@@ -57,7 +57,8 @@ app.use(cors());
 //     next();
 // });
 ```
-
+### 安装[multer](https://github.com/expressjs/multer/blob/master/README.md)
+安装multer处理文件上传请求,js包,上述是他的说明文档
 
 ## 数据库表结构
 
@@ -129,3 +130,20 @@ modify `date` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
 ## vue路由
 router.push跳转路由有浏览器缓存记录,如果当前页面是/,点击a以后url为/a,点击b以后会为/b,而不是/a/b;
 
+## 上传文件,保存到服务器指定地址.如何保留原始文件名称和文件类型
+使用`multer` 磁盘管理引擎diskStorage
+```javascript
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, '../public/mp3/'); // 指定上传的目标文件夹
+    },
+    filename: function (req, file, cb) {
+        const originalFileName = file.originalname;  // 获取文件名称
+        const extension = path.extname(originalFileName); // 获取文件的扩展名
+        const fileName = originalFileName.slice(0, originalFileName.lastIndexOf(extension));
+        cb(null, fileName + extension);
+        // cb(null, fileName + '-' + Date.now() + extension); // 添加时间戳以确保文件名的唯一性
+    }
+});
+const uploadFile = multer({ storage });
+```
