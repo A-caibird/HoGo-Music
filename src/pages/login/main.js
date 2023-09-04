@@ -77,7 +77,7 @@ let getButtons = (e) => {
             else if (response.data == 'sign up success') {
                 alert("注册成功,即将跳转到首页");
                 localStorage.setItem("name", UserName);
-                window.location.href = "/src/pages/index/index.html";
+                window.location.href = "../index/index.html";
             }
         }).catch(error => {
             // handle error

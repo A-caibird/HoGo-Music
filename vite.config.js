@@ -31,6 +31,15 @@ export default defineConfig({
     Icons({
         autoInstall: true,
     }),],
+    build: {
+        rollupOptions: {
+            input: {
+                // 配置所有页面路径，使得所有页面都会被打包
+                home: path.resolve(__dirname, 'src/pages/index/index.html'),
+                login: path.resolve(__dirname, 'src/pages/login/index.html'),
+            }
+        }
+    },
     resolve: {
         alias: {
             '@': path.join(__dirname, "src"),
@@ -45,14 +54,7 @@ export default defineConfig({
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ""),
             }
-        }
-    },
-    build: {
-        rollupOptions: {
-            input: {
-                index: path.resolve(__dirname, 'src/pages/index/index.html'),
-                // nested: path.resolve(__dirname, 'src/pages/nested/index.html'),
-            }
-        }
+        },
+        host: '0.0.0.0'
     }
 })
