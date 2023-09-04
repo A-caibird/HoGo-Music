@@ -46,7 +46,7 @@ let getButtons = (e) => {
                 //设置cookie
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
-                window.location.href = "/src/pages/index/index.html";
+                window.location.href = "../index/index.html";
             } else if (response.data == 'fail') {
                 alert("用户名或密码错误,请重新输入");
             } else if (response.data == 'no this user') {

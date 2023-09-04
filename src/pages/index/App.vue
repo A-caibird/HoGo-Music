@@ -16,7 +16,7 @@ function handleSelect(index) {
         router.push({ path: '/mine' })
     }
     else if (index == '3-2') {
-        location.href = '/src/pages/login/index.html'
+        location.href = '../login/index.html'
     }
     else if (index == '2-4') {
         router.push({ path: '/userMange' })
