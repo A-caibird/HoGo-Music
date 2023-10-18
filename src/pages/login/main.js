@@ -47,11 +47,11 @@ let getButtons = (e) => {
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
                 window.location.href = "../index/index.html";
-            } else if (response.data == 'fail') {
-                alert("用户名或密码错误,请重新输入");
             } else if (response.data == 'no this user') {
                 alert("该用户不存在,请注册");
-            }
+            } else if (response.data == 'fail') {
+                alert("用户名或密码错误,请重新输入");
+            } e
         }).catch(error => {
             // handle error
             console.log(error);
