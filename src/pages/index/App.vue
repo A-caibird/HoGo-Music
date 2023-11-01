@@ -16,6 +16,7 @@ function handleSelect(index) {
         router.push({ path: '/mine' })
     }
     else if (index == '3-2') {
+        localStorage.removeItem('name')
         location.href = '../login/index.html'
     }
     else if (index == '2-4') {
