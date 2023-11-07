@@ -51,7 +51,7 @@ let getButtons = (e) => {
                 alert("该用户不存在,请注册");
             } else if (response.data == 'fail') {
                 alert("用户名或密码错误,请重新输入");
-            } e
+            }
         }).catch(error => {
             // handle error
             console.log(error);
