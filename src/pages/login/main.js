@@ -43,7 +43,7 @@ let getButtons = (e) => {
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
                 console.log(document.cookie);
-                // window.location.href = "../index/index.html";
+                window.location.href = "../index/index.html";
             }
         }).catch(error => {
             // handle error
@@ -128,24 +128,24 @@ window.addEventListener("load", function () {
     shell();
     LogIn_Name.value = "";
     LogIn_Password.value = "23";
-    // 解析cookie,自动填充表单
-    let cookieString = document.cookie;
+    // // 解析cookie,自动填充表单
+    // let cookieString = document.cookie;
 
-    // 使用正则表达式替换"_xsrf"及其后面的内容为空字符串,_xsrf这是为了提供跨站请求伪造（Cross-Site Request Forgery，CSRF）保护而使用的一种机制。
-    cookieString = cookieString.replace(/_xsrf=.+/, '');
-    console.log(cookieString)
+    // // 使用正则表达式替换"_xsrf"及其后面的内容为空字符串,_xsrf这是为了提供跨站请求伪造（Cross-Site Request Forgery，CSRF）保护而使用的一种机制。
+    // cookieString = cookieString.replace(/_xsrf=.+/, '');
+    // console.log(cookieString)
 
-    //分割字符串
-    const cookies = cookieString.split(';');
-    console.log(cookies)
+    // //分割字符串
+    // const cookies = cookieString.split(';');
+    // console.log(cookies)
 
-    // 储存成Key,value的形式
-    const parsedCookies = {};
-    cookies.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        parsedCookies[name] = value;
-    });
-    console.log(parsedCookies)
-    LogIn_Name.value = parsedCookies['name'];
-    LogIn_Password.value = parsedCookies['password'];
+    // // 储存成Key,value的形式
+    // const parsedCookies = {};
+    // cookies.forEach(cookie => {
+    //     const [name, value] = cookie.split('=');
+    //     parsedCookies[name] = value;
+    // });
+    // console.log(parsedCookies)
+    // LogIn_Name.value = parsedCookies['name'];
+    // LogIn_Password.value = parsedCookies['password'];
 });
