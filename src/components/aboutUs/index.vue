@@ -3,9 +3,11 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
 </script>
 <template>
     <div class="w-full h-full relative flex flex-col items-center justify-center">
-        <div class="    mt-[20px] ">
+        <div class="">
             <div class="flex items-center flex-col mb-[60px]">
-                <div class="inline-block"><el-icon size="100px"><i-ep-ChromeFilled /></el-icon>
+                <div class="w-[100px] h-[100px]">
+                    <image src="/avatar/icon.png" class="w-full h-full">
+                    </image>
                 </div>
             </div>
             <div class="flex flex-col items-center font-serif">
@@ -15,7 +17,12 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
                 <span>
                     若有问题请联系管理员: newcoder@icloud.com
                 </span>
-                <span class="mt-[20px]">版本号:1.2.1</span>
+                <span class="mt-[20px] flex gap-x-[20px]">
+                    <span class="">Version:</span>
+                    <span>
+                        1.2.1
+                    </span>
+                </span>
             </div>
         </div>
     </div>
