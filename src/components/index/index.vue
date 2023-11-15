@@ -111,7 +111,7 @@ function goSearch() {
                                 <img class="w-full h-full transition ease-in-out delay-200 hover:scale-[1.2] rounded-lg"
                                     :src="item2.imgPath" alt="a" />
                             </div>
-                            <p class="text-blue-600/50  hover:text-green-300 mt-[20px]">{{ item2.title }}</p>
+                            <p class="diyFont mt-[20px]">{{ item2.title }}</p>
                         </div>
                     </el-carousel-item>
                 </el-carousel>
@@ -189,5 +189,14 @@ function goSearch() {
     margin: 30px 0;
     position: relative;
     text-align: center;
+}
+.diyFont{
+    font-family: DiyChineseFont;
+}
+@font-face {
+    font-family: "DiyChineseFont";
+    src:url("/font/hanyimaqiduojian.ttf");
+    font-weight: normal;
+    font-style: normal;
 }
 </style>
