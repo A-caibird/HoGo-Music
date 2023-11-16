@@ -26,7 +26,8 @@ export default {
                     'PingFangSC-Medium',
                     'PingFang SC',
                     ...defaultTheme.fontFamily.sans,
-                ]
+                ],
+                DiyChineseFont:"DiyChineseFont"
             }
         },
     },

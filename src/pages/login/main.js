@@ -127,7 +127,7 @@ let shell = (e) => {
 window.addEventListener("load", function () {
     shell();
     LogIn_Name.value = "";
-    LogIn_Password.value = "23";
+    LogIn_Password.value = "";
     // // 解析cookie,自动填充表单
     // let cookieString = document.cookie;
 

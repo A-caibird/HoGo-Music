@@ -7,6 +7,11 @@
         color: red;
     }
 }
-
+@font-face {
+    font-family: "DiyChineseFont";
+    src:url("/font/hanyimaqiduojian.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
 /* Path: src/pages/index/style.css */
 /*  */
