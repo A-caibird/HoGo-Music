@@ -75,20 +75,17 @@ let getButtons = (e) => {
         }).then(response => {
             // handle success
             console.log(response);
-            if (response.data == 'users info exist') {
-                alert("用户名已存在,请重新输入");
-            }
-            else if (response.data == 'sign up fail') {
-                alert("注册失败,请稍后再试");
-            }
-            else if (response.data == 'sign up success') {
-                alert("注册成功,即将跳转到首页");
-                localStorage.setItem("name", UserName);
-                window.location.href = "../index/index.html";
-            }
+            localStorage.setItem("name", UserName);
+            window.location.href = "../index/index.html";
         }).catch(error => {
             // handle error
             console.log(error);
+            if (error.response.status == 409) {
+                alert("用户名已存在,请重新注册");
+            }
+            else {
+                alert("服务器内部错误,Server internal appear error");
+            }
         })
     }
 }
