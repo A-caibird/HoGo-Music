@@ -35,6 +35,7 @@ function submitForm() {
             const res = await uploadMusicFile(formData);   // 上传mp3文件
             // 拿到歌曲名称,指定路径
             const url = `/mp3/${res.data}`;
+            console.log(url)
             addMusic({
                 musicName: modifyMusicName.value,
                 singerName_album: modifyAlbumName.value,
@@ -67,7 +68,7 @@ function submitForm() {
             <!-- 右边 -->
             <div class="col-span-1 p-[20px] box-border h-full flex flex-col">
                 <div class="w-full text-center mb-[60px]">
-                    <span class="text-[20px] text-red-400">专辑单曲添加</span>
+                    <span class="text-[20px] text-red-400">新增专辑单曲</span>
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">
@@ -88,7 +89,7 @@ function submitForm() {
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
-                        <span class="font-serif text-[12px]" :class="{ 'text-[red]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                        <span class="font-serif text-[12px]" :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
                         }}</span>
                     </div>
                 </div>

@@ -22,14 +22,18 @@ function handleSelect(index) {
     else if (index == '2-4') {
         router.push({ path: '/userMange' })
     }
-    else if(index == '7'){
-        router.push ({path:'/aboutUs'})
+    else if (index == '7') {
+        router.push({ path: '/aboutUs' })
     }
-    else if(index == '2-2'){
-        router.push({path: '/musicMange'})
+    else if (index == '2-2') {
+        router.push({ path: '/musicMange' })
     }
-    else if(index == '2-1'){
-        router.push({path: '/addMusic'})
+    else if (index == '2-1') {
+        router.push({ path: '/addMusic' })
+    }
+    else if (index == '4') {
+        console.log(6)
+        router.push({ path: '/vip' })
     }
 }
 

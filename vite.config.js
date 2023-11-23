@@ -50,7 +50,7 @@ export default defineConfig({
         open: '/src/pages/login/index.html', //设置项目启动打开的首页,
         proxy: {                              //配置跨域请求
             "/api": {
-                target: "http://localhost:8000",
+                target: "http://localhost:8080",
                 changeOrigin: true,
                 rewrite: (path) => path.replace(/^\/api/, ""),
             }

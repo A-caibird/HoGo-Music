@@ -35,26 +35,33 @@ let getButtons = (e) => {
             password: Password
         }).then(response => {
             // handle success
-            if (response.data == 'deactive') {
-                alert("该账户已被停用,请联系管理员");
-            }
-            else if (response.data == 'success') {
-
+            console.log(response)
+            if (response.data == "success") {
                 // 存储用户信息
                 localStorage.setItem("name", UserName);
-
                 //设置cookie
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
+                console.log(document.cookie);
                 window.location.href = "../index/index.html";
-            } else if (response.data == 'no this user') {
-                alert("该用户不存在,请注册");
-            } else if (response.data == 'fail') {
-                alert("用户名或密码错误,请重新输入");
             }
         }).catch(error => {
             // handle error
             console.log(error);
+            if (error.response) {
+                if (error.response.status == 500) {
+                    alert("服务器错误,请稍后再试");
+                }
+                else if (error.response.status == 401) {
+                    alert("用户名或密码错误,请重新输入");
+                }
+                else if (error.response.status == 403) {
+                    alert("该账户已被停用,请联系管理员");
+                }
+                else if (error.response.status == 404) {
+                    alert("该用户不存在,请注册");
+                }
+            }
         })
     }
     else {
@@ -68,20 +75,17 @@ let getButtons = (e) => {
         }).then(response => {
             // handle success
             console.log(response);
-            if (response.data == 'users info exist') {
-                alert("用户名已存在,请重新输入");
-            }
-            else if (response.data == 'sign up fail') {
-                alert("注册失败,请稍后再试");
-            }
-            else if (response.data == 'sign up success') {
-                alert("注册成功,即将跳转到首页");
-                localStorage.setItem("name", UserName);
-                window.location.href = "../index/index.html";
-            }
+            localStorage.setItem("name", UserName);
+            window.location.href = "../index/index.html";
         }).catch(error => {
             // handle error
             console.log(error);
+            if (error.response.status == 409) {
+                alert("用户名已存在,请重新注册");
+            }
+            else {
+                alert("服务器内部错误,Server internal appear error");
+            }
         })
     }
 }
@@ -119,16 +123,26 @@ let shell = (e) => {
 }
 window.addEventListener("load", function () {
     shell();
+    LogIn_Name.value = "";
+    LogIn_Password.value = "";
+    // // 解析cookie,自动填充表单
+    // let cookieString = document.cookie;
 
-    // 解析cookie,自动填充表单
-    let cookieString = document.cookie;
-    if (cookieString == '') return;
-    const cookies = cookieString.split('; ');
-    const parsedCookies = {};
-    cookies.forEach(cookie => {
-        const [name, value] = cookie.split('=');
-        parsedCookies[name] = value;
-    });
-    LogIn_Name.value = parsedCookies.name;
-    LogIn_Password.value = parsedCookies.password;
+    // // 使用正则表达式替换"_xsrf"及其后面的内容为空字符串,_xsrf这是为了提供跨站请求伪造（Cross-Site Request Forgery，CSRF）保护而使用的一种机制。
+    // cookieString = cookieString.replace(/_xsrf=.+/, '');
+    // console.log(cookieString)
+
+    // //分割字符串
+    // const cookies = cookieString.split(';');
+    // console.log(cookies)
+
+    // // 储存成Key,value的形式
+    // const parsedCookies = {};
+    // cookies.forEach(cookie => {
+    //     const [name, value] = cookie.split('=');
+    //     parsedCookies[name] = value;
+    // });
+    // console.log(parsedCookies)
+    // LogIn_Name.value = parsedCookies['name'];
+    // LogIn_Password.value = parsedCookies['password'];
 });
