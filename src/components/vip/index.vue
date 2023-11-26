@@ -1,4 +1,5 @@
 <script setup>
+import {shopVip,payVip} from '@/api/api.js'
 import { ref } from 'vue'
 const name = localStorage.getItem("name")
 const time = new Date()
@@ -9,7 +10,7 @@ const curMonth = ref(time.getMonth())
 const curTime = ref(curYear.value + "-" + curMonth.value + "-" + time.getDate())
 
 destTime.value = (curYear.value + 1) + "-" + (curMonth.value) + "-" + time.getDate()
-function clickSelect(t, p) {
+function funcClickSelect(t, p) {
     price.value = p
     let m = curMonth.value + t
     let y = curYear.value
@@ -20,7 +21,26 @@ function clickSelect(t, p) {
     }
     destTime.value = y + "-" + m + "-" + time.getDate()
 }
-
+const selectPayMethods = ref(true)
+function funcSelectPay(index) {
+    if(index === 1){
+        selectPayMethods.value = true;
+    }else{
+        selectPayMethods.value = false;
+    }
+}
+function funcClickPay(){
+    console.log("pay vip")
+    shopVip({
+        username:localStorage.getItem('name'),
+        startDate:curTime.value,
+        endDate:destTime.value
+    }).then(response=>{
+        console.log(response.data)
+    }).then(error=>{
+        console.error(error)
+    })
+}
 </script>
 <template>
     <div class="grid grid-cols-[200px_auto_200px] h-full py-[60px] w-full">
@@ -70,7 +90,7 @@ function clickSelect(t, p) {
                         <span class="flex  gap-x-[20px]">
                             <span
                                 class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="clickSelect(12, 180)">
+                                @mouseover="funcClickSelect(12, 180)">
                                 <div>
                                     <span>
                                         1年
@@ -90,7 +110,7 @@ function clickSelect(t, p) {
                             </span>
                             <span
                                 class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="clickSelect(6, 90)">
+                                @mouseover="funcClickSelect(6, 90)">
                                 <div>
                                     <span>
                                         6个月
@@ -109,7 +129,8 @@ function clickSelect(t, p) {
                                 </div>
                             </span>
                             <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white" @mouseover="clickSelect(3, 45)">
+                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
+                                @mouseover="funcClickSelect(3, 45)">
                                 <div>
                                     <span>
                                         3个月
@@ -128,7 +149,8 @@ function clickSelect(t, p) {
                                 </div>
                             </span>
                             <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white" @mouseover="clickSelect(1, 15)">
+                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
+                                @mouseover="funcClickSelect(1, 15)">
                                 <div>
                                     <span>
                                         1个月
@@ -185,12 +207,11 @@ function clickSelect(t, p) {
                             支付平台
                         </div>
                         <div class="flex justify-center gap-[60px]">
-                            <div class="w-[100px] h-[100px] hover:drop-shadow-2xl"  >
-
+                            <div class="w-[100px] h-[100px] hover:" :class="{'border':selectPayMethods,'border-indigo-600':selectPayMethods,'drop-shadow-2xl':selectPayMethods}" @click="funcSelectPay(1)">
                                 <img src="/pay/WePay.png" class="w-full h-full">
                             </div>
-                            <div class="w-[100px] h-[100px] hover:drop-shadow-2xl">
-                                <img src= "/pay/AliPay.png" class="w-full h-full scale-[1]">
+                            <div class="w-[100px] h-[100px]" :class="{'border':!selectPayMethods,'border-indigo-600':!selectPayMethods,'drop-shadow-2xl':!selectPayMethods}"  @click="funcSelectPay(2)">
+                                <img src="/pay/AliPay.png" class="w-full h-full scale-[1]">
                             </div>
                         </div>
                     </div>
@@ -198,7 +219,7 @@ function clickSelect(t, p) {
                         <div class="w-[100px]">
                         </div>
                         <div class="flex justify-center">
-                            <span class="px-[20px] py-[10px] bg-[#F4C3C2] rounded-xl drop-shadow-lg">确认付款</span>
+                            <span class="px-[20px] py-[10px] bg-[#F4C3C2] rounded-l" @click="funcClickPay">确认付款</span>
                         </div>
                     </div>
                 </div>

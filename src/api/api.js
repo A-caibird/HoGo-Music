@@ -44,13 +44,25 @@ export function deleteMusic(name) {
 }
 
 export function uploadMusicFile(formData) {
-    return instance.post('/api/uploadMusicFile',formData);
+    return instance.post('/api/uploadMusicFile', formData);
 }
 
 export function addMusic(params) {
-    return instance.post('/api/addMusic',params);
+    return instance.post('/api/addMusic', params);
 }
 
 export function modifyMusic(params) {
-    return instance.post('/api/modifyMusic',params);
+    return instance.post('/api/modifyMusic', params);
+}
+
+export function payVip(params){
+    return instance.post('api/pay',params)
+}
+
+export function shopVip(params){
+    return instance.post('/api/payVip',params)
+}
+
+export function checkVipStatus(params) {
+    return instance.post('/api/checkVipStatus', params)
 }
