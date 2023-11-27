@@ -56,7 +56,7 @@ export function modifyMusic(params) {
 }
 
 export function payVip(params){
-    return instance.post('api/pay',params)
+    return instance.post('/api/pay',params)
 }
 
 export function shopVip(params){

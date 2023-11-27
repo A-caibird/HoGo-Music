@@ -1,5 +1,5 @@
 <script setup>
-import {shopVip,payVip} from '@/api/api.js'
+import { shopVip, payVip } from '@/api/api.js'
 import { ref } from 'vue'
 const name = localStorage.getItem("name")
 const time = new Date()
@@ -23,23 +23,33 @@ function funcClickSelect(t, p) {
 }
 const selectPayMethods = ref(true)
 function funcSelectPay(index) {
-    if(index === 1){
+    if (index === 1) {
         selectPayMethods.value = true;
-    }else{
+    } else {
         selectPayMethods.value = false;
     }
 }
-function funcClickPay(){
-    console.log("pay vip")
-    shopVip({
-        username:localStorage.getItem('name'),
-        startDate:curTime.value,
-        endDate:destTime.value
-    }).then(response=>{
-        console.log(response.data)
-    }).then(error=>{
-        console.error(error)
+function funcClickPay() {
+    payVip({ price: price.value, name: localStorage.getItem("name") }).then(res => {
+        alert("支付成功")
+        console.log(res.data)
+    }).catch(error => {
+        if (error.response.status == 400) {
+            alert("余额不足,请充值")
+        }else{
+            alert("服务器错误,请稍后再试")
+        }
     })
+
+    // shopVip({
+    //     username: localStorage.getItem('name'),
+    //     startDate: curTime.value,
+    //     endDate: destTime.value
+    // }).then(response => {
+    //     console.log(response.data)
+    // }).then(error => {
+    //     console.error(error.data)
+    // })
 }
 </script>
 <template>
@@ -207,10 +217,14 @@ function funcClickPay(){
                             支付平台
                         </div>
                         <div class="flex justify-center gap-[60px]">
-                            <div class="w-[100px] h-[100px] hover:" :class="{'border':selectPayMethods,'border-indigo-600':selectPayMethods,'drop-shadow-2xl':selectPayMethods}" @click="funcSelectPay(1)">
+                            <div class="w-[100px] h-[100px] hover:"
+                                :class="{ 'border': selectPayMethods, 'border-indigo-600': selectPayMethods, 'drop-shadow-2xl': selectPayMethods }"
+                                @click="funcSelectPay(1)">
                                 <img src="/pay/WePay.png" class="w-full h-full">
                             </div>
-                            <div class="w-[100px] h-[100px]" :class="{'border':!selectPayMethods,'border-indigo-600':!selectPayMethods,'drop-shadow-2xl':!selectPayMethods}"  @click="funcSelectPay(2)">
+                            <div class="w-[100px] h-[100px]"
+                                :class="{ 'border': !selectPayMethods, 'border-indigo-600': !selectPayMethods, 'drop-shadow-2xl': !selectPayMethods }"
+                                @click="funcSelectPay(2)">
                                 <img src="/pay/AliPay.png" class="w-full h-full scale-[1]">
                             </div>
                         </div>
