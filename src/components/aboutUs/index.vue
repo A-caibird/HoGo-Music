@@ -30,13 +30,16 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
         </div>
     </div>
     <div class="flex flex-col items-center absolute mb-[90px] w-full">
-        <div class="w-full flex justify-between px-[200px]" >
-            <span>
+        <div class="w-full flex justify-between px-[200px] ">
+            <span style="color:black !important">
                 增值电信业务经营许可证： 浙B2-20080101
             </span>
-            <span>
+            <span style="color:black !important">
                 域名注册服务机构许可： 浙D3-20210002 京D3-20220015
             </span>
+        </div>
+        <!-- 占位 -->
+        <div class="h-[20px]">
         </div>
     </div>
 </template>
@@ -51,5 +54,9 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
 
 :deep(.el-input__wrapper) {
     box-shadow: none !important;
+}
+
+* {
+    color: #f87171;
 }
 </style>
