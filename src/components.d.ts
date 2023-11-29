@@ -38,6 +38,7 @@ declare module 'vue' {
     MusicMange: typeof import('./components/musicMange/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TopIn: typeof import('./components/top-in/index.vue')['default']
     UserMange: typeof import('./components/userMange/userMange.vue')['default']
     Vip: typeof import('./components/vip/index.vue')['default']
   }

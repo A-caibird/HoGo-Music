@@ -1,6 +1,9 @@
 <script setup>
 import { shopVip, payVip } from '@/api/api.js'
 import { ref } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+const router = useRouter()
+const route = useRoute()
 const name = localStorage.getItem("name")
 const time = new Date()
 const price = ref(180)
@@ -45,7 +48,11 @@ function funcClickPay() {
 
     }).catch(error => {
         if (error.response.status == 400) {
-            alert("余额不足,请充值")
+            let ok = confirm("余额不足,请充值")
+            if (ok) {
+                alert("即将跳转到充值页面       ")
+                router.push({ path: '/topin' })
+            }
         } else {
             alert("服务器错误,请稍后再试")
         }
