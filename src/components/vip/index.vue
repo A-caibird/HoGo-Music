@@ -31,25 +31,25 @@ function funcSelectPay(index) {
 }
 function funcClickPay() {
     payVip({ price: price.value, name: localStorage.getItem("name") }).then(res => {
-        alert("支付成功")
+        shopVip({
+            username: localStorage.getItem('name'),
+            startDate: curTime.value,
+            endDate: destTime.value
+        }).then(response => {
+            alert("支付成功")
+            console.log(response.data)
+        }).then(error => {
+            console.error(error.data)
+        })
         console.log(res.data)
+
     }).catch(error => {
         if (error.response.status == 400) {
             alert("余额不足,请充值")
-        }else{
+        } else {
             alert("服务器错误,请稍后再试")
         }
     })
-
-    // shopVip({
-    //     username: localStorage.getItem('name'),
-    //     startDate: curTime.value,
-    //     endDate: destTime.value
-    // }).then(response => {
-    //     console.log(response.data)
-    // }).then(error => {
-    //     console.error(error.data)
-    // })
 }
 </script>
 <template>
