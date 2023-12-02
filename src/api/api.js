@@ -57,12 +57,20 @@ export function modifyMusic(params) {
 
 export function payVip(params){
     return instance.post('/api/pay',params)
+    // 支付接口
 }
 
 export function shopVip(params){
     return instance.post('/api/payVip',params)
+    // 支付vip费用
 }
 
-export function checkVipStatus(params) {
-    return instance.post('/api/checkVipStatus', params)
+export function getVipStatus(params) {
+    // 获取vip状态
+    // axios
+    return instance.get('/api/getVipStatus', {params})
+}
+
+export function topIn(params){
+    return instance.post('/api/topIn',params)
 }

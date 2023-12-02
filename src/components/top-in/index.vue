@@ -1,30 +1,56 @@
 <script setup>
-import { ref } from 'vue';
-const payMethod = ref(true);
-const inputClass = ref(false)
+import { onMounted, ref, toDisplayString } from 'vue';
+import { getVipStatus, topIn } from '@/api/api.js'
+
+// 输入时候的输入框样式
+const inputClass = ref(false);
+
+// 是否是vip
+const vip = ref(false);
+
+// 支付方式激活样式
+const payMethodActiveClass = ref(true);
+let payMethod = "Alipay";
+
 function fnCickSelect(n) {
     if (n == 1) {
-        payMethod.value = payMethod.value ? false : true;
+        payMethod = "Alipay"
+        payMethodActiveClass.value = payMethodActiveClass.value ? false : true;
+    } else {
+        payMethod = "Wechat"
+        payMethodActiveClass.value = false;
     }
-    else
-        payMethod.value = false;
 }
+
 let ArrTrue = ref([true, false, false, false, false, false])
+let amount = 20
 function fnClickPrice(i) {
     let arr = [false, false, false, false, false, false];
     arr[i] = true;
+    amount = (1 + i) * 20;
     ArrTrue.value = arr;
     console.log(ArrTrue.value)
 }
-function fnInput(e) {
-    console.log(e.target.tagName);
-    if (e.target.tagName == "INPUT")
-        inputDom.value.classList.add("inputActive");
 
-    else
-        inputDom.value.classList.remove("inputActive");
-}
 
+function fnClickPay() {
+    console.log({ username: localStorage.getItem("name"), payMethod, amount });
+    topIn({ username: localStorage.getItem("name"), payMethod, amount }).then(res => {
+        alert("充值成功");
+    }).catch(err => {
+        console.log(err);
+        alert("抱歉服务器出现错误,请稍后再试");
+    })
+}   
+onMounted(function () {
+    // 获取vip状态
+    getVipStatus({ username: localStorage.getItem('name') }).then(res => {
+        console.log(res.data);
+        vip.value = res.data.isVip
+    }).catch(err => {
+        console.error("抱歉服务器出现错误,请稍后再试")
+    })
+})
 </script>
 <template>
     <div class="container flex justify-center  pt-[20px] box-border font-sans">
@@ -35,8 +61,8 @@ function fnInput(e) {
                 </div>
                 <div class="name mt-[10px]">梦想起航</div>
                 <div class=" text-[12px]/[12px] whitespace-nowrap mt-[8px] text-[#000000]">账号:5085285fd22</div>
-                <p
-                    class="bg-[linear-gradient(to_top_left,_#f0d08d,_#ffe5b4)] rounded-[14px] py-[5px] px-[25px] text-[#6B4726] text-[12px]/[12px] mt-[12px]">
+                <p class="bg-[linear-gradient(to_top_left,_#f0d08d,_#ffe5b4)] rounded-[14px] py-[5px] px-[25px] text-[#6B4726] text-[12px]/[12px] mt-[12px]"
+                    :class="{ 'visible': vip }">
                     尊贵的豪华VIP
                 </p>
             </div>
@@ -70,17 +96,17 @@ function fnInput(e) {
                     </div>
                     <div class="flex gap-x-8">
                         <span class="w-[160px] h-[160px] p-[2px] " @click="fnCickSelect(1)"
-                            :class="{ 'bg-[#81F4E1]': payMethod }">
+                            :class="{ 'bg-[#81F4E1]': payMethodActiveClass }">
                             <img src="/pay/AliPay.png" />
                         </span>
                         <span class="w-[160px] h-[160px] p-[2px] " @click="fnCickSelect(2)"
-                            :class="{ 'bg-[#81F4E1]': !payMethod }">
+                            :class="{ 'bg-[#81F4E1]': !payMethodActiveClass }">
                             <img src="/pay/WePay.png">
                         </span>
                     </div>
                 </div>
                 <div class="w-full flex justify-center items-center h-full">
-                    <span class="bg-[#d946ef] px-[80px] py-[10px] rounded-3xl">
+                    <span class="bg-[#d946ef] px-[80px] py-[10px] rounded-3xl" @click="fnClickPay">
                         确认支付
                     </span>
                 </div>
