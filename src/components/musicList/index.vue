@@ -8,7 +8,23 @@ const route = useRoute();
 // 音乐播放状态管理
 let playState = ref(false);
 let playIndex = ref(-1);
+
+// 音乐对象
 let audio = ref(null);
+
+function newMusic(path,index) {
+    audio.value = new Audio(path);
+    audio.value.play();
+    playState.value = true;
+    playIndex.value = index;
+
+    // 处理播放结束后的让播放状态修改为
+    audio.value.addEventListener('ended', () => {
+        console.log('音频播放结束');
+        playState.value = false;
+    });
+    return;
+}
 function playMusic(path, index, state) {
     if (state == 'stop') {
         audio.value.pause();
@@ -17,19 +33,13 @@ function playMusic(path, index, state) {
     else {
         if (index != playIndex.value) {
             if (playIndex.value == -1) {
-                audio.value = new Audio(path);
-                audio.value.play();
-                playState.value = true;
-                playIndex.value = index;
-                return;
+                newMusic(path,index);
             }
             audio.value.pause();
             playState.value = false;
             playIndex.value = index;
         }
-        audio.value = new Audio(path);
-        audio.value.play();
-        playState.value = true;
+        newMusic(path,index);
     }
 }
 
