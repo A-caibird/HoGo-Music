@@ -1,9 +1,10 @@
 <script setup>
 import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getSongList } from '/src/api/api.js';
+import { getSongList, getVipStatus } from '/src/api/api.js';
 const router = useRouter();
 const route = useRoute();
+const isVip = ref(false)
 
 // 音乐播放状态管理
 let playState = ref(false);
@@ -12,7 +13,8 @@ let playIndex = ref(-1);
 // 音乐对象
 let audio = ref(null);
 
-function newMusic(path,index) {
+// 新建音乐对象
+function newMusic(path, index) {
     audio.value = new Audio(path);
     audio.value.play();
     playState.value = true;
@@ -25,6 +27,8 @@ function newMusic(path,index) {
     });
     return;
 }
+
+
 function playMusic(path, index, state) {
     if (state == 'stop') {
         audio.value.pause();
@@ -33,13 +37,13 @@ function playMusic(path, index, state) {
     else {
         if (index != playIndex.value) {
             if (playIndex.value == -1) {
-                newMusic(path,index);
+                newMusic(path, index);
             }
             audio.value.pause();
             playState.value = false;
             playIndex.value = index;
         }
-        newMusic(path,index);
+        newMusic(path, index);
     }
 }
 
@@ -71,8 +75,12 @@ function goToMusicHome(name, time, singer) {
         path: pathUrl,
     });
 }
+function shopMusic() {
+    if (!isVip.value) {
 
-// 拿到数据库的音乐列表
+    }
+}
+// 网页加载拿到数据库的音乐列表
 const songList = ref([]);
 onMounted(() => {
     getSongList().then((res) => {
@@ -82,6 +90,15 @@ onMounted(() => {
     if (typeof route.params.musicName != 'undefined') {
         musicName.value = route.params.musicName;
     }
+
+    getVipStatus({
+        username: localStorage.getItem('name')
+    }).then(res => {
+        isVip.value = res.data.isVip;
+    }).catch(e => {
+        console.error(e)
+        console.log("获取vip状态错误")
+    })
 });
 onUnmounted(() => {
     if (playState.value) {
@@ -111,44 +128,66 @@ onUnmounted(() => {
             </div>
             <!-- 歌曲列表 -->
             <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group" v-for="(item, index) of displayTable"
-                :key="index">
+                :key="index" :class="{'drop-shadow-lg':(playState == true) && playIndex == index}">
                 <div class=" w-[560px]">{{ item.musicName }}</div>
                 <div class=" w-[280px]">{{ item.singerName_album }}</div>
                 <div class=" w-[160px] flex flex-row justify-end items-center">
-                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
+                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]" >
                         <template v-if="(playState == true) && playIndex == index">
-                            <span @click="playMusic(item.url, index, 'stop')" class="stop">
-                                <el-icon><i-ep-VideoPause /></el-icon>
-                            </span>
+                            <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
+                                <span @click="playMusic(item.url, index, 'stop')" class="stop">
+                                    <el-icon><i-ep-VideoPause /></el-icon>
+                                </span>
+                            </el-tooltip>
                         </template>
                         <template v-else>
-                            <span @click="playMusic(item.url, index, 'play')">
+                            <el-tooltip class="box-item" effect="dark" content="开始播放" placement="top-start">
+                                <span @click="playMusic(item.url, index, 'play')">
+                                    <el-icon>
+                                        <i-ep-VideoPlay />
+                                    </el-icon>
+                                </span>
+                            </el-tooltip>
+                        </template>
+                        <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
+                            <span @click="shopMusic">
                                 <el-icon>
-                                    <i-ep-VideoPlay />
+                                    <i-ep-Download />
                                 </el-icon>
                             </span>
-                        </template>
-
-                        <span>
-                            <el-icon>
-                                <i-ep-Download />
-                            </el-icon>
-                        </span>
-                        <span>
-                            <el-icon>
-                                <i-ep-Share />
-                            </el-icon>
-                        </span>
-                        <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
-                            <el-icon>
-                                <i-ep-Comment />
-                            </el-icon>
-                        </span>
+                        </el-tooltip>
+                        <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
+                            <span>
+                                <el-icon>
+                                    <i-ep-Star />
+                                </el-icon>
+                            </span>
+                        </el-tooltip>
+                        <el-tooltip class="box-item" effect="dark" content="评论单曲" placement="top-start">
+                            <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
+                                <el-icon>
+                                    <i-ep-Comment />
+                                </el-icon>
+                            </span>
+                        </el-tooltip>
                     </span>
                     <span>
                         {{ item.timeLength }}
                     </span>
                 </div>
+            </div>
+        </div>
+        <div classs="">
+            <div>
+                下载音频文件为豪华VIP特权,您还不是VIP,是否购买VIP
+            </div>
+            <div>
+                <span>
+
+                </span>
+                <span>
+
+                </span>
             </div>
         </div>
     </div>
