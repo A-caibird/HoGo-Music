@@ -19,6 +19,7 @@ declare module 'vue' {
     ElSubMenu: typeof import('element-plus/es')['ElSubMenu']
     ElTable: typeof import('element-plus/es')['ElTable']
     ElTableColumn: typeof import('element-plus/es')['ElTableColumn']
+    ElTooltip: typeof import('element-plus/es')['ElTooltip']
     IEpChromeFilled: typeof import('~icons/ep/chrome-filled')['default']
     IEpComment: typeof import('~icons/ep/comment')['default']
     IEpDownload: typeof import('~icons/ep/download')['default']
@@ -27,6 +28,7 @@ declare module 'vue' {
     IEpQuestionFilled: typeof import('~icons/ep/question-filled')['default']
     IEpSearch: typeof import('~icons/ep/search')['default']
     IEpShare: typeof import('~icons/ep/share')['default']
+    IEpStar: typeof import('~icons/ep/star')['default']
     IEpUser: typeof import('~icons/ep/user')['default']
     IEpVideoPause: typeof import('~icons/ep/video-pause')['default']
     IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
@@ -38,6 +40,7 @@ declare module 'vue' {
     MusicMange: typeof import('./components/musicMange/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TopIn: typeof import('./components/top-in/index.vue')['default']
     UserMange: typeof import('./components/userMange/userMange.vue')['default']
     Vip: typeof import('./components/vip/index.vue')['default']
   }

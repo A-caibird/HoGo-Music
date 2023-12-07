@@ -9,6 +9,7 @@ import musicMange from '/src/components/musicMange/index.vue';
 import addMusic from '/src/components/addMusic/index.vue';
 import modifyMusic from '/src/components/modifyMusic/index.vue';
 import vip from '/src/components/vip/index.vue'
+import TopIn from '/src/components/top-in/index.vue'
 const routes = [
     { path: '/', component: Home },
     { path: '/mine', component: mine },
@@ -20,7 +21,8 @@ const routes = [
     { path: '/musicMange', component: musicMange },
     { path: '/addMusic', component: addMusic },
     { path: '/modifyMusic/:musicName', component: modifyMusic },
-    { path: '/vip', component: vip }
+    { path: '/vip', component: vip },
+    { path: '/topin', component: TopIn }
 ];
 const router = createRouter({
     history: createWebHashHistory(),

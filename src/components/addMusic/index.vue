@@ -58,11 +58,12 @@ function submitForm() {
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-cols-[400px_800px] h-[500px] bg-[#a5f3fc] mt-[20px]">
+        <div class="grid grid-cols-[400px_800px] h-[600px] bg-[#FCBCB8] mt-[20px]">
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
-                    <img class="w-full h-full" src="/album.png" />
+                    <img class="w-full h-full" src="/album.jpg" />
+
                 </div>
             </div>
             <!-- 右边 -->
@@ -72,20 +73,20 @@ function submitForm() {
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">
-                        <div class="w-[100px] whitespace-nowrap text-red-300">
+                        <div class="w-[100px] whitespace-nowrap text-[#D5554C]">
                             歌曲名</div>
                         <el-input v-model="modifyMusicName" placeholder="歌曲名" />
                     </div>
                     <div class="flex items-center mt-[20px]">
-                        <div class="w-[100px] whitespace-nowrap text-red-300">歌手/专辑名</div>
+                        <div class="w-[100px] whitespace-nowrap text-[#D5554C]">歌手/专辑名</div>
                         <el-input v-model="modifyAlbumName" placeholder="歌曲名" />
                     </div>
                     <div class="flex items-center mt-[20px]">
-                        <div class="w-[100px] whitespace-nowrap text-red-300"> 时长</div>
+                        <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 时长</div>
                         <el-input v-model="modifyLength" placeholder="如3:42" />
                     </div>
                     <div class="mt-[20px]">
-                        <span @click="handleSelectFile" class="inline-block w-[90px] text-red-300">
+                        <span @click="handleSelectFile" class="inline-block w-[90px] text-[#D5554C]">
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />

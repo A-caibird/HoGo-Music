@@ -48,13 +48,13 @@ export default defineConfig({
     },
     server: {
         open: '/src/pages/login/index.html', //设置项目启动打开的首页,
-        proxy: {                              //配置跨域请求
-            "/api": {
-                target: "http://localhost:8080",
-                changeOrigin: true,
-                rewrite: (path) => path.replace(/^\/api/, ""),
-            }
-        },
+        // proxy: {                              //配置跨域请求
+        //     "/api": {
+        //         target: "http://localhost:8080",
+        //         changeOrigin: true,
+        //         rewrite: (path) => path.replace(/^\/api/, ""),
+        //     }
+        // },
         host: '0.0.0.0'
     }
 })
