@@ -24,8 +24,8 @@ export function deleteUser(name) {
     return instance.post('/deleteUser', name);
 }
 
-export function deactiveUser(name) {
-    return instance.post('/stopUser', name);
+export function upgradeUserActiveStatus(params) {
+    return instance.post('/upgradeUserActiveStatus', params);
 }
 
 export function getSongList() {
