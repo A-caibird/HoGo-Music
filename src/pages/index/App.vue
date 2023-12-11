@@ -15,7 +15,7 @@ function handleSelect(index) {
     else if (index == '3-1') {
         router.push({ path: '/mine' })
     }
-    else if (index == '3-2') {
+    else if (index == '3-3') {
         localStorage.removeItem('name')
         location.href = '../login/index.html'
     }
@@ -31,8 +31,7 @@ function handleSelect(index) {
     else if (index == '2-1') {
         router.push({ path: '/addMusic' })
     }
-    else if (index == '4') {
-        console.log(6)
+    else if (index == '3-2') {
         router.push({ path: '/vip' })
     }
 }
@@ -73,9 +72,9 @@ let MusicName = ref('') //歌曲名
                 <el-sub-menu index="3">
                     <template #title><el-icon><i-ep-User /></el-icon>用户中心</template>
                     <el-menu-item index="3-1">账号管理</el-menu-item>
-                    <el-menu-item index="3-2">退出账号</el-menu-item>
+                    <el-menu-item index="3-2">VIP 购买</el-menu-item>
+                    <el-menu-item index="3-3">安全退出</el-menu-item>
                 </el-sub-menu>
-                <el-menu-item index="4"><el-icon><i-ep-Promotion /></el-icon>VIP</el-menu-item>
                 <el-menu-item index="5">
                     <el-icon color="red">
                         <i-ep-Download />
