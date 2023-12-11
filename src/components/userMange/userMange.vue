@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
-import { userList, deleteUser, deactiveUser } from '/src/api/api.js';
+import { userList, deleteUser, upgradeUserActiveStatus } from '/src/api/api.js';
 
 let tableData = ref([]); // 所有表格数据
 let userName = ref('');
@@ -29,6 +29,7 @@ let displayTable = computed(() => {
 onMounted(() => {
     userList().then((res) => {
         tableData.value = res.data;
+        console.log(res.data)
     }).catch(error => {
         // handle error
         console.log(error);
@@ -56,15 +57,30 @@ function handleDelete(index, row) {
 }
 
 // 停用账户
-function handleDeactive(index, row) {
+function fnHandleUserActiveStatus(index, row) {
     console.log(index, row.name);
-    deactiveUser({
-        name: row.name
-    }).then((res) => {
-        alert('账户停用成功');
-    }).catch(error => {
-        console.log(error);
-    })
+    if (row.active) {
+        upgradeUserActiveStatus({
+            name: row.name,
+            status: 0
+        }).then((res) => {
+            alert('账户停用成功,网页即将刷新');
+            location.reload();
+        }).catch(error => {
+            console.log(error);
+        })
+    }
+    else {
+        upgradeUserActiveStatus({
+            name: row.name,
+            status: 1
+        }).then((res) => {
+            alert('账户启用成功,网页即将刷新');
+            location.reload(); //刷新网页
+        }).catch(error => {
+            console.log(error);
+        }) 
+    }
 }
 </script>
 <template>
@@ -84,14 +100,23 @@ function handleDeactive(index, row) {
             </div>
             <div class="bg-transparent w-full mt-[20px]">
                 <el-table :data="displayTable" stripe style="width: 100%" table-layout="auto" height="600">
-                    <el-table-column prop="ID" label="用户ID" width="80" />
+                    <el-table-column prop="id" label="用户ID" width="80" />
                     <el-table-column fixed prop="name" label="用户名" width="200" />
                     <el-table-column prop="email" label="邮箱" width="200" />
                     <el-table-column prop="password" label="密码" width="200" />
                     <el-table-column label="操作" width="260">
                         <template #default="scope">
-                            <el-button size="small" type="primary" round @click="handleDeactive(scope.$index, scope.row)">
-                                冻结账户</el-button>
+                            <!--  通过 slot 可以获取到 row, column, $index 和 store（table 内部的状态管理）的数据，用法参考 demo。 -->
+                            <template v-if="scope.row.active">
+                                <el-button size="small" type="warning" round
+                                    @click="fnHandleUserActiveStatus(scope.$index, scope.row)">
+                                    冻结账户</el-button>
+                            </template>
+                            <template v-else>
+                                <el-button size="small" type="primary" round
+                                    @click="fnHandleUserActiveStatus(scope.$index, scope.row)">
+                                    启用账户</el-button>
+                            </template>
                             <el-button size="small" type="danger" round
                                 @click="handleDelete(scope.$index, scope.row)">删除账户</el-button>
                         </template>

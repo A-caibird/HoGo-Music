@@ -37,5 +37,9 @@
         "vitest": "^1.0.1",
         "vue": "^3.3.4",
         "vue-router": "4"
+    },
+    "dependencies": {
+        "three": "0.134",
+        "troisjs": "^0.3.4"
     }
 }
