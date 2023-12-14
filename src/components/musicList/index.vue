@@ -15,7 +15,8 @@ let audio = ref(null);
 
 // 新建音乐对象
 function newMusic(path, index) {
-    audio.value = new Audio(path);
+    let url="http://localhost:8080/music/"+path;
+    audio.value = new Audio(url);
     audio.value.play();
     playState.value = true;
     playIndex.value = index;
