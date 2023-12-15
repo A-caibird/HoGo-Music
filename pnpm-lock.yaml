@@ -4,14 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  three:
-    specifier: '0.134'
-    version: 0.134.0
-  troisjs:
-    specifier: ^0.3.4
-    version: 0.3.4
-
 devDependencies:
   '@element-plus/icons-vue':
     specifier: ^2.1.0
@@ -76,6 +68,9 @@ devDependencies:
   tailwindcss:
     specifier: ^3.3.3
     version: 3.3.3
+  three:
+    specifier: '0.134'
+    version: 0.134.0
   unplugin-auto-import:
     specifier: ^0.16.6
     version: 0.16.6
@@ -3292,7 +3287,7 @@ packages:
 
   /three@0.134.0:
     resolution: {integrity: sha512-LbBerg7GaSPjYtTOnu41AMp7tV6efUNR3p4Wk5NzkSsNTBuA5mDGOfwwZL1jhhVMLx9V20HolIUo0+U3AXehbg==}
-    dev: false
+    dev: true
 
   /tinybench@2.5.1:
     resolution: {integrity: sha512-65NKvSuAVDP/n4CqH+a9w2kTlLReS9vhsAP06MWx+/89nMinJyB2icyl58RIcqCmIggpojIGeuJGhjU1aGMBSg==}
@@ -3324,10 +3319,6 @@ packages:
     resolution: {integrity: sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==}
     engines: {node: '>=0.6'}
     dev: true
-
-  /troisjs@0.3.4:
-    resolution: {integrity: sha512-aonG2lw+QyTjytJpvYIaGv2AiIKzm+eSYT4ByG64uVh+jCLAWxnblS6bCewIckvCMqs2j3z351Q/IFIPWYViCQ==}
-    dev: false
 
   /ts-interface-checker@0.1.13:
     resolution: {integrity: sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==}
