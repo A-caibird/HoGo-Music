@@ -1,19 +1,24 @@
 <script setup>
-import { shopVip, payVip } from '@/api/api.js'
-import { ref } from 'vue'
+import { shopVip, payVip,getVipInfo } from '@/api/api.js'
+import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+
 const router = useRouter()
 const route = useRoute()
+
 const name = localStorage.getItem("name")
+const isVip = ref(false)
 const time = new Date()
 const price = ref(180)
-const destTime = ref("")
+
 const curYear = ref(time.getFullYear())
 const curMonth = ref(time.getMonth())
 const curTime = ref(curYear.value + "-" + curMonth.value + "-" + time.getDate())
+const destTime = ref((curYear.value + 1) + "-" + (curMonth.value) + "-" + time.getDate())
 
-destTime.value = (curYear.value + 1) + "-" + (curMonth.value) + "-" + time.getDate()
-function funcClickSelect(t, p) {
+const arr = ref([1, 0, 0, 0])
+function funcClickSelect(t, p, index) {
+    // 改变vip时间
     price.value = p
     let m = curMonth.value + t
     let y = curYear.value
@@ -23,7 +28,13 @@ function funcClickSelect(t, p) {
         m -= 12
     }
     destTime.value = y + "-" + m + "-" + time.getDate()
+
+    // 改变样式
+    let temp = [0, 0, 0, 0]
+    temp[index] = 1
+    arr.value = temp
 }
+
 const selectPayMethods = ref(true)
 function funcSelectPay(index) {
     if (index === 1) {
@@ -32,6 +43,7 @@ function funcSelectPay(index) {
         selectPayMethods.value = false;
     }
 }
+
 function funcClickPay() {
     payVip({ price: price.value, name: localStorage.getItem("name") }).then(res => {
         shopVip({
@@ -58,6 +70,18 @@ function funcClickPay() {
         }
     })
 }
+onMounted(() => {
+    getVipInfo({
+        username: localStorage.getItem('name')
+    }).then(res => {
+        isVip.value = res.data.vipStatus;
+        // console.log("是否是vip",isVip.value)
+        console.log(res.data.endDate)
+    }).catch(e => {
+        console.error(e)
+        console.log("获取vip状态错误")
+    })
+})
 </script>
 <template>
     <div class="grid grid-cols-[200px_auto_200px] h-full py-[60px] w-full">
@@ -87,13 +111,19 @@ function funcClickPay() {
                     <span class="w-[110px]">
                         开通账号
                     </span>
-                    <span>
+                    <span class="mr-[20px]">
                         {{ name }}
+                    </span>
+                    <span class="p-[3px] bg-yellow-300 rounded-lg text-[12px] ">
+                        已开通豪华VIP
+                    </span>
+                    <span>
+
                     </span>
                 </div>
                 <div class="py-[20px] gap-[20px] flex flex-col  w-full">
                     <div class="">
-                        <span class="w-[90px] inline-block bg-">
+                        <span class="w-[90px] inline-block">
                             产品类型
                         </span>
                         <span>
@@ -105,9 +135,10 @@ function funcClickPay() {
                             开通时长
                         </span>
                         <span class="flex  gap-x-[20px]">
-                            <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="funcClickSelect(12, 180)">
+                            <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
+                                :class="{
+                                    'border-white': arr[0]
+                                }" @click="funcClickSelect(12, 180, 0)">
                                 <div>
                                     <span>
                                         1年
@@ -125,9 +156,10 @@ function funcClickPay() {
                                     </del>
                                 </div>
                             </span>
-                            <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="funcClickSelect(6, 90)">
+                            <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
+                                @click="funcClickSelect(6, 90, 1)" :class="{
+                                    'border-white': arr[1]
+                                }">
                                 <div>
                                     <span>
                                         6个月
@@ -145,9 +177,10 @@ function funcClickPay() {
                                     </del>
                                 </div>
                             </span>
-                            <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="funcClickSelect(3, 45)">
+                            <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 "
+                                @click="funcClickSelect(3, 45, 2)" :class="{
+                                    'border-white': arr[2]
+                                }">
                                 <div>
                                     <span>
                                         3个月
@@ -165,9 +198,10 @@ function funcClickPay() {
                                     </del>
                                 </div>
                             </span>
-                            <span
-                                class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 hover:border-white"
-                                @mouseover="funcClickSelect(1, 15)">
+                            <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
+                                @click="funcClickSelect(1, 15, 3)" :class="{
+                                    'border-white': arr[3]
+                                }">
                                 <div>
                                     <span>
                                         1个月
