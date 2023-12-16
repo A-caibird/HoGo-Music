@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import { getSongList, getVipStatus } from '/src/api/api.js';
+import { getSongList, getVipInfo } from '/src/api/api.js';
 const router = useRouter();
 const route = useRoute();
 const isVip = ref(false)
@@ -15,7 +15,8 @@ let audio = ref(null);
 
 // 新建音乐对象
 function newMusic(path, index) {
-    audio.value = new Audio(path);
+    let url="http://localhost:8080/music/"+path;
+    audio.value = new Audio(url);
     audio.value.play();
     playState.value = true;
     playIndex.value = index;
@@ -91,10 +92,11 @@ onMounted(() => {
         musicName.value = route.params.musicName;
     }
 
-    getVipStatus({
+    getVipInfo({
         username: localStorage.getItem('name')
     }).then(res => {
-        isVip.value = res.data.isVip;
+        isVip.value = res.data.vipStatus;
+        // console.log("是否是vip",isVip.value)
     }).catch(e => {
         console.error(e)
         console.log("获取vip状态错误")

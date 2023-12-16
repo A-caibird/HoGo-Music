@@ -11,7 +11,7 @@ const instance = axios.create({
 export function LogIn(userData) {
     return instance.post('/LogIn', userData);
 };
-    
+
 export function SignUp(userData) {
     return axios.post('/SignUp', userData);
 };
@@ -55,22 +55,22 @@ export function modifyMusic(params) {
     return instance.post('/modifyMusic', params);
 }
 
-export function payVip(params){
-    return instance.post('/pay',params)
+export function payVip(params) {
+    return instance.post('/pay', params)
     // 支付接口
 }
 
-export function shopVip(params){
-    return instance.post('/payVip',params)
+export function shopVip(params) {
+    return instance.post('/payVip', params)
     // 支付vip费用
 }
 
-export function getVipStatus(params) {
+export function getVipInfo(params) {
     // 获取vip状态
     // axios
-    return instance.get('/getVipStatus', {params})
+    return instance.get('/getVipInfo', { params })
 }
 
-export function topIn(params){
-    return instance.post('/topIn',params)
+export function topIn(params) {
+    return instance.post('/topIn', params)
 }

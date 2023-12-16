@@ -1,6 +1,6 @@
 <script setup>
 import { onMounted, ref, toDisplayString } from 'vue';
-import { getVipStatus, topIn } from '@/api/api.js'
+import { getVipInfo, topIn } from '@/api/api.js'
 
 // 输入时候的输入框样式
 const inputClass = ref(false);
@@ -41,12 +41,12 @@ function fnClickPay() {
         console.log(err);
         alert("抱歉服务器出现错误,请稍后再试");
     })
-}   
+}
 onMounted(function () {
     // 获取vip状态
-    getVipStatus({ username: localStorage.getItem('name') }).then(res => {
-        console.log(res.data);
-        vip.value = res.data.isVip
+    getVipInfo({ username: localStorage.getItem('name') }).then(res => {
+        // console.log(res.data)
+        vip.value = res.data.vipStatus
     }).catch(err => {
         console.error("抱歉服务器出现错误,请稍后再试")
     })

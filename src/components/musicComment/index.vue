@@ -4,7 +4,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { getSongComment, commentSong } from '/src/api/api.js';
 const router = useRouter();
 const route = useRoute();
-
+console.log(document.getElementsByClassName("mt-[20px]").length)
 // 获取路由参数
 const musicName = route.params.musicName;
 
@@ -37,7 +37,7 @@ function handleComment() {
                 console.log(musicComment.value);
             }).catch((err) => {
                 console.log(err)
-            })
+            })  
         }
     ).catch((err) => {
         console.log(err);
@@ -60,11 +60,11 @@ onMounted(() => {
 </script>
 <template>
     <div class="flex flex-col items-center font-sans">
-        <div class="bg-red-100 w-[800px] min-h-[600px] mt-[20px] box-border p-[20px] rounded-lg">
+        <div class="bg-red-100 w-[1000px] min-h-[600px] mt-[20px] box-border p-[20px] rounded-lg">
             <!-- 歌曲详情 -->
             <div class="m-full h-[200px] bg-red-200 flex flex-row ">
                 <span class="box-border p-[10px] w-[200px] h-[200px] bg-yellow-50 inline-block">
-                    <img class=" w-full h-full" src="/album.png" />
+                    <img class=" w-full h-full" src="/comment.png" />
                 </span>
                 <span class="box-border flex flex-col w-full p-[10px]">
                     <p class=" self-center">

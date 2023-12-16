@@ -34,7 +34,7 @@ function submitForm() {
             formData.append('mp3', fileInput.value.files[0]);
             const res = await uploadMusicFile(formData);   // 上传mp3文件
             // 拿到歌曲名称,指定路径
-            const url = `/mp3/${res.data}`;
+            const url = `${res.data}`;
             console.log(url)
             addMusic({
                 musicName: modifyMusicName.value,
