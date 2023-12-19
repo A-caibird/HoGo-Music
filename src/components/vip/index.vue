@@ -1,5 +1,5 @@
 <script setup>
-import { shopVip, payVip,getVipInfo } from '@/api/api.js'
+import { shopVip, payVip, getVipInfo } from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -75,12 +75,30 @@ onMounted(() => {
         username: localStorage.getItem('name')
     }).then(res => {
         isVip.value = res.data.vipStatus;
-        // console.log("是否是vip",isVip.value)
-        console.log(res.data.endDate)
     }).catch(e => {
         console.error(e)
         console.log("获取vip状态错误")
     })
+
+    let websocket = null;
+    const ws = new WebSocket("ws://localhost:8080/websocket");
+
+
+    ws.onopen = function () {
+        alert("Websocket Connection established");
+        const message = 'Hello from client!';
+        ws.send(message);
+    };
+
+    ws.onmessage = function (data) {
+        alert('Received message from server: ' + data);
+        console.log(data)
+        // 在这里编写你的业务逻辑
+    };
+
+    // ws.on('close', function () {
+    //     console.log('Disconnected from WebSocket server');
+    // });
 })
 </script>
 <template>

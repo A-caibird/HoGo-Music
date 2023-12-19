@@ -85,7 +85,7 @@ function fnHandleUserActiveStatus(index, row) {
 </script>
 <template>
     <div class="flex flex-col items-center w-full ">
-        <div class="mt-[20px] bg-[white] max-h-[800px] min-h-[400px] block p-[20px]">
+        <div class="mt-[40px] bg-[white] max-h-[800px] min-h-[400px] block p-[20px]">
             <div class=" bg-transparent w-full ">
                 <div
                     class="flex flex-row items-center  shadow-[0_0_2px] shadow-cyan-500/50 rounded-[20px] px-[20px] box-border">
