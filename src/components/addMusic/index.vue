@@ -58,7 +58,7 @@ function submitForm() {
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-cols-[400px_800px] h-[600px] bg-[#FCBCB8] mt-[20px]">
+        <div class="grid grid-cols-[400px_800px] h-[600px] bg-[#FCBCB8] mt-[40px]">
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
@@ -69,7 +69,7 @@ function submitForm() {
             <!-- 右边 -->
             <div class="col-span-1 p-[20px] box-border h-full flex flex-col">
                 <div class="w-full text-center mb-[60px]">
-                    <span class="text-[20px] text-red-400">新增专辑单曲</span>
+                    <span class="text-[20px] ">新增专辑单曲</span>
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">

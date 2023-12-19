@@ -1,23 +1,54 @@
 <script setup>
 import { ref, onUnmounted, onMounted } from 'vue'
-
+import { modifyCombo } from '@/api/api.js'
+const list = ref([])
+onMounted(() => {
+    modifyCombo().then(res => {
+        list.value = res.data
+    }).catch(e => {
+        console.log(e)
+    })
+})
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-rows-[40px_600px] w-[800px]">
-            <div class="row-span-1 bg-black w-full h-[200px]">
+        <div class="grid grid-rows-[40px_600px] mt-[40px] px-[]">
+            <div class="row-span-1  bg-slate-300 w-full h-[200px] justify-center flex flex-row p-[10px]">
                 <span>
                     套餐价格设置
                 </span>
             </div>
-            <div class="row-span-1 bg-[red]">
-                <div>
-                    <span>
-
+            <div class="row-span-1 bg-[pink] w-full px-[20px] relative ">
+                <div class="flex flex-row gap-x-[80px] w-full mb-[1rem]">
+                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
+                        套餐名称
                     </span>
-                    <span>
-
+                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
+                        初始价格
                     </span>
+                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px] ">
+                        活动价格
+                    </span>
+                </div>
+                <div class="flex flex-col gap-4">
+                    <div v-for="(item, index) in list" :key="index" class="flex flex-row gap-x-[80px] w-full">
+                        <span class="w-[100px] flex justify-center">
+                            {{ item.name }}
+                        </span>
+                        <span class="flex justify-center w-[100px]">
+                            <input v-model="item.price_origin" class="w-[100px] text-center" type="number" min="0" />
+                        </span>
+                        <span classs="flex justify-center w-[100px]">
+                            <input v-model="item.price_now" class="w-[100px] text-center" type="number" min="0" />
+                        </span>
+                    </div>
+                </div>
+                <div class="absolute bottom-[60px] w-full">
+                    <div class="flex justify-center">
+                        <span class="px-[20px] py-[3px] rounded-2xl bg-red-700 w-[200px] text-center">
+                            修改完成
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

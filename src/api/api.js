@@ -74,3 +74,7 @@ export function getVipInfo(params) {
 export function topIn(params) {
     return instance.post('/topIn', params)
 }
+
+export function modifyCombo() {
+    return instance.get('/getComboInfo')
+}
