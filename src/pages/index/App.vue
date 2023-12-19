@@ -33,7 +33,9 @@ function handleSelect(index) {
     }
     else if (index == '3-2') {
         router.push({ path: '/vip' })
-    }
+    }else if (index == '2-5') (
+        router.push({ path: '/modifyCombo' })
+    )
 }
 
 // 获取存储的用户信息
@@ -67,6 +69,7 @@ let MusicName = ref('') //歌曲名
                     <el-menu-item index="2-3">版权交易</el-menu-item>
                     <template v-if="displayUserMange">
                         <el-menu-item index="2-4">用户管理</el-menu-item>
+                        <el-menu-item index='2-5'>套餐设置</el-menu-item>
                     </template>
                 </el-sub-menu>
                 <el-sub-menu index="3">

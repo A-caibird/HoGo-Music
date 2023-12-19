@@ -34,6 +34,7 @@ declare module 'vue' {
     IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
     Index: typeof import('./components/index/index.vue')['default']
     Mine: typeof import('./components/mine/mine.vue')['default']
+    ModifyCombo: typeof import('./components/modifyCombo/index.vue')['default']
     ModifyMusic: typeof import('./components/modifyMusic/index.vue')['default']
     MusicComment: typeof import('./components/musicComment/index.vue')['default']
     MusicList: typeof import('./components/musicList/index.vue')['default']
