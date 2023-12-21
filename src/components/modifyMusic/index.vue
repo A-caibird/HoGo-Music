@@ -29,7 +29,7 @@ function submitForm() {
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
-                    <img class="w-full h-full" src="/album.png" />
+                    <img class="w-full h-full" src="/album.jpg" />
                 </div>
             </div>
             <!-- 右边 -->

@@ -2,12 +2,14 @@
 import { ref, onUnmounted, onMounted } from 'vue'
 import { modifyCombo } from '@/api/api.js'
 const list = ref([])
+
 onMounted(() => {
     modifyCombo().then(res => {
         list.value = res.data
     }).catch(e => {
         console.log(e)
     })
+
 })
 </script>
 <template>
@@ -45,7 +47,7 @@ onMounted(() => {
                 </div>
                 <div class="absolute bottom-[60px] w-full">
                     <div class="flex justify-center">
-                        <span class="px-[20px] py-[3px] rounded-2xl bg-red-700 w-[200px] text-center">
+                        <span class="px-[20px] py-[3px] rounded-2xl bg-red-700 w-[200px] text-center" >
                             修改完成
                         </span>
                     </div>
