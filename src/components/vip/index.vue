@@ -71,16 +71,19 @@ function funcClickPay() {
     })
 }
 
+// 套餐信息
 let comboInfo = ref([])
-watch(//这个时候不能用.value且必须是深度监听，这种写法不仅可以监听数组本身的变化，也可以监听 数组元素的变化
-    comboInfo,
-    () => {
-        console.log('空数组变化了')
-    },
-    {
-        deep: true
-    }
-)
+{
+    watch(//这个时候不能用.value且必须是深度监听，这种写法不仅可以监听数组本身的变化，也可以监听 数组元素的变化
+        comboInfo,
+        () => {
+            console.log('空数组变化了')
+        },
+        {
+            deep: true
+        }
+    )
+}
 
 onMounted(() => {
     getVipInfo({
@@ -92,30 +95,35 @@ onMounted(() => {
         console.log("获取vip状态错误")
     })
 
-    let ws = null;
-    try {
-        ws = new WebSocket("ws://localhost:8080/websocket/comboInfo");
-    } catch (e) {
-        console.log("错误:" + e)
+    // 通过WebSocket接收最新的套餐信息
+    {
+        let ws = null;
+        let host = window.location.host
+        console.log(host)
+        try {
+            ws = new WebSocket("ws://localhost:8080" + "/websocket/comboInfo");
+        } catch (e) {
+            console.log("错误:" + e)
+        }
+
+        ws.onopen = function () {
+            const message = 'Hello from client!';
+            ws.send(message);
+        };
+
+        ws.onmessage = function (data) {
+            let temp = JSON.parse(data.data)
+            console.log(temp)
+            comboInfo.value = temp.list
+            console.log(comboInfo.value)
+            if (temp.type && name !== 'root')
+                alert("套餐价格已经更新")
+        };
+
+        ws.onclose = function () {
+            console.log('Disconnected from WebSocket server');
+        };
     }
-
-    ws.onopen = function () {
-        alert("Websocket Connection established");
-        const message = 'Hello from client!';
-        ws.send(message);
-    };
-
-    ws.onmessage = function (data) {
-        let temp = JSON.parse(data.data)
-        comboInfo.value = temp
-        console.log(comboInfo.value)
-        // 在这里编写你的业务逻辑
-    };
-
-    ws.onclose = function () {
-        console.log('Disconnected from WebSocket server');
-    };
-
 })
 </script>
 <template>

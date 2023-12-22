@@ -75,6 +75,11 @@ export function topIn(params) {
     return instance.post('/topIn', params)
 }
 
-export function modifyCombo() {
+export function getComboList() {
     return instance.get('/getComboInfo')
 }
+
+export function upgradeCombo(params){
+    return instance.post('/upgradeCombo',params)
+}
+
