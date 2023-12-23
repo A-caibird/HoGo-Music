@@ -3,7 +3,8 @@ import { createPinia } from 'pinia'
 import './style.css'
 import App from './App.vue'
 import router from '/src/router/router.js'
-
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 
 // 没登陆就跳转路由到登陆
 const isLoggedIn = !!localStorage.getItem('name'); // 检查用户是否已登录
@@ -12,7 +13,7 @@ console.log(currentPath)
 if (currentPath === '/src/pages/index/index.html' && !isLoggedIn) {
     // 用户未登录且访问的是 "/home"，重定向到登录页
     window.location.href = '/src/pages/login/index.html';
-    console.log("执行了");
+    console.log("用户没有登录");
 }
 /*
 // 在页面加载时执行的代码
@@ -28,5 +29,9 @@ DOMContentLoaded 和 readystatechange 事件在页面的 DOM 结构构建完成�
 readystatechange 事件可以在页面加载的早期阶段执行代码，但需要根据 readyState 属性的值进行适当的判断。
  });
 */
-createApp(App).use(createPinia()).use(router).mount('#app')
+createApp(App)
+    .use(ElementPlus)
+    .use(router)
+    .use(createPinia())
+    .mount('#app')
 

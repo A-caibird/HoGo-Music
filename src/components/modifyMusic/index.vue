@@ -1,13 +1,17 @@
 <script setup>
 import { ref } from 'vue';
 import { modifyMusic } from '/src/api/api.js'
+
 let modifyMusicName = ref(localStorage.getItem('modifyMusicName'));
 let modifyAlbumName = ref(localStorage.getItem('modifyAlbumName'));
 let modifyLength = ref(localStorage.getItem('modifyLength'));
 // 提交专辑信息
 function submitForm() {
     if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
-        alert('请完善歌曲信息!')
+        ElMessage({
+            message: '请完善歌曲信息',
+            type: 'waring',
+        })
         return;
     }
     modifyMusic({
@@ -16,10 +20,16 @@ function submitForm() {
         newSingerName_album: modifyAlbumName.value,
         newTimeLength: modifyLength.value,
     }).then(res => {
-        alert('歌曲修改成功')
-        console.log(res);
+        ElMessage({
+            message: '歌曲修改成功',
+            type: 'success',
+        })
     }).catch(err => {
-        console.error('歌曲修改失败' + err);
+        console.error('歌曲修改失败' + err)
+        ElMessage({
+            message: '服务器错误,歌曲信息修改失败,请稍后再试',
+            type: 'error',
+        })
     })
 }
 </script>

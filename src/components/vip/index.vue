@@ -2,6 +2,7 @@
 import { shopVip, payVip, getVipInfo } from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { ElMessage, ElNotification } from 'element-plus'
 
 const router = useRouter()
 const route = useRoute()
@@ -51,22 +52,20 @@ function funcClickPay() {
             startDate: curTime.value,
             endDate: destTime.value
         }).then(response => {
-            alert("支付成功")
-            console.log(response.data)
+            ElMessage.success("支付成功")
         }).then(error => {
             console.error(error.data)
+            ElMessage.error("服务器内部错误,请稍后再试")
         })
-        console.log(res.data)
-
     }).catch(error => {
         if (error.response.status == 400) {
             let ok = confirm("余额不足,请充值")
             if (ok) {
-                alert("即将跳转到充值页面       ")
+                ElMessage.success("即将跳转到充值页面")
                 router.push({ path: '/topin' })
             }
         } else {
-            alert("服务器错误,请稍后再试")
+            ElMessage.error("服务器内部错误,请稍后再试")
         }
     })
 }
@@ -116,8 +115,13 @@ onMounted(() => {
             console.log(temp)
             comboInfo.value = temp.list
             console.log(comboInfo.value)
-            if (temp.type && name !== 'root')
-                alert("套餐价格已经更新")
+            if (temp.type && name !== 'root') {
+                ElNotification({
+                    title: '系统消息',
+                    message: "VIP套餐价格变更",
+                    position: 'top-left',
+                })
+            }
         };
 
         ws.onclose = function () {

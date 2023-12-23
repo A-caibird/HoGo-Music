@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSongComment, commentSong } from '/src/api/api.js';
+import { ElMessage } from 'element-plus';
 const router = useRouter();
 const route = useRoute();
 console.log(document.getElementsByClassName("mt-[20px]").length)
@@ -19,7 +20,7 @@ let musicComment = ref([]);
 // 新增我的评论
 function handleComment() {
     if (yourComment.value.trim().length < 5) {
-        alert('评论至少需要五个字符以上,请重新输入')
+        ElMessage.warning('评论至少需要五个字符以上,请重新输入')
         return;
     }
     commentSong({

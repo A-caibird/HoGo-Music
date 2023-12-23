@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted, ref, toDisplayString } from 'vue';
 import { getVipInfo, topIn } from '@/api/api.js'
-
+import { ElMessage } from 'element-plus';
 // 输入时候的输入框样式
 const inputClass = ref(false);
 
@@ -36,19 +36,17 @@ function fnClickPrice(i) {
 function fnClickPay() {
     console.log({ username: localStorage.getItem("name"), payMethod, amount });
     topIn({ username: localStorage.getItem("name"), payMethod, amount }).then(res => {
-        alert("充值成功");
+        ElMessage.success("充值成功")
     }).catch(err => {
-        console.log(err);
-        alert("抱歉服务器出现错误,请稍后再试");
+        ElMessage.error("抱歉,服务器出现错误,请稍后再试");
     })
 }
 onMounted(function () {
     // 获取vip状态
     getVipInfo({ username: localStorage.getItem('name') }).then(res => {
-        // console.log(res.data)
         vip.value = res.data.vipStatus
     }).catch(err => {
-        console.error("抱歉服务器出现错误,请稍后再试")
+        ElMessage.error("抱歉,服务器出现错误,请稍后再试");
     })
 })
 </script>

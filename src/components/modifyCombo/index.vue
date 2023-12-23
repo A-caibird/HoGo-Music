@@ -1,12 +1,28 @@
 <script setup>
 import { ref, onUnmounted, onMounted } from 'vue'
 import { getComboList, upgradeCombo } from '@/api/api.js'
+import { ElMessage } from 'element-plus'
 const list = ref([])
 function submitOk() {
     upgradeCombo(list.value).then(res => {
-        alert("修改成功");
+        ElMessage({
+            message: '修改成功',
+            type: 'success',
+        })
     }).catch(e => {
-        console.log(e)
+        console.log(e.response)
+        if (e.response.status == 401) {
+            ElMessage({
+                message: 'Session过期,请重新登录后再试!',
+                type: 'error'
+            })
+        }
+        else {
+            ElMessage({
+                message: '服务器错误,修改失败',
+                type: 'error',
+            })
+        }
     })
 }
 onMounted(() => {

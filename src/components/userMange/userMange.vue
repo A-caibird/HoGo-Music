@@ -1,4 +1,5 @@
 <script setup>
+import { ElMessage } from 'element-plus';
 import { onMounted, ref, computed } from 'vue';
 import { userList, deleteUser, upgradeUserActiveStatus } from '/src/api/api.js';
 
@@ -44,14 +45,12 @@ function handleDelete(index, row) {
         name: row.name
     }).then((res) => {
         userList().then((res) => {
-            alert('账户删除成功');
+            ElMessage.success("账户删除成功");
             tableData.value = res.data;
         }).catch(error => {
-            // handle error
             console.log(error);
         });
     }).catch(error => {
-        // handle error
         console.log(error);
     })
 }
@@ -64,8 +63,8 @@ function fnHandleUserActiveStatus(index, row) {
             name: row.name,
             status: 0
         }).then((res) => {
-            alert('账户停用成功,网页即将刷新');
-            location.reload();
+            ElMessage.success('账户停用成功,网页即将刷新')
+            windows.location.reload();
         }).catch(error => {
             console.log(error);
         })
@@ -75,11 +74,11 @@ function fnHandleUserActiveStatus(index, row) {
             name: row.name,
             status: 1
         }).then((res) => {
-            alert('账户启用成功,网页即将刷新');
-            location.reload(); //刷新网页
+            ElMessage.success('账户启用成功,网页即将刷新')
+            windows.location.reload(); //刷新网页
         }).catch(error => {
             console.log(error);
-        }) 
+        })
     }
 }
 </script>

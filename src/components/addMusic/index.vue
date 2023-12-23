@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { uploadMusicFile, addMusic } from '/src/api/api.js'
+import { ElMessage } from 'element-plus'
 let modifyMusicName = ref('');
 let modifyAlbumName = ref('');
 let modifyLength = ref('');
@@ -19,11 +20,17 @@ function getFile() {
 // 提交专辑信息
 function submitForm() {
     if (fileInput.value.files.length == 0) {
-        alert('请选择音乐文件!');
+        ElMessage({
+            message: '请选择音乐文件!',
+            type: 'warning',
+        })
         return;
     }
     if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
-        alert('请完善歌曲信息!')
+        ElMessage({
+            message: '请完善歌曲信息!',
+            type: 'warning',
+        })
         return;
     }
 
@@ -42,10 +49,10 @@ function submitForm() {
                 timeLength: modifyLength.value,
                 url
             }).then(res => {
-                alert('歌曲添加成功')
+                ElMessage.success("歌曲添加成功")
                 console.log(res);
             }).catch(err => {
-                console.error('歌曲添加失败' + err);
+                ElMessage.error("服务器错误,请稍后再试")
             })
         }
         catch (err) {
@@ -90,8 +97,9 @@ function submitForm() {
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
-                        <span class="font-serif text-[12px]" :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
-                        }}</span>
+                        <span class="font-serif text-[12px]"
+                            :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                            }}</span>
                     </div>
                 </div>
                 <div class=" flex flex-col items-center justify-center box-border  h-full">
