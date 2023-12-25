@@ -3,6 +3,9 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
+import { drawerStatus } from '@/pinia/store.js'
+
+const drawer = drawerStatus()
 // 导航栏
 const defalutActiveIndex = ref('1');
 let currentIndex = ref('1');
@@ -33,9 +36,10 @@ function handleSelect(index) {
     }
     else if (index == '3-2') {
         router.push({ path: '/vip' })
-    }else if (index == '2-5') (
+    } else if (index == '2-5') {
+        drawer.open()
         router.push({ path: '/modifyCombo' })
-    )
+    }
 }
 
 // 获取存储的用户信息

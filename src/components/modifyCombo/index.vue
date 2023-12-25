@@ -1,8 +1,68 @@
+<template>
+    <el-drawer v-model="drawer.status" title=" VIP 套餐价格修改" direction="rtl" size="50%">
+        <div class=" ">
+            <div class="grid grid-rows-[40px_600px]">
+                <div class="row-span-1  bg-slate-300 w-full h-[200px] justify-center flex flex-row p-[10px]">
+                    <span>
+                        VIP 套餐价格修改
+                    </span>
+                </div>
+                <div class="row-span-1 panel  w-full px-[20px] relative panle">
+                    <div class="flex flex-row gap-x-[80px] w-full mb-[1rem] justify-around">
+                        <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
+                            套餐名称
+                        </span>
+                        <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
+                            初始价格
+                        </span>
+                        <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px] ">
+                            活动价格
+                        </span>
+                    </div>
+                    <div class="flex flex-col gap-4 ">
+                        <div v-for="(item, index) in list" :key="index"
+                            class="flex flex-row gap-x-[80px] w-full justify-around">
+                            <span class="w-[100px] flex justify-center">
+                                {{ item.name }}
+                            </span>
+                            <span class="flex justify-center w-[100px]">
+                                <input v-model="item.price_origin" class="w-[100px] text-center" type="number" min="0" />
+                            </span>
+                            <span classs="flex justify-center w-[100px]">
+                                <input v-model="item.price_now" class="w-[100px] text-center" type="number" min="0" />
+                            </span>
+                        </div>
+                    </div>
+                    <div class="absolute bottom-[60px] w-full">
+                        <div class="flex justify-center">
+                            <span class="px-[20px] py-[3px] rounded-2xl bg-red-700 w-[200px] text-center" @click="submitOk">
+                                修改完成
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </el-drawer>
+</template>
+  
 <script setup>
-import { ref, onUnmounted, onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 import { getComboList, upgradeCombo } from '@/api/api.js'
-import { ElMessage } from 'element-plus'
+import { ElMessage, ElDrawer } from 'element-plus'
+import { drawerStatus } from '@/pinia/store.js'
+import $ from 'jquery'
+
 const list = ref([])
+// pinna打开状态管理
+const drawer = drawerStatus()
+
+// 移除抽屉头部
+$(document).ready(function () {
+    $(".el-drawer__header").remove()
+})
+
+// 提交
 function submitOk() {
     upgradeCombo(list.value).then(res => {
         ElMessage({
@@ -25,6 +85,7 @@ function submitOk() {
         }
     })
 }
+
 onMounted(() => {
     getComboList().then(res => {
         list.value = res.data
@@ -32,57 +93,22 @@ onMounted(() => {
         console.log(e)
     })
 })
+
+
 </script>
-<template>
-    <div class="flex flex-col items-center ">
-        <div class="grid grid-rows-[40px_600px] mt-[40px] px-[]">
-            <div class="row-span-1  bg-slate-300 w-full h-[200px] justify-center flex flex-row p-[10px]">
-                <span>
-                    套餐价格设置
-                </span>
-            </div>
-            <div class="row-span-1 panel  w-full px-[20px] relative ">
-                <div class="flex flex-row gap-x-[80px] w-full mb-[1rem]">
-                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
-                        套餐名称
-                    </span>
-                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
-                        初始价格
-                    </span>
-                    <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px] ">
-                        活动价格
-                    </span>
-                </div>
-                <div class="flex flex-col gap-4">
-                    <div v-for="(item, index) in list" :key="index" class="flex flex-row gap-x-[80px] w-full">
-                        <span class="w-[100px] flex justify-center">
-                            {{ item.name }}
-                        </span>
-                        <span class="flex justify-center w-[100px]">
-                            <input v-model="item.price_origin" class="w-[100px] text-center" type="number" min="0" />
-                        </span>
-                        <span classs="flex justify-center w-[100px]">
-                            <input v-model="item.price_now" class="w-[100px] text-center" type="number" min="0" />
-                        </span>
-                    </div>
-                </div>
-                <div class="absolute bottom-[60px] w-full">
-                    <div class="flex justify-center">
-                        <span class="px-[20px] py-[3px] rounded-2xl bg-red-700 w-[200px] text-center" @click="submitOk">
-                            修改完成
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</template>
+
 <style scoped>
-.panel {
-    background: #ee9ca7;
-    background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);
+:deep(.el-drawer__header) {
+    display: none !important;
+}
+
+.panle {
+    background: #ED213A;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #93291E, #ED213A);
     /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #ffdde1, #ee9ca7);
+    background: linear-gradient(to right, #93291E, #ED213A);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 </style>
