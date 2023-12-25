@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import $ from 'jquery'
 export const useAlertsStore = defineStore('pageSwitch', {
     state: () => ({ current: 'home' }),
 })
@@ -7,7 +8,7 @@ export const useAlertsStore = defineStore('pageSwitch', {
 // 是否打开套餐设置侧边抽屉
 export const drawerStatus = defineStore('drawer', {
     state: () => {
-        return { status: false }
+        return { status: false}
     },
     // 也可以这样定义
     // state: () => ({ count: 0 })
@@ -17,6 +18,6 @@ export const drawerStatus = defineStore('drawer', {
         },
         close() {
             this.status = false;
-        }
+        },
     },
 })

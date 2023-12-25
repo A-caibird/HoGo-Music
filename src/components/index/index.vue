@@ -111,7 +111,7 @@ function goSearch() {
                                 <img class="w-full h-full transition ease-in-out delay-200 scale-[1.1] hover:scale-[1.5] rounded-lg"
                                     :src="item2.imgPath" alt="a" />
                             </div>
-                            <p class="diyFont mt-[20px]">{{ item2.title }}</p>
+                            <p class="diyFont mt-[20px] text-[#d1cbcb]">{{ item2.title }}</p>
                         </div>
                     </el-carousel-item>
                 </el-carousel>

@@ -7,7 +7,7 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
 // 没登陆就跳转路由到登陆
-const isLoggedIn = !!localStorage.getItem('name'); // 检查用户是否已登录
+const isLoggedIn = !!localStorage.getItem('name'); // 前端检查用户是否已登录
 const currentPath = window.location.pathname; // 获取当前路径
 console.log(currentPath)
 if (currentPath === '/src/pages/index/index.html' && !isLoggedIn) {

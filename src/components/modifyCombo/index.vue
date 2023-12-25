@@ -1,15 +1,15 @@
 <template>
-    <el-drawer v-model="drawer.status" title=" VIP 套餐价格修改" direction="rtl" size="50%">
-        <div class=" ">
-            <div class="grid grid-rows-[40px_600px]">
-                <div class="row-span-1  bg-slate-300 w-full h-[200px] justify-center flex flex-row p-[10px]">
+    <el-drawer v-model="drawer.status" header=" VIP 套餐价格修改" direction="rtl" size="50%" show-close="false">
+        <div class="flex flex-col justify-between">
+            <div class="grid grid-rows-[100px_600px]">
+                <div class="row-span-1  bg-slate-700 w-full justify-center flex flex-row p-[10px] box-border text-[25px]">
                     <span>
                         VIP 套餐价格修改
                     </span>
                 </div>
                 <div class="row-span-1 panel  w-full px-[20px] relative panle">
                     <div class="flex flex-row gap-x-[80px] w-full mb-[1rem] justify-around">
-                        <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
+                        <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]" ji="2323">
                             套餐名称
                         </span>
                         <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
@@ -60,6 +60,10 @@ const drawer = drawerStatus()
 // 移除抽屉头部
 $(document).ready(function () {
     $(".el-drawer__header").remove()
+    console.log($("#el-id-6983-6"))
+    $(".el-drawer").addClass(function () {
+        return "back1"
+    })
 })
 
 // 提交
@@ -94,7 +98,6 @@ onMounted(() => {
     })
 })
 
-
 </script>
 
 <style scoped>
@@ -102,13 +105,8 @@ onMounted(() => {
     display: none !important;
 }
 
-.panle {
-    background: #ED213A;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #93291E, #ED213A);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #93291E, #ED213A);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
+:deep(.el-drawer) {
+    background-color: #ED213A !important;
 }
 </style>

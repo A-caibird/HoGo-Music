@@ -3,6 +3,7 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
+import modifyCombo from '/src/components/modifyCombo/index.vue'
 import { drawerStatus } from '@/pinia/store.js'
 
 const drawer = drawerStatus()
@@ -38,7 +39,6 @@ function handleSelect(index) {
         router.push({ path: '/vip' })
     } else if (index == '2-5') {
         drawer.open()
-        router.push({ path: '/modifyCombo' })
     }
 }
 
@@ -55,9 +55,6 @@ onMounted(() => {
         }
     })
 })
-
-// 歌曲部分
-let MusicName = ref('') //歌曲名
 </script>
 <template>
     <div class="container absolute inset-0 Background overflow-y-auto font-sans">
@@ -93,6 +90,7 @@ let MusicName = ref('') //歌曲名
             </el-menu>
         </div>
         <router-view></router-view>
+        <modify-combo v-if="drawer.status"></modify-combo>
     </div>
 </template>
 <style scoped>

@@ -10,7 +10,6 @@ import addMusic from '/src/components/addMusic/index.vue';
 import modifyMusic from '/src/components/modifyMusic/index.vue';
 import vip from '/src/components/vip/index.vue'
 import TopIn from '/src/components/top-in/index.vue'
-import drawer from '/src/components/modifyCombo/index.vue'
 const routes = [
     { path: '/', component: Home },
     { path: '/mine', component: mine },
@@ -24,7 +23,6 @@ const routes = [
     { path: '/modifyMusic/:musicName', component: modifyMusic },
     { path: '/vip', component: vip },
     { path: '/topin', component: TopIn },
-    { path: '/modifyCombo', component: drawer }
 ];
 const router = createRouter({
     history: createWebHashHistory(),
