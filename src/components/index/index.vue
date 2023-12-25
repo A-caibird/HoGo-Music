@@ -108,10 +108,10 @@ function goSearch() {
                         <div class="w-full  h-full inline-block" v-for="(item2, index) in item1" :key="index"
                             @click="goMusicList">
                             <div class="w-full h-[70%] bg-white border-none overflow-hidden">
-                                <img class="w-full h-full transition ease-in-out delay-200 hover:scale-[1.2] rounded-lg"
+                                <img class="w-full h-full transition ease-in-out delay-200 scale-[1.1] hover:scale-[1.5] rounded-lg"
                                     :src="item2.imgPath" alt="a" />
                             </div>
-                            <p class="diyFont mt-[20px]">{{ item2.title }}</p>
+                            <p class="diyFont mt-[20px] text-[#d1cbcb]">{{ item2.title }}</p>
                         </div>
                     </el-carousel-item>
                 </el-carousel>

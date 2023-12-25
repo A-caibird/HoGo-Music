@@ -5,12 +5,15 @@
 @tailwind utilities;
 /*  */
 
+/* Tailwind工具类css */
 @layer utilities {
     .a {
         color: red;
     }
 }
 
+
+/* 全局字体 */
 @font-face {
     font-family: "DiyChineseFont";
     src: url("/font/hanyimaqiduojian.ttf");
@@ -20,4 +23,26 @@
 
 * {
     font-family: "DiyChineseFont";
+}
+
+/*  jQuery动态添加的css */
+/* 全局背景 */
+.Background {
+    background: #bdc3c7;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #2c3e50, #bdc3c7);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #171d23, #54585c);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
+
+/* src/components/modifyCombo/index.vue */
+.back1 {
+    background: #52525b;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #a1a1aa, #52525b);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #a1a1aa, #52525b);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }

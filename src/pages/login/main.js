@@ -1,5 +1,8 @@
 import { LogIn, SignUp } from '@/api/api.js';
-
+import $ from 'jquery';
+// $(function(){
+//     alert("ok")
+// })
 // 获取DOM元素
 
 // 1. 样式切换按钮

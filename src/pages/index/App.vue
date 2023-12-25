@@ -3,6 +3,10 @@ import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
 const router = useRouter()
 const route = useRoute()
+import modifyCombo from '/src/components/modifyCombo/index.vue'
+import { drawerStatus } from '@/pinia/store.js'
+
+const drawer = drawerStatus()
 // 导航栏
 const defalutActiveIndex = ref('1');
 let currentIndex = ref('1');
@@ -33,6 +37,8 @@ function handleSelect(index) {
     }
     else if (index == '3-2') {
         router.push({ path: '/vip' })
+    } else if (index == '2-5') {
+        drawer.open()
     }
 }
 
@@ -49,12 +55,9 @@ onMounted(() => {
         }
     })
 })
-
-// 歌曲部分
-let MusicName = ref('') //歌曲名
 </script>
 <template>
-    <div class="container absolute inset-0 bg-slate-50  overflow-y-auto font-sans">
+    <div class="container absolute inset-0 Background overflow-y-auto font-sans">
         <div class="nav sticky inset-0 z-10" ref="realNav">
             <el-menu :default-active="defalutActiveIndex" class="el-menu-demo flex justify-around" mode="horizontal"
                 background-color="#020617" text-color="#ffffff" active-text-color="#67e8f9" @select="handleSelect"
@@ -67,6 +70,7 @@ let MusicName = ref('') //歌曲名
                     <el-menu-item index="2-3">版权交易</el-menu-item>
                     <template v-if="displayUserMange">
                         <el-menu-item index="2-4">用户管理</el-menu-item>
+                        <el-menu-item index='2-5'>套餐设置</el-menu-item>
                     </template>
                 </el-sub-menu>
                 <el-sub-menu index="3">
@@ -86,6 +90,7 @@ let MusicName = ref('') //歌曲名
             </el-menu>
         </div>
         <router-view></router-view>
+        <modify-combo v-if="drawer.status"></modify-combo>
     </div>
 </template>
 <style scoped>

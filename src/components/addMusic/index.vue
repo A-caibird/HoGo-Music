@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 import { uploadMusicFile, addMusic } from '/src/api/api.js'
+import { ElMessage } from 'element-plus'
 let modifyMusicName = ref('');
 let modifyAlbumName = ref('');
 let modifyLength = ref('');
@@ -19,11 +20,17 @@ function getFile() {
 // 提交专辑信息
 function submitForm() {
     if (fileInput.value.files.length == 0) {
-        alert('请选择音乐文件!');
+        ElMessage({
+            message: '请选择音乐文件!',
+            type: 'warning',
+        })
         return;
     }
     if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
-        alert('请完善歌曲信息!')
+        ElMessage({
+            message: '请完善歌曲信息!',
+            type: 'warning',
+        })
         return;
     }
 
@@ -42,10 +49,10 @@ function submitForm() {
                 timeLength: modifyLength.value,
                 url
             }).then(res => {
-                alert('歌曲添加成功')
+                ElMessage.success("歌曲添加成功")
                 console.log(res);
             }).catch(err => {
-                console.error('歌曲添加失败' + err);
+                ElMessage.error("服务器错误,请稍后再试")
             })
         }
         catch (err) {
@@ -58,7 +65,7 @@ function submitForm() {
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-cols-[400px_800px] h-[600px] bg-[#FCBCB8] mt-[20px]">
+        <div class="grid grid-cols-[400px_800px] h-[600px] panel mt-[40px]">
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
@@ -69,7 +76,7 @@ function submitForm() {
             <!-- 右边 -->
             <div class="col-span-1 p-[20px] box-border h-full flex flex-col">
                 <div class="w-full text-center mb-[60px]">
-                    <span class="text-[20px] text-red-400">新增专辑单曲</span>
+                    <span class="text-[20px] ">新增专辑单曲</span>
                 </div>
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">
@@ -90,8 +97,9 @@ function submitForm() {
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
-                        <span class="font-serif text-[12px]" :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
-                        }}</span>
+                        <span class="font-serif text-[12px]"
+                            :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                            }}</span>
                     </div>
                 </div>
                 <div class=" flex flex-col items-center justify-center box-border  h-full">
@@ -104,4 +112,11 @@ function submitForm() {
         </div>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+.panel {
+    background: #ee9ca7;
+    background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}</style>

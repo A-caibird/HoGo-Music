@@ -38,7 +38,6 @@ function handleDelete(name) {
     deleteMusic({
         musicName: name
     }).then((res) => {
-        alert(res.data);
         getSongList().then((res) => {
             songList.value = res.data;
             console.log(res);
@@ -49,7 +48,7 @@ function handleDelete(name) {
 }
 
 // 修改音乐,跳转到修改页面
-function handleModify(musicName,singerName,length) {
+function handleModify(musicName, singerName, length) {
     localStorage.setItem('modifyMusicName', musicName);
     localStorage.setItem('modifyAlbumName', singerName);
     localStorage.setItem('modifyLength', length);
@@ -109,7 +108,8 @@ onMounted(() => {
                         @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
                         详情
                     </span>
-                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]" @click="handleModify(item.musicName,item.singerName_album,item.timeLength)">
+                    <span class="rounded-2xl bg-[#a5f3fc] px-[5px]"
+                        @click="handleModify(item.musicName, item.singerName_album, item.timeLength)">
                         修改
                     </span>
                 </div>

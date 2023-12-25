@@ -1,7 +1,11 @@
 <script setup>
-import { onMounted, ref, computed, onUnmounted } from 'vue';
+import { onMounted, ref, computed, onUnmounted, h, render } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { getSongList, getVipInfo } from '/src/api/api.js';
+import { ElMessage, ElNotification } from 'element-plus';
+import $ from 'jquery';
+import axios from 'axios';
+
 const router = useRouter();
 const route = useRoute();
 const isVip = ref(false)
@@ -15,7 +19,7 @@ let audio = ref(null);
 
 // 新建音乐对象
 function newMusic(path, index) {
-    let url="http://localhost:8080/music/"+path;
+    let url = "http://localhost:8080/music/" + path;
     audio.value = new Audio(url);
     audio.value.play();
     playState.value = true;
@@ -76,9 +80,15 @@ function goToMusicHome(name, time, singer) {
         path: pathUrl,
     });
 }
-function shopMusic() {
+function downloadMusic(path, index) {
+    let url = "http://localhost:8080/music/" + path;
     if (!isVip.value) {
-
+        ElNotification.warning({
+            title: '提醒',
+            message: '音乐下载为会员专享特权!',
+            offset: 100,
+        })
+    } else {
     }
 }
 // 网页加载拿到数据库的音乐列表
@@ -86,7 +96,6 @@ const songList = ref([]);
 onMounted(() => {
     getSongList().then((res) => {
         songList.value = res.data;
-        // console.log(res);
     });
     if (typeof route.params.musicName != 'undefined') {
         musicName.value = route.params.musicName;
@@ -96,7 +105,6 @@ onMounted(() => {
         username: localStorage.getItem('name')
     }).then(res => {
         isVip.value = res.data.vipStatus;
-        // console.log("是否是vip",isVip.value)
     }).catch(e => {
         console.error(e)
         console.log("获取vip状态错误")
@@ -130,11 +138,11 @@ onUnmounted(() => {
             </div>
             <!-- 歌曲列表 -->
             <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group" v-for="(item, index) of displayTable"
-                :key="index" :class="{'drop-shadow-lg':(playState == true) && playIndex == index}">
+                :key="index" :class="{ 'drop-shadow-lg': (playState == true) && playIndex == index }">
                 <div class=" w-[560px]">{{ item.musicName }}</div>
                 <div class=" w-[280px]">{{ item.singerName_album }}</div>
                 <div class=" w-[160px] flex flex-row justify-end items-center">
-                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]" >
+                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
                         <template v-if="(playState == true) && playIndex == index">
                             <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
                                 <span @click="playMusic(item.url, index, 'stop')" class="stop">
@@ -152,10 +160,12 @@ onUnmounted(() => {
                             </el-tooltip>
                         </template>
                         <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
-                            <span @click="shopMusic">
+                            <span @click="downloadMusic(item.url, index)">
                                 <el-icon>
                                     <i-ep-Download />
                                 </el-icon>
+                                <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
+                                    v-bind:id="index">下载文件</a>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
@@ -177,19 +187,6 @@ onUnmounted(() => {
                         {{ item.timeLength }}
                     </span>
                 </div>
-            </div>
-        </div>
-        <div classs="">
-            <div>
-                下载音频文件为豪华VIP特权,您还不是VIP,是否购买VIP
-            </div>
-            <div>
-                <span>
-
-                </span>
-                <span>
-
-                </span>
             </div>
         </div>
     </div>

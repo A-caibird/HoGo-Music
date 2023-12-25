@@ -1,7 +1,8 @@
 <script setup>
-import { shopVip, payVip,getVipInfo } from '@/api/api.js'
+import { shopVip, payVip, getVipInfo } from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import { ElMessage, ElNotification } from 'element-plus'
 
 const router = useRouter()
 const route = useRoute()
@@ -51,36 +52,82 @@ function funcClickPay() {
             startDate: curTime.value,
             endDate: destTime.value
         }).then(response => {
-            alert("支付成功")
-            console.log(response.data)
+            ElMessage.success("支付成功")
         }).then(error => {
             console.error(error.data)
+            ElMessage.error("服务器内部错误,请稍后再试")
         })
-        console.log(res.data)
-
     }).catch(error => {
         if (error.response.status == 400) {
             let ok = confirm("余额不足,请充值")
             if (ok) {
-                alert("即将跳转到充值页面       ")
+                ElMessage.success("即将跳转到充值页面")
                 router.push({ path: '/topin' })
             }
         } else {
-            alert("服务器错误,请稍后再试")
+            ElMessage.error("服务器内部错误,请稍后再试")
         }
     })
 }
+
+// 套餐信息
+let comboInfo = ref([])
+{
+    watch(//这个时候不能用.value且必须是深度监听，这种写法不仅可以监听数组本身的变化，也可以监听 数组元素的变化
+        comboInfo,
+        () => {
+            console.log('空数组变化了')
+        },
+        {
+            deep: true
+        }
+    )
+}
+
 onMounted(() => {
     getVipInfo({
         username: localStorage.getItem('name')
     }).then(res => {
         isVip.value = res.data.vipStatus;
-        // console.log("是否是vip",isVip.value)
-        console.log(res.data.endDate)
     }).catch(e => {
         console.error(e)
         console.log("获取vip状态错误")
     })
+
+    // 通过WebSocket接收最新的套餐信息
+    {
+        let ws = null;
+        let host = window.location.host
+        console.log(host)
+        try {
+            ws = new WebSocket("ws://localhost:8080" + "/websocket/comboInfo");
+        } catch (e) {
+            console.log("错误:" + e)
+        }
+
+        ws.onopen = function () {
+            const message = 'Hello from client!';
+            ws.send(message);
+        };
+
+        ws.onmessage = function (data) {
+            let temp = JSON.parse(data.data)
+            console.log(temp)
+            comboInfo.value = temp.list
+            console.log(comboInfo.value)
+            if (temp.type && name !== 'root') {
+                ElNotification({
+                    title: '系统消息',
+                    message: "VIP套餐价格变更",
+                    position: 'top-left',
+                })
+            }
+        };
+
+        ws.onclose = function () {
+            console.log('Disconnected from WebSocket server');
+        };
+    }
 })
 </script>
 <template>
@@ -88,7 +135,7 @@ onMounted(() => {
         <div class="cols-start-2 col-end-3 ] h-[600px] rounded-lg grid grid-cols-[200px_auto]">
             <div class="col-span-1 h-full border-r-2 border-black bg-[#EF6351]">
                 <div class="flex flex-col items-center">
-                    <image src="/vip.jpeg" class="w-full h-full">
+                    <image src="/vip.png" class="w-full h-full">
                     </image>
                     <div class="flex flex-col items-center gap-y-5">
                         <span class="mt-[20px] font-DiyChineseFont">
@@ -134,17 +181,17 @@ onMounted(() => {
                         <span class="w-[90px] inline-block mr-[14px]">
                             开通时长
                         </span>
-                        <span class="flex  gap-x-[20px]">
+                        <span class="flex  gap-x-[20px]" v-if="comboInfo.length > 0">
                             <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
                                 :class="{
                                     'border-white': arr[0]
                                 }" @click="funcClickSelect(12, 180, 0)">
-                                <div>
+                                <div class="flex gap-2">
                                     <span>
-                                        1年
+                                        {{ comboInfo[0].name }}
                                     </span>
                                     <span class=" text-[#f43f5e]">
-                                        180元
+                                        {{ comboInfo[0].price_now }}元
                                     </span>
                                 </div>
                                 <div class="text-[10px]">
@@ -152,7 +199,7 @@ onMounted(() => {
                                         原价
                                     </span>
                                     <del class="">
-                                        216元
+                                        {{ comboInfo[0].price_origin }}元
                                     </del>
                                 </div>
                             </span>
@@ -160,12 +207,12 @@ onMounted(() => {
                                 @click="funcClickSelect(6, 90, 1)" :class="{
                                     'border-white': arr[1]
                                 }">
-                                <div>
+                                <div class="flex gap-2">
                                     <span>
-                                        6个月
+                                        {{ comboInfo[0].name }}
                                     </span>
                                     <span class=" text-[#f43f5e]">
-                                        90元
+                                        {{ comboInfo[1].price_now }}元
                                     </span>
                                 </div>
                                 <div class="text-[10px]">
@@ -173,7 +220,7 @@ onMounted(() => {
                                         原价
                                     </span>
                                     <del class="">
-                                        108元
+                                        {{ comboInfo[1].price_origin }}元
                                     </del>
                                 </div>
                             </span>
@@ -181,12 +228,12 @@ onMounted(() => {
                                 @click="funcClickSelect(3, 45, 2)" :class="{
                                     'border-white': arr[2]
                                 }">
-                                <div>
+                                <div class="flex gap-2">
                                     <span>
-                                        3个月
+                                        {{ comboInfo[2].name }}
                                     </span>
                                     <span class=" text-[#f43f5e]">
-                                        45元
+                                        {{ comboInfo[2].price_now }}元
                                     </span>
                                 </div>
                                 <div class="text-[10px]">
@@ -194,7 +241,7 @@ onMounted(() => {
                                         原价
                                     </span>
                                     <del class="">
-                                        54元
+                                        {{ comboInfo[2].price_origin }}元
                                     </del>
                                 </div>
                             </span>
@@ -202,12 +249,12 @@ onMounted(() => {
                                 @click="funcClickSelect(1, 15, 3)" :class="{
                                     'border-white': arr[3]
                                 }">
-                                <div>
+                                <div class="flex gap-2">
                                     <span>
-                                        1个月
+                                        {{ comboInfo[3].name }}
                                     </span>
                                     <span class=" text-[#f43f5e]">
-                                        15元
+                                        {{ comboInfo[3].price_now }}元
                                     </span>
                                 </div>
                                 <div class="text-[10px]">
@@ -215,7 +262,7 @@ onMounted(() => {
                                         原价
                                     </span>
                                     <del class="">
-                                        18元
+                                        {{ comboInfo[3].price_origin }}元
                                     </del>
                                 </div>
                             </span>

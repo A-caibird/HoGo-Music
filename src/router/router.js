@@ -22,7 +22,7 @@ const routes = [
     { path: '/addMusic', component: addMusic },
     { path: '/modifyMusic/:musicName', component: modifyMusic },
     { path: '/vip', component: vip },
-    { path: '/topin', component: TopIn }
+    { path: '/topin', component: TopIn },
 ];
 const router = createRouter({
     history: createWebHashHistory(),
