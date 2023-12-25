@@ -56,7 +56,7 @@ onMounted(() => {
 let MusicName = ref('') //歌曲名
 </script>
 <template>
-    <div class="container absolute inset-0 bg-slate-50  overflow-y-auto font-sans">
+    <div class="container absolute inset-0 Background overflow-y-auto font-sans">
         <div class="nav sticky inset-0 z-10" ref="realNav">
             <el-menu :default-active="defalutActiveIndex" class="el-menu-demo flex justify-around" mode="horizontal"
                 background-color="#020617" text-color="#ffffff" active-text-color="#67e8f9" @select="handleSelect"

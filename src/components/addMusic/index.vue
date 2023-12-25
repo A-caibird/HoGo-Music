@@ -65,7 +65,7 @@ function submitForm() {
 </script>
 <template>
     <div class="flex flex-col items-center ">
-        <div class="grid grid-cols-[400px_800px] h-[600px] bg-[#FCBCB8] mt-[40px]">
+        <div class="grid grid-cols-[400px_800px] h-[600px] panel mt-[40px]">
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
@@ -112,4 +112,11 @@ function submitForm() {
         </div>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+.panel {
+    background: #ee9ca7;
+    background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}</style>

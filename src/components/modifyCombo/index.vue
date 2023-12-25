@@ -41,7 +41,7 @@ onMounted(() => {
                     套餐价格设置
                 </span>
             </div>
-            <div class="row-span-1 bg-[pink] w-full px-[20px] relative ">
+            <div class="row-span-1 panel  w-full px-[20px] relative ">
                 <div class="flex flex-row gap-x-[80px] w-full mb-[1rem]">
                     <span class="w-[100px] bg-red-500 flex justify-center text-[20px] p-[2px]">
                         套餐名称
@@ -77,4 +77,12 @@ onMounted(() => {
         </div>
     </div>
 </template>
-<style scoped></style>
+<style scoped>
+.panel {
+    background: #ee9ca7;
+    background: -webkit-linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #ffdde1, #ee9ca7);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+</style>

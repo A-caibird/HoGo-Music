@@ -26,7 +26,7 @@ function handleComment() {
     commentSong({
         musicName: musicName,
         comment: yourComment.value.trim(),
-        userName:localStorage.name
+        userName: localStorage.name
     }).then(
         (res) => {
             getSongComment({
@@ -38,7 +38,7 @@ function handleComment() {
                 console.log(musicComment.value);
             }).catch((err) => {
                 console.log(err)
-            })  
+            })
         }
     ).catch((err) => {
         console.log(err);
@@ -61,9 +61,9 @@ onMounted(() => {
 </script>
 <template>
     <div class="flex flex-col items-center font-sans">
-        <div class="bg-red-100 w-[1000px] min-h-[600px] mt-[20px] box-border p-[20px] rounded-lg">
+        <div class="w-[1000px] min-h-[600px] mt-[20px] box-border p-[20px] rounded-lg ">
             <!-- 歌曲详情 -->
-            <div class="m-full h-[200px] bg-red-200 flex flex-row ">
+            <div class="m-full h-[200px] bg-[#a5f3fc] flex flex-row ">
                 <span class="box-border p-[10px] w-[200px] h-[200px] bg-yellow-50 inline-block">
                     <img class=" w-full h-full" src="/comment.png" />
                 </span>
@@ -79,26 +79,29 @@ onMounted(() => {
                             歌曲时长: {{ time }}
                         </p>
                     </div>
-                    <el-input v-model="yourComment" :rows="2" type="textarea" placeholder="留下评论,共探讨音乐的美好"
-                        class="font-san" @keydown.enter="handleComment"/>
+                    <el-input v-model="yourComment" :rows="2" type="textarea" placeholder="留下评论,共探讨音乐的美好" class="font-san"
+                        @keydown.enter="handleComment" />
                 </span>
             </div>
             <!-- 歌曲评论 -->
-            <div class="mt-[20px] " v-for="(item, index) of musicComment" :key="index">
-                <div class="">
-                    <div class="relative">
-                        <span class="text-yellow-900">
-                            {{ item.userName }}
-                        </span>
-                        <span class="font-sans text-zinc-400 text-[12px]/[12px] absolute right-0">
-                            {{ item.date }}
-                        </span>
-                    </div>
-                    <div class="min-h-[20px] w-full  rounded-md py-[10px] text-gray-500 font-serif">
-                        {{ item.commentContent }}
+            <div class="bg-[#A0F6D2] p-4">
+                <div class="mt-[20px] border-b-2 border-[#72DFD0]" v-for="(item, index) of musicComment" :key="index">
+                    <div class="">
+                        <div class="relative">
+                            <span class="text-yellow-900">
+                                {{ item.userName }}
+                            </span>
+                            <span class="font-sans text-zinc-400 text-[12px]/[12px] absolute right-0">
+                                {{ item.date }}
+                            </span>
+                        </div>
+                        <div class="min-h-[20px] w-full  rounded-md py-[10px] text-gray-500 font-serif">
+                            {{ item.commentContent }}
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </template>
@@ -116,5 +119,15 @@ onMounted(() => {
 :deep(.el-textarea__inner::placeholder) {
     color: #cbd5e1;
     @apply text-slate-300;
+}
+
+.panel {
+    background: #2980B9;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #FFFFFF, #6DD5FA, #2980B9);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #FFFFFF, #6DD5FA, #2980B9);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 </style>

@@ -84,7 +84,7 @@ function fnHandleUserActiveStatus(index, row) {
 </script>
 <template>
     <div class="flex flex-col items-center w-full ">
-        <div class="mt-[40px] bg-[white] max-h-[800px] min-h-[400px] block p-[20px]">
+        <div class="my-[40px] bg-[white] max-h-[800px] min-h-[400px] block p-[20px]">
             <div class=" bg-transparent w-full ">
                 <div
                     class="flex flex-row items-center  shadow-[0_0_2px] shadow-cyan-500/50 rounded-[20px] px-[20px] box-border">
@@ -98,11 +98,11 @@ function fnHandleUserActiveStatus(index, row) {
                 </div>
             </div>
             <div class="bg-transparent w-full mt-[20px]">
-                <el-table :data="displayTable" stripe style="width: 100%" table-layout="auto" height="600">
-                    <el-table-column prop="id" label="用户ID" width="80" />
+                <el-table :data="displayTable" stripe class="w-[1000px]" table-layout="auto" height="600">
+                    <el-table-column prop="id" label="用户ID" width="100" />
                     <el-table-column fixed prop="name" label="用户名" width="200" />
-                    <el-table-column prop="email" label="邮箱" width="200" />
-                    <el-table-column prop="password" label="密码" width="200" />
+                    <el-table-column prop="email" label="邮箱" width="300" />
+                    <el-table-column prop="password" label="密码" width="300" />
                     <el-table-column label="操作" width="260">
                         <template #default="scope">
                             <!--  通过 slot 可以获取到 row, column, $index 和 store（table 内部的状态管理）的数据，用法参考 demo。 -->

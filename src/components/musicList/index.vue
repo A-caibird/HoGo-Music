@@ -89,44 +89,6 @@ function downloadMusic(path, index) {
             offset: 100,
         })
     } else {
-        function downloadFile(url) {
-            var xhr = new XMLHttpRequest();
-            xhr.open('GET', url, true);
-            xhr.responseType = 'blob';
-
-            xhr.onload = function () {
-                if (xhr.status === 200) {
-                    var blob = xhr.response;
-                    var filename = getFilenameFromUrl(url);
-                    saveBlobAsFile(blob, filename);
-                }
-            };
-            xhr.send();
-        }
-
-        function getFilenameFromUrl(url) {
-            var index = url.lastIndexOf('/');
-            return url.substring(index + 1);
-        }
-
-        function saveBlobAsFile(blob, filename) {
-            let url = URL.createObjectURL(blob);
-            let dom = $('<a>', {
-                href: url,
-                download: filename,
-                style: {
-                    display: 'none'
-                }
-            });
-            $('body').append(dom);
-            dom.click()
-            dom.remove()
-            URL.revokeObjectURL(url);
-        }
-        $('#' + index).click(function () {
-            downloadFile(url);
-        })
-        $('#' + index).click()
     }
 }
 // 网页加载拿到数据库的音乐列表
@@ -202,7 +164,7 @@ onUnmounted(() => {
                                 <el-icon>
                                     <i-ep-Download />
                                 </el-icon>
-                                <a v-bind:href="'http://localhost:8080/music/' + item.url" download class=" visible"
+                                <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
                                     v-bind:id="index">下载文件</a>
                             </span>
                         </el-tooltip>
