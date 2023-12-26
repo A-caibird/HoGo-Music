@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API_URL = 'http://localhost:8080';
-
+axios.defaults.withCredentials = true;
 // 创建 axios 实例
 const instance = axios.create({
     baseURL: API_URL
@@ -79,7 +79,10 @@ export function getComboList() {
     return instance.get('/getComboInfo')
 }
 
-export function upgradeCombo(params){
-    return instance.post('/upgradeCombo',params)
+export function upgradeCombo(params) {
+    return instance.post('/upgradeCombo', params)
 }
 
+export function SignOut(param) {
+    return instance.post("/signout", param)
+}
