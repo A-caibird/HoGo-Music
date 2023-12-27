@@ -1,5 +1,5 @@
 <script setup>
-import { shopVip, payVip, getVipInfo } from '@/api/api.js'
+import { shopVip, payVip, getVipInfo,getComboList} from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElNotification } from 'element-plus'
@@ -96,30 +96,14 @@ onMounted(() => {
         console.error(e)
         console.log("获取vip状态错误")
     })
+    getComboList().then(res => {
+        comboInfo.value = res.data
+    }).catch(e => {
+        console.log(e)
+    })
 
-    // 通过WebSocket接收最新的套餐信息
+    // 通过WebSocket接收最新的套餐信d
     {
-        // const client = new Client({
-        //     brokerURL: 'ws://localhost:8080/websocket1',
-        //     onConnect: () => {
-        //         console.log('Connected to WebSocket');
-
-        //         client.subscribe('/topic/messages', (message) => {
-        //             const receivedMessage = message.body;
-        //             console.log('Received message:', receivedMessage);
-        //         });
-
-        //         const message = 'Hello from client!';
-        //         client.publish({ destination: '/app/messages', body: message });
-        //     },
-        // });
-
-        // client.onStompError = (frame) => {
-        //     console.error('STOMP Error:', frame);
-        // };
-
-        // client.activate();
-
         ComboSocket.onmessage = function (data) {
             let temp = JSON.parse(data.data)
             console.log(temp)
