@@ -3,6 +3,9 @@ import { shopVip, payVip, getVipInfo } from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElNotification } from 'element-plus'
+import { Client } from '@stomp/stompjs';
+import { ComboSocket } from '@/websocket/socket.js'
+
 
 const router = useRouter()
 const route = useRoute()
@@ -96,21 +99,28 @@ onMounted(() => {
 
     // 通过WebSocket接收最新的套餐信息
     {
-        let ws = null;
-        let host = window.location.host
-        console.log(host)
-        try {
-            ws = new WebSocket("ws://localhost:8080" + "/websocket/comboInfo");
-        } catch (e) {
-            console.log("错误:" + e)
-        }
+        // const client = new Client({
+        //     brokerURL: 'ws://localhost:8080/websocket1',
+        //     onConnect: () => {
+        //         console.log('Connected to WebSocket');
 
-        ws.onopen = function () {
-            const message = 'Hello from client!';
-            ws.send(message);
-        };
+        //         client.subscribe('/topic/messages', (message) => {
+        //             const receivedMessage = message.body;
+        //             console.log('Received message:', receivedMessage);
+        //         });
 
-        ws.onmessage = function (data) {
+        //         const message = 'Hello from client!';
+        //         client.publish({ destination: '/app/messages', body: message });
+        //     },
+        // });
+
+        // client.onStompError = (frame) => {
+        //     console.error('STOMP Error:', frame);
+        // };
+
+        // client.activate();
+
+        ComboSocket.onmessage = function (data) {
             let temp = JSON.parse(data.data)
             console.log(temp)
             comboInfo.value = temp.list
@@ -124,7 +134,7 @@ onMounted(() => {
             }
         };
 
-        ws.onclose = function () {
+        ComboSocket.onclose = function () {
             console.log('Disconnected from WebSocket server');
         };
     }

@@ -1,4 +1,5 @@
 import { LogIn, SignUp } from '@/api/api.js';
+import { ComboSocket } from '@/websocket/socket.js'
 import $ from 'jquery';
 // $(function(){
 //     alert("ok")
@@ -45,6 +46,10 @@ let getButtons = (e) => {
                 //设置cookie
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
+                ComboSocket.onopen = function () {
+                    const message = 'Hello from client!';
+                    this.send(message);
+                };
                 console.log(document.cookie);
                 window.location.href = "../index/index.html";
             }
