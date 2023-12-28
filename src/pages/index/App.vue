@@ -1,12 +1,15 @@
 <script setup>
 import { onMounted, ref, computed } from 'vue';
 import { useRouter, useRoute } from 'vue-router'
-const router = useRouter()
-const route = useRoute()
+import { SignOut } from '../../api/api';
 import modifyCombo from '/src/components/modifyCombo/index.vue'
 import { drawerStatus } from '@/pinia/store.js'
 
+const router = useRouter()
+const route = useRoute()
+
 const drawer = drawerStatus()
+
 // 导航栏
 const defalutActiveIndex = ref('1');
 let currentIndex = ref('1');
@@ -20,8 +23,17 @@ function handleSelect(index) {
         router.push({ path: '/mine' })
     }
     else if (index == '3-3') {
-        localStorage.removeItem('name')
-        location.href = '../login/index.html'
+
+        SignOut(
+            { name: localStorage.getItem('name') })
+            .then(res => {
+                localStorage.removeItem('name')
+                location.href = '../login/index.html'
+            })
+            .catch(e => {
+
+            })
+
     }
     else if (index == '2-4') {
         router.push({ path: '/userMange' })

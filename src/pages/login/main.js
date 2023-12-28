@@ -1,9 +1,6 @@
 import { LogIn, SignUp } from '@/api/api.js';
+import { ComboSocket } from '@/websocket/socket.js'
 import $ from 'jquery';
-// $(function(){
-//     alert("ok")
-// })
-// 获取DOM元素
 
 // 1. 样式切换按钮
 let switchCtn = document.querySelector("#switch-cnt");
@@ -42,10 +39,23 @@ let getButtons = (e) => {
             if (response.data == "success") {
                 // 存储用户信息
                 localStorage.setItem("name", UserName);
+
                 //设置cookie
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
                 console.log(document.cookie);
+
+                // 连接websocket
+                ComboSocket.onopen = function () {
+                    const message = 'Hello from client:Combo';
+                    this.send(message);
+                };
+                logoutSocket.onopen = function(){
+                    const message = 'Hello from client:logout';
+                    this.send(message); 
+                }
+
+                // 跳转
                 window.location.href = "../index/index.html";
             }
         }).catch(error => {
@@ -116,7 +126,6 @@ let changeForm = (e) => {
 let shell = (e) => {
     for (var i = 0; i < allButtons.length; i++) {
         allButtons[i].addEventListener("click", getButtons);
-
     }
 
     for (var i = 0; i < switchBtn.length; i++) {
@@ -128,24 +137,4 @@ window.addEventListener("load", function () {
     shell();
     LogIn_Name.value = "";
     LogIn_Password.value = "";
-    // // 解析cookie,自动填充表单
-    // let cookieString = document.cookie;
-
-    // // 使用正则表达式替换"_xsrf"及其后面的内容为空字符串,_xsrf这是为了提供跨站请求伪造（Cross-Site Request Forgery，CSRF）保护而使用的一种机制。
-    // cookieString = cookieString.replace(/_xsrf=.+/, '');
-    // console.log(cookieString)
-
-    // //分割字符串
-    // const cookies = cookieString.split(';');
-    // console.log(cookies)
-
-    // // 储存成Key,value的形式
-    // const parsedCookies = {};
-    // cookies.forEach(cookie => {
-    //     const [name, value] = cookie.split('=');
-    //     parsedCookies[name] = value;
-    // });
-    // console.log(parsedCookies)
-    // LogIn_Name.value = parsedCookies['name'];
-    // LogIn_Password.value = parsedCookies['password'];
 });

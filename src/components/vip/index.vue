@@ -1,8 +1,11 @@
 <script setup>
-import { shopVip, payVip, getVipInfo } from '@/api/api.js'
+import { shopVip, payVip, getVipInfo,getComboList} from '@/api/api.js'
 import { ref, onMounted, computed, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage, ElNotification } from 'element-plus'
+import { Client } from '@stomp/stompjs';
+import { ComboSocket } from '@/websocket/socket.js'
+
 
 const router = useRouter()
 const route = useRoute()
@@ -93,24 +96,15 @@ onMounted(() => {
         console.error(e)
         console.log("获取vip状态错误")
     })
+    getComboList().then(res => {
+        comboInfo.value = res.data
+    }).catch(e => {
+        console.log(e)
+    })
 
-    // 通过WebSocket接收最新的套餐信息
+    // 通过WebSocket接收最新的套餐信d
     {
-        let ws = null;
-        let host = window.location.host
-        console.log(host)
-        try {
-            ws = new WebSocket("ws://localhost:8080" + "/websocket/comboInfo");
-        } catch (e) {
-            console.log("错误:" + e)
-        }
-
-        ws.onopen = function () {
-            const message = 'Hello from client!';
-            ws.send(message);
-        };
-
-        ws.onmessage = function (data) {
+        ComboSocket.onmessage = function (data) {
             let temp = JSON.parse(data.data)
             console.log(temp)
             comboInfo.value = temp.list
@@ -124,7 +118,7 @@ onMounted(() => {
             }
         };
 
-        ws.onclose = function () {
+        ComboSocket.onclose = function () {
             console.log('Disconnected from WebSocket server');
         };
     }
