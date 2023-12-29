@@ -1,23 +1,30 @@
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
+import {ref} from 'vue'
 import $ from 'jquery'
+
 export const useAlertsStore = defineStore('pageSwitch', {
-    state: () => ({ current: 'home' }),
+    state: () => ({current: 'home'}),
 })
 
 
 // 是否打开套餐设置侧边抽屉
 export const drawerStatus = defineStore('drawer', {
     state: () => {
-        return { status: false}
-    },
-    // 也可以这样定义
+        return {status: false}
+    }, // 也可以这样定义
     // state: () => ({ count: 0 })
     actions: {
         open() {
             this.status = true;
-        },
-        close() {
+        }, close() {
             this.status = false;
         },
     },
+})
+
+// vip套餐信息
+export const vipInfo = defineStore('vipinfo', () => {
+    const vipinfo = ref(null)
+
+    return {vipinfo}
 })
