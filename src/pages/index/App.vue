@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref, computed} from 'vue';
 import {useRouter, useRoute} from 'vue-router'
-import {SignOut} from '../../api/api';
+import {SignOut} from '@/api/api.js';
 import modifyCombo from '/src/components/modifyCombo/index.vue'
 import {drawerStatus, vipInfo} from '@/pinia/store.js'
 import {ElMessage, ElNotification} from 'element-plus'
@@ -18,12 +18,11 @@ let currentIndex = ref('1');
 function handleSelect(index) {
 
     currentIndex.value = index;
-    if (index == '1') {
+    if (index === '1') {
         router.push({path: '/'})
-    } else if (index == '3-1') {
+    } else if (index === '3-1') {
         router.push({path: '/mine'})
-    } else if (index == '3-3') {
-
+    } else if (index === '3-3') {
         SignOut(
             {name: localStorage.getItem('name')})
             .then(res => {
@@ -31,20 +30,19 @@ function handleSelect(index) {
                 location.href = '../login/index.html'
             })
             .catch(e => {
-
+                console.log(e)
             })
-
-    } else if (index == '2-4') {
+    } else if (index === '2-4') {
         router.push({path: '/userMange'})
-    } else if (index == '7') {
+    } else if (index === '7') {
         router.push({path: '/aboutUs'})
-    } else if (index == '2-2') {
+    } else if (index === '2-2') {
         router.push({path: '/musicMange'})
-    } else if (index == '2-1') {
+    } else if (index === '2-1') {
         router.push({path: '/addMusic'})
-    } else if (index == '3-2') {
+    } else if (index === '3-2') {
         router.push({path: '/vip'})
-    } else if (index == '2-5') {
+    } else if (index === '2-5') {
         drawer.open()
     }
 }
@@ -53,17 +51,12 @@ function handleSelect(index) {
 let displayUserMange = ref(false)
 onMounted(() => {
     let name = localStorage.getItem('name')
-    console.log(name)
     displayUserMange = computed(() => {
-        if (name == 'root') {
-            return true
-        } else {
-            return false
-        }
+        return name === 'root';
     })
 
-
     // websockt连接
+    // 1.套餐价格修改
     const vipinfo = vipInfo()
     const ComboSocket = new WebSocket("ws://localhost:8080/websocket/comboInfo");
     ComboSocket.onmessage = function (data) {
@@ -79,18 +72,17 @@ onMounted(() => {
         if (temp.type && name !== 'root') {
             ElNotification({
                 title: '系统消息',
-                message: "VIP套餐价格变更",
+                message: "VIP套餐价格已经更新,去看看叭😀~",
                 position: 'top-left',
             })
         }
     };
-
     ComboSocket.onclose = function () {
-        console.log('Disconnected from WebSocket server');
+        console.log('Disconnected from WebSocket server --logout');
     };
 
+    // 2.下线通知
     const LogoutSocket = new WebSocket("ws://localhost:8080/websocket/logout");
-
     LogoutSocket.onmessage = function (data) {
         console.log("账户下线通告")
         ElNotification({
@@ -98,9 +90,13 @@ onMounted(() => {
             message: "在线状态已经过期,请重新登录!",
             position: 'top-left',
         })
-    };
+        localStorage.clear()
+        setTimeout(() => {
+            window.location.href = '../login/index.html'
+        }, 2000)
 
-     LogoutSocket.onclose = function () {
+    };
+    LogoutSocket.onclose = function () {
         console.log('Disconnected from WebSocket server');
     };
 })
