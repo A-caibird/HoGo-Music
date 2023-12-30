@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, computed, onUnmounted, h, render} from 'vue';
+import {onMounted, ref, computed, onUnmounted} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
 import {getSongList, getVipInfo} from '/src/api/api.js';
 import {ElMessage, ElNotification} from 'element-plus';
@@ -18,10 +18,28 @@ let playIndex = ref(-1);
 let audio = ref(null);
 
 // 音乐控件
+/**
+ * Audio Dom:播放音乐的dom
+ * @type {HTMLAudioElement}
+ */
 let audioTag = null
+/**
+ * 歌曲进度条背景
+ * @type {null|Element}
+ */
 let progressBar = null
+/**
+ * 歌曲进度条
+ * @type {null|Element}
+ */
 let progressBarFill = null
+
+/**
+ * 歌曲播放进度
+ * @type {number}
+ */
 let duration = 0
+
 $(document).ready(function () {
     audioTag = $('#audioPlayer')[0];
     progressBar = $('#progressBar');
@@ -53,11 +71,13 @@ $(document).ready(function () {
     // 播放按钮点击事件
     $('#playBtn').on('click', function () {
         audioTag.play();
+        playState.value = true;
     });
 
     // 暂停按钮点击事件
     $('#pauseBtn').on('click', function () {
         audioTag.pause();
+        playState.value = false;
     });
 
     // 停止按钮点击事件
@@ -67,34 +87,44 @@ $(document).ready(function () {
     });
 });
 
-// 新建音乐对象
+/**
+ * 创建音乐对象
+ * @constructor
+ * @param {string} path - audio src
+ * @param {number} index - 列表位置
+ * @return isVoid  - 为空
+ */
 function newMusic(path, index) {
     let url = "http://localhost:8080/music/" + path;
-    audioTag.src = url;
-    audio.value = new Audio(url);
-    audio.value.play();
+    $(audioTag).attr('src', url)
+    audioTag.play()
+
     playState.value = true;
     playIndex.value = index;
 
-    // 处理播放结束后的让播放状态修改为
-    audio.value.addEventListener('ended', () => {
+    $(audioTag).on('ended', () => {
         console.log('音频播放结束');
         playState.value = false;
-    });
-    return;
+    })
 }
 
-
+/**
+ *
+ * @param path - audio url
+ * @param index - item在列表的位置
+ * @param state - 暂停|播放
+ * @return isVoid
+ */
 function playMusic(path, index, state) {
-    if (state == 'stop') {
-        audio.value.pause();
+    if (state === 'stop') {
+        audioTag.pause();
         playState.value = false;
     } else {
-        if (index != playIndex.value) {
-            if (playIndex.value == -1) {
+        if (index !== playIndex.value) {
+            if (playIndex.value === -1) {
                 newMusic(path, index);
             }
-            audio.value.pause();
+
             playState.value = false;
             playIndex.value = index;
         }
@@ -103,12 +133,18 @@ function playMusic(path, index, state) {
 }
 
 
-// 搜索框歌曲名
+/**
+ * 搜索框歌曲名
+ * @type {Ref<UnwrapRef<string>>}
+ */
 let musicName = ref('');
 
-// 网页上显示的表格数据
+/**
+ * 网页上显示的表格数据
+ * @type {ComputedRef<Array<{ name: string, price_now: number, price_origin: number }>>}
+ */
 let displayTable = computed(() => {
-    if (musicName.value == '') {
+    if (musicName.value === '') {
         return songList.value;
     } else {
         return songList.value.filter(function (item, index) {
@@ -138,12 +174,15 @@ function downloadMusic(path, index) {
             message: '音乐下载为会员专享特权!',
             offset: 100,
         })
-    } else {
     }
 }
 
-// 网页加载拿到数据库的音乐列表
+/**
+ * 歌曲列表
+ * @type {Ref<UnwrapRef<Array<{ name: string, price_now: number, price_origin: number }>>>}
+ */
 const songList = ref([]);
+
 onMounted(() => {
     getSongList().then((res) => {
         songList.value = res.data;
@@ -163,7 +202,7 @@ onMounted(() => {
 });
 onUnmounted(() => {
     if (playState.value) {
-        audio.value.pause();
+        audioTag.pause();
     }
 })
 </script>
