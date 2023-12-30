@@ -109,6 +109,17 @@ $(document).ready(function () {
         playIndex.value = num
 
     })
+    $('#prevBtn').on('click', function () {
+        if (playIndex.value <= 0) {
+            playIndex.value = songList.value.length;
+        }
+        let num = (playIndex.value - 1) % songList.value.length;
+        let url = "http://localhost:8080/music/" + songList.value[num].url;
+        $(audioTag).attr('src', url)
+        audioTag.play()
+        playState.value = true
+        playIndex.value = num
+    })
 });
 
 
