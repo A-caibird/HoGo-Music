@@ -85,8 +85,23 @@ $(document).ready(function () {
         audioTag.pause();
         audio.currentTime = 0;
     });
+
+    // 随机播放
     $('#randomBtn').on('click', function () {
         let num = randInt(0, songList.value.length - 1)
+        let url = "http://localhost:8080/music/" + songList.value[num].url;
+        $(audioTag).attr('src', url)
+        audioTag.play()
+        playState.value = true
+        playIndex.value = num
+
+    })
+    // 下一首
+    $('#nextBtn').on('click', function () {
+        if (playIndex.value === -1) {
+            playIndex.value = 0;
+        }
+        let num = (playIndex.value + 1) % songList.value.length;
         let url = "http://localhost:8080/music/" + songList.value[num].url;
         $(audioTag).attr('src', url)
         audioTag.play()
