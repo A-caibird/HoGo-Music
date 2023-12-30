@@ -1,8 +1,8 @@
 <script setup>
-import { onMounted, ref, computed, onUnmounted, h, render } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { getSongList, getVipInfo } from '/src/api/api.js';
-import { ElMessage, ElNotification } from 'element-plus';
+import {onMounted, ref, computed, onUnmounted, h, render} from 'vue';
+import {useRouter, useRoute} from 'vue-router';
+import {getSongList, getVipInfo} from '/src/api/api.js';
+import {ElMessage, ElNotification} from 'element-plus';
 import $ from 'jquery';
 import axios from 'axios';
 
@@ -38,8 +38,7 @@ function playMusic(path, index, state) {
     if (state == 'stop') {
         audio.value.pause();
         playState.value = false;
-    }
-    else {
+    } else {
         if (index != playIndex.value) {
             if (playIndex.value == -1) {
                 newMusic(path, index);
@@ -60,8 +59,7 @@ let musicName = ref('');
 let displayTable = computed(() => {
     if (musicName.value == '') {
         return songList.value;
-    }
-    else {
+    } else {
         return songList.value.filter(function (item, index) {
             if (item.musicName.includes(musicName.value)) {
                 return item;
@@ -80,6 +78,7 @@ function goToMusicHome(name, time, singer) {
         path: pathUrl,
     });
 }
+
 function downloadMusic(path, index) {
     let url = "http://localhost:8080/music/" + path;
     if (!isVip.value) {
@@ -91,6 +90,7 @@ function downloadMusic(path, index) {
     } else {
     }
 }
+
 // 网页加载拿到数据库的音乐列表
 const songList = ref([]);
 onMounted(() => {
@@ -117,36 +117,38 @@ onUnmounted(() => {
 })
 </script>
 <template>
-    <div class="container flex flex-col items-center w-full font-sans">
+    <div class="container flex flex-col items-center w-full font-sans relative">
         <!-- 搜索框 -->
         <div class="bg-[white]  w-[1050px]   mt-[40px] rounded-[20px] p-2 flex flex-row  items-center"
-            style="font-family:inherit;">
-            <el-icon><i-ep-Search /></el-icon>
+             style="font-family:inherit;">
+            <el-icon>
+                <i-ep-Search/>
+            </el-icon>
             <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
-                input-style="font-family:PingFang SC;color:">
+                      input-style="font-family:PingFang SC;color:">
             </el-input>
         </div>
         <!-- 音乐部分 -->
-        <div class="mt-[20px] " ref="musicList">
+        <div class="mt-[20px] h-[600px] overflow-auto relative" ref="musicList">
             <!-- 歌曲头部 -->
-            <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]">
+            <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px] fixed">
                 <div class=" w-[560px]">歌曲名</div>
                 <div class=" w-[280px]">专辑/歌手</div>
                 <div class=" w-[160px] flex flex-row justify-end">
                     时长
                 </div>
             </div>
-            <!-- 歌曲列表 -->
-            <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group" v-for="(item, index) of displayTable"
-                :key="index" :class="{ 'drop-shadow-lg': (playState == true) && playIndex == index }">
-                <div class=" w-[560px]">{{ item.musicName }}</div>
-                <div class=" w-[280px]">{{ item.singerName_album }}</div>
-                <div class=" w-[160px] flex flex-row justify-end items-center">
+            <div class=" h-[600px] overflow-auto">
+                <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group " v-for="(item, index) of displayTable"
+                     :key="index" :class="{ 'drop-shadow-lg': (playState == true) && playIndex == index }">
+                    <div class=" w-[560px]">{{ item.musicName }}</div>
+                    <div class=" w-[280px]">{{ item.singerName_album }}</div>
+                    <div class=" w-[160px] flex flex-row justify-end items-center">
                     <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
                         <template v-if="(playState == true) && playIndex == index">
                             <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
                                 <span @click="playMusic(item.url, index, 'stop')" class="stop">
-                                    <el-icon><i-ep-VideoPause /></el-icon>
+                                    <el-icon><i-ep-VideoPause/></el-icon>
                                 </span>
                             </el-tooltip>
                         </template>
@@ -154,7 +156,7 @@ onUnmounted(() => {
                             <el-tooltip class="box-item" effect="dark" content="开始播放" placement="top-start">
                                 <span @click="playMusic(item.url, index, 'play')">
                                     <el-icon>
-                                        <i-ep-VideoPlay />
+                                        <i-ep-VideoPlay/>
                                     </el-icon>
                                 </span>
                             </el-tooltip>
@@ -162,32 +164,86 @@ onUnmounted(() => {
                         <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
                             <span @click="downloadMusic(item.url, index)">
                                 <el-icon>
-                                    <i-ep-Download />
+                                    <i-ep-Download/>
                                 </el-icon>
                                 <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
-                                    v-bind:id="index">下载文件</a>
+                                   v-bind:id="index">下载文件</a>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
                             <span>
                                 <el-icon>
-                                    <i-ep-Star />
+                                    <i-ep-Star/>
                                 </el-icon>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="评论单曲" placement="top-start">
                             <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
                                 <el-icon>
-                                    <i-ep-Comment />
+                                    <i-ep-Comment/>
                                 </el-icon>
                             </span>
                         </el-tooltip>
                     </span>
-                    <span>
+                        <span>
                         {{ item.timeLength }}
                     </span>
+                    </div>
+                </div>
+                <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group " v-for="(item, index) of displayTable"
+                     :key="index" :class="{ 'drop-shadow-lg': (playState == true) && playIndex == index }">
+                    <div class=" w-[560px]">{{ item.musicName }}</div>
+                    <div class=" w-[280px]">{{ item.singerName_album }}</div>
+                    <div class=" w-[160px] flex flex-row justify-end items-center">
+                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
+                        <template v-if="(playState == true) && playIndex == index">
+                            <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
+                                <span @click="playMusic(item.url, index, 'stop')" class="stop">
+                                    <el-icon><i-ep-VideoPause/></el-icon>
+                                </span>
+                            </el-tooltip>
+                        </template>
+                        <template v-else>
+                            <el-tooltip class="box-item" effect="dark" content="开始播放" placement="top-start">
+                                <span @click="playMusic(item.url, index, 'play')">
+                                    <el-icon>
+                                        <i-ep-VideoPlay/>
+                                    </el-icon>
+                                </span>
+                            </el-tooltip>
+                        </template>
+                        <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
+                            <span @click="downloadMusic(item.url, index)">
+                                <el-icon>
+                                    <i-ep-Download/>
+                                </el-icon>
+                                <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
+                                   v-bind:id="index">下载文件</a>
+                            </span>
+                        </el-tooltip>
+                        <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
+                            <span>
+                                <el-icon>
+                                    <i-ep-Star/>
+                                </el-icon>
+                            </span>
+                        </el-tooltip>
+                        <el-tooltip class="box-item" effect="dark" content="评论单曲" placement="top-start">
+                            <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
+                                <el-icon>
+                                    <i-ep-Comment/>
+                                </el-icon>
+                            </span>
+                        </el-tooltip>
+                    </span>
+                        <span>
+                        {{ item.timeLength }}
+                    </span>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div class="bg-amber-200 absolute w-[200px] h-[40px] left-0 top-[400px] rounded-r-full">
         </div>
     </div>
 </template>
@@ -196,11 +252,31 @@ onUnmounted(() => {
     color: #64748b !important;
 }
 
-:deep(.stop>.el-icon) {
+.stop > :deep(.el-icon) {
     color: red !important;
 }
 
 :deep(.el-input__wrapper) {
     box-shadow: none !important;
+}
+
+/* 设置滚动条的样式 */
+::-webkit-scrollbar {
+    width:8px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius:10px;
+    @apply bg-[#a5f3fc];
+}
+::-webkit-scrollbar-thumb {
+    border-radius:10px;
+    background:rgba(0,0,0,0.1);
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+    background:#60a5fa;
+
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    @apply bg-cyan-700;
 }
 </style>
