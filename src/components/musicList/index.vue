@@ -42,6 +42,7 @@ let duration = 0
 
 $(document).ready(function () {
     audioTag = $('#audioPlayer')[0];
+    // console.log(audioTag,$(audioTag))
     progressBar = $('#progressBar');
     progressBarFill = progressBar.find('.progress-bar-fill');
     duration = 0;
@@ -58,6 +59,11 @@ $(document).ready(function () {
     $(audioTag).on('timeupdate', function () {
         let progress = (audioTag.currentTime / duration);
         $(progressBarFill).width(173 * progress)
+    });
+
+    // 播放完,进度条设置为0
+    $(audioTag).on('ended', function () {
+        $(progressBarFill).width(0)
     });
 
     // 点击进度条跳转到相应位置

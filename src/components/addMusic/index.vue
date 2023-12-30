@@ -26,7 +26,7 @@ function submitForm() {
         })
         return;
     }
-    if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
+    if (modifyAlbumName.value.trim() === '' || modifyMusicName.value.trim() === '' || modifyLength.value.trim() === '') {
         ElMessage({
             message: '请完善歌曲信息!',
             type: 'warning',
@@ -86,7 +86,7 @@ function submitForm() {
                     </div>
                     <div class="flex items-center mt-[20px]">
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]">歌手/专辑名</div>
-                        <el-input v-model="modifyAlbumName" placeholder="歌曲名" />
+                        <el-input v-model="modifyAlbumName" placeholder="歌手名" />
                     </div>
                     <div class="flex items-center mt-[20px]">
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 时长</div>
@@ -98,7 +98,7 @@ function submitForm() {
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
                         <span class="font-serif text-[12px]"
-                            :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                            :class="{ 'text-[#ef4444]': musicFileName === '请点击左侧按钮选择音频文件' }">{{ musicFileName
                             }}</span>
                     </div>
                 </div>
