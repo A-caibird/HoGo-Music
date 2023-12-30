@@ -251,9 +251,11 @@ onUnmounted(() => {
                 </div>
             </div>
             <div class="controls  flex flex-row justify-between pl-[5px] pr-[20px]">
+                <button id="prevBtn" class="btn btn-primary"><i class="fas fa-step-backward"></i></button>
+                <button id="randomBtn" class="btn btn-primary"><i class="fas fa-random"></i></button>
                 <button id="playBtn" class="btn btn-primary"><i class="fas fa-play"></i></button>
                 <button id="pauseBtn" class="btn btn-primary"><i class="fas fa-pause"></i></button>
-                <button id="stopBtn" class="btn btn-primary"><i class="fas fa-stop"></i></button>
+                <button id="nextBtn" class="btn btn-primary"><i class="fas fa-step-forward"></i></button>
             </div>
         </div>
     </div>
