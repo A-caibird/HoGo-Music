@@ -16,7 +16,6 @@ const defalutActiveIndex = ref('1');
 let currentIndex = ref('1');
 
 function handleSelect(index) {
-
     currentIndex.value = index;
     if (index === '1') {
         router.push({path: '/'})
@@ -26,7 +25,7 @@ function handleSelect(index) {
         SignOut(
             {name: localStorage.getItem('name')})
             .then(res => {
-                localStorage.removeItem('name')
+                localStorage.clear()
                 location.href = '../login/index.html'
             })
             .catch(e => {
@@ -85,11 +84,8 @@ onMounted(() => {
     const LogoutSocket = new WebSocket("ws://localhost:8080/websocket/logout");
     LogoutSocket.onmessage = function (data) {
         console.log("账户下线通告")
-        ElNotification({
-            title: '系统消息',
-            message: "在线状态已经过期,请重新登录!",
-            position: 'top-left',
-        })
+        ElMessage.error("在线状态已经过期,即将跳转到登录页面,请重新登录!")
+
         localStorage.clear()
         setTimeout(() => {
             window.location.href = '../login/index.html'
