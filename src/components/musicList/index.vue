@@ -120,7 +120,7 @@ onUnmounted(() => {
     <div class="container flex flex-col items-center w-full font-sans">
         <!-- 搜索框 -->
         <div class="bg-[white]  w-[1050px]   mt-[40px] rounded-[20px] p-2 flex flex-row  items-center"
-            style="font-family: ;">
+            style="font-family:inherit;">
             <el-icon><i-ep-Search /></el-icon>
             <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
                 input-style="font-family:PingFang SC;color:">

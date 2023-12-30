@@ -51,7 +51,6 @@ function handleSelect(index) {
 
 // 获取存储的用户信息
 let displayUserMange = ref(false)
-const vipinfo = vipInfo()
 onMounted(() => {
     let name = localStorage.getItem('name')
     console.log(name)
@@ -65,7 +64,7 @@ onMounted(() => {
 
 
     // websockt连接
-
+    const vipinfo = vipInfo()
     const ComboSocket = new WebSocket("ws://localhost:8080/websocket/comboInfo");
     ComboSocket.onmessage = function (data) {
         let temp = JSON.parse(data.data)
@@ -90,7 +89,20 @@ onMounted(() => {
         console.log('Disconnected from WebSocket server');
     };
 
+    const LogoutSocket = new WebSocket("ws://localhost:8080/websocket/logout");
 
+    LogoutSocket.onmessage = function (data) {
+        console.log("账户下线通告")
+        ElNotification({
+            title: '系统消息',
+            message: "在线状态已经过期,请重新登录!",
+            position: 'top-left',
+        })
+    };
+
+     LogoutSocket.onclose = function () {
+        console.log('Disconnected from WebSocket server');
+    };
 })
 </script>
 <template>
