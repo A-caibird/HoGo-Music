@@ -243,7 +243,18 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        <div class="bg-amber-200 absolute w-[200px] h-[40px] left-0 top-[400px] rounded-r-full">
+        <div class="bg-amber-200 absolute w-[200px] h-[60px] left-0 top-[400px] rounded-r-full py-[10px]">
+            <audio id="audioPlayer" src="http://localhost:8080/music/1.mp3" class="hidden"></audio>
+            <div class="progress pl-[5px] pr-[20px]">
+                <div id="progressBar" class="progress-bar">
+                    <div class="progress-bar-fill"></div>
+                </div>
+            </div>
+            <div class="controls  flex flex-row justify-between pl-[5px] pr-[20px]">
+                <button id="playBtn" class="btn btn-primary"><i class="fas fa-play"></i></button>
+                <button id="pauseBtn" class="btn btn-primary"><i class="fas fa-pause"></i></button>
+                <button id="stopBtn" class="btn btn-primary"><i class="fas fa-stop"></i></button>
+            </div>
         </div>
     </div>
 </template>
@@ -262,21 +273,35 @@ onUnmounted(() => {
 
 /* 设置滚动条的样式 */
 ::-webkit-scrollbar {
-    width:8px;
+    width: 8px;
 }
+
 ::-webkit-scrollbar-track {
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
-    border-radius:10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     @apply bg-[#a5f3fc];
 }
+
 ::-webkit-scrollbar-thumb {
-    border-radius:10px;
-    background:rgba(0,0,0,0.1);
-    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
-    background:#60a5fa;
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0.1);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+    background: #60a5fa;
 
 }
+
 ::-webkit-scrollbar-thumb:window-inactive {
     @apply bg-cyan-700;
+}
+
+.progress-bar {
+    cursor: pointer;
+    height: 10px;
+    background-color: #ccc;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #007bff;
 }
 </style>
