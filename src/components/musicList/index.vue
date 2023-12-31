@@ -6,7 +6,7 @@ import {ElMessage, ElNotification} from 'element-plus';
 import $ from 'jquery';
 import axios from 'axios'
 import {randInt} from "three/src/math/MathUtils.js";
-import FileSaver from 'file-saver'
+import {saveAs} from 'file-saver';
 
 const router = useRouter();
 const route = useRoute();
@@ -138,7 +138,7 @@ function goToMusicHome(name, time, singer) {
 }
 
 function downloadMusic(path, index) {
-    let url = "http://localhost:8080/music/" + path;
+    let url = "http://localhost:5173/download/music/" + path;
     if (!isVip.value) {
         ElNotification.warning({
             title: '提醒',
@@ -147,25 +147,24 @@ function downloadMusic(path, index) {
         })
         return;
     }
-    // axios({
-    //     url,
-    //     method: 'GET',
-    //     responseType: 'blob', // 指定响应数据类型为Blob
-    // }).then(response => {
-    //     const url = window.URL.createObjectURL(new Blob([response.data]));
-    //     const link = document.createElement('a');
-    //     link.href = url;
-    //     link.setAttribute('download', path);
-    //     document.body.appendChild(link);
-    //     link.click();
-    //
-    //     // 清理URL对象和链接元素
-    //     window.URL.revokeObjectURL(url);
-    //     document.body.removeChild(link);
-    // }).catch(error => {
-    //     console.error(error);
-    //     // 处理错误
-    // });
+
+    axios.get(url, {responseType: 'arraybuffer'})
+        .then(response => {
+            // 处理响应数据
+            const audioData = response.data;
+            console.log(audioData)
+
+            // 创建Blob对象
+            const blob = new Blob([audioData], {type: 'audio/mp3'});
+
+            // 保存文件
+            saveAs(blob, 'audio.mp3');
+            console.log('音频文件获取成功！');
+        })
+        .catch(error => {
+            // 处理错误
+            console.error('音频文件获取失败:', error);
+        });
 }
 
 /**
@@ -311,9 +310,9 @@ onMounted(function () {
 
 })
 onUnmounted(() => {
-    if (playState.value) {
-        audioTag.pause();
-    }
+    // if (playState.value) {
+    //     audioTag.pause();
+    // }
 })
 </script>
 <template>
@@ -365,11 +364,11 @@ onUnmounted(() => {
                         </template>
                         <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
                             <span @click="downloadMusic(item.url, index)">
-                                <el-icon>
+                                <el-icon @click="downloadMusic(item.url,index)">
                                     <i-ep-Download/>
                                 </el-icon>
                                 <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
-                                   v-bind:id="index+'musicdowload'" @click="downloadMusic(item.url,index)">下载文件</a>
+                                   v-bind:id="index+'musicdowload'">下载文件</a>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
