@@ -267,9 +267,9 @@ onUnmounted(() => {
                 </el-input>
             </div>
             <!-- 音乐部分 -->
-            <div class="mt-[20px]  bg-[#ecfeff]" ref="musicList">
+            <div class="mt-[20px]  bg-[#ecfeff]" ref="musicList" id="tou">
                 <!-- 歌曲头部 -->
-                <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]">
+                <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]" >
                     <div class=" w-[560px]">歌曲名</div>
                     <div class=" w-[280px]">专辑/歌手</div>
                     <div class=" w-[160px] flex flex-row justify-end">
@@ -426,16 +426,102 @@ onUnmounted(() => {
 }
 
 .playing {
-    @apply border-y-8;
-    @apply border-amber-50;
     @apply drop-shadow-lg;
-    @apply bg-[#7BD3EA];
-    @apply bg-opacity-80;
     @apply rounded-xl;
     animation-name: colorAnimation;
     animation-duration: 4s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
+    transition: all 4s linear;
 }
 
+
+#tou {
+    font-family: 'Quicksand', sans-serif;
+    margin: 0;
+    min-height: 10px;
+    background-color: #e493d0;
+    background-image: radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
+    radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
+    radial-gradient(closest-side, rgba(254, 234, 131, 1), rgba(254, 234, 131, 0)),
+    radial-gradient(closest-side, rgba(170, 142, 245, 1), rgba(170, 142, 245, 0)),
+    radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
+    background-size: 130vmax 130vmax,
+    80vmax 80vmax,
+    90vmax 90vmax,
+    110vmax 110vmax,
+    90vmax 90vmax;
+    background-position: -80vmax -80vmax,
+    60vmax -30vmax,
+    10vmax 10vmax,
+    -30vmax -10vmax,
+    50vmax 50vmax;
+    background-repeat: no-repeat;
+    animation: 10s movement linear infinite;
+}
+
+#tou::after {
+    content: '';
+    display: block;
+    position: fixed;
+    //width: 100%;
+    //height: 100%;
+    top: 0;
+    left: 0;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+
+
+@keyframes movement {
+    0%, 100% {
+        background-size: 130vmax 130vmax,
+        80vmax 80vmax,
+        90vmax 90vmax,
+        110vmax 110vmax,
+        90vmax 90vmax;
+        background-position: -80vmax -80vmax,
+        60vmax -30vmax,
+        10vmax 10vmax,
+        -30vmax -10vmax,
+        50vmax 50vmax;
+    }
+    25% {
+        background-size: 100vmax 100vmax,
+        90vmax 90vmax,
+        100vmax 100vmax,
+        90vmax 90vmax,
+        60vmax 60vmax;
+        background-position: -60vmax -90vmax,
+        50vmax -40vmax,
+        0vmax -20vmax,
+        -40vmax -20vmax,
+        40vmax 60vmax;
+    }
+    50% {
+        background-size: 80vmax 80vmax,
+        110vmax 110vmax,
+        80vmax 80vmax,
+        60vmax 60vmax,
+        80vmax 80vmax;
+        background-position: -50vmax -70vmax,
+        40vmax -30vmax,
+        10vmax 0vmax,
+        20vmax 10vmax,
+        30vmax 70vmax;
+    }
+    75% {
+        background-size: 90vmax 90vmax,
+        90vmax 90vmax,
+        100vmax 100vmax,
+        90vmax 90vmax,
+        70vmax 70vmax;
+        background-position: -50vmax -40vmax,
+        50vmax -30vmax,
+        20vmax 0vmax,
+        -10vmax 10vmax,
+        40vmax 60vmax;
+    }
+}
 </style>

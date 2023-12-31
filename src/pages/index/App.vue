@@ -58,7 +58,15 @@ onMounted(() => {
     // 1.套餐价格修改
     const vipinfo = vipInfo()
     const ComboSocket = new WebSocket("ws://localhost:8080/websocket/comboInfo");
+    setInterval(function () {
+        ComboSocket.send("heartbeat")
+    }, 60 * 1000 * 3)
+
     ComboSocket.onmessage = function (data) {
+        if (data.data === "receive heartbeat") {
+            return;
+        }
+
         let temp = JSON.parse(data.data)
         console.log(temp)
 
@@ -81,16 +89,20 @@ onMounted(() => {
     };
 
     // 2.下线通知
-    const LogoutSocket = new WebSocket("ws://localhost:8080/websocket/logout");
+    const LogoutSocket = new WebSocket("ws://localhost:8080/websocket/logout")
+    setInterval(function () {
+        LogoutSocket.send("heartbeat")
+    }, 60 * 1000 * 3)
     LogoutSocket.onmessage = function (data) {
-        console.log("账户下线通告")
-        ElMessage.error("在线状态已经过期,即将跳转到登录页面,请重新登录!")
+        if (data === 'logout') {
+            alert("账户下线通告")
+            ElMessage.error("在线状态已经过期,即将跳转到登录页面,请重新登录!")
 
-        localStorage.clear()
-        setTimeout(() => {
-            window.location.href = '../login/index.html'
-        }, 2000)
-
+            localStorage.clear()
+            setTimeout(() => {
+                window.location.href = '../login/index.html'
+            }, 2000)
+        }
     };
     LogoutSocket.onclose = function () {
         console.log('Disconnected from WebSocket server');
