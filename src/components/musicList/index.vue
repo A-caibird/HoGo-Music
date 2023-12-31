@@ -40,94 +40,6 @@ let progressBarFill = null
  */
 let duration = 0
 
-$(document).ready(function () {
-    audioTag = $('#audioPlayer')[0];
-    // console.log(audioTag,$(audioTag))
-    progressBar = $('#progressBar');
-    progressBarFill = progressBar.find('.progress-bar-fill');
-    duration = 0;
-
-    // 进度条初始状态
-    $(progressBarFill).width(0)
-
-    // 音频加载完成时获取音频时长
-    $(audioTag).on('loadedmetadata', function () {
-        duration = audioTag.duration;
-    });
-
-    // 更新进度条位置
-    $(audioTag).on('timeupdate', function () {
-        let progress = (audioTag.currentTime / duration);
-        $(progressBarFill).width(173 * progress)
-    });
-
-    // 播放完,进度条设置为0
-    $(audioTag).on('ended', function () {
-        $(progressBarFill).width(0)
-    });
-
-    // 点击进度条跳转到相应位置
-    progressBar.on('click', function (event) {
-        let progressWidth = progressBar.width();
-        let clickX = event.offsetX;
-        let seekTime = (clickX / progressWidth) * duration;
-        audioTag.currentTime = seekTime;
-    });
-
-    // 播放按钮点击事件
-    $('#playBtn').on('click', function () {
-        audioTag.play();
-        playState.value = true;
-    });
-
-    // 暂停按钮点击事件
-    $('#pauseBtn').on('click', function () {
-        audioTag.pause();
-        playState.value = false;
-    });
-
-    // 停止按钮点击事件
-    $('#stopBtn').on('click', function () {
-        audioTag.pause();
-        audio.currentTime = 0;
-    });
-
-    // 随机播放
-    $('#randomBtn').on('click', function () {
-        let num = randInt(0, songList.value.length - 1)
-        let url = "http://localhost:8080/music/" + songList.value[num].url;
-        $(audioTag).attr('src', url)
-        audioTag.play()
-        playState.value = true
-        playIndex.value = num
-
-    })
-    // 下一首
-    $('#nextBtn').on('click', function () {
-        if (playIndex.value === -1) {
-            playIndex.value = 0;
-        }
-        let num = (playIndex.value + 1) % songList.value.length;
-        let url = "http://localhost:8080/music/" + songList.value[num].url;
-        $(audioTag).attr('src', url)
-        audioTag.play()
-        playState.value = true
-        playIndex.value = num
-
-    })
-    $('#prevBtn').on('click', function () {
-        if (playIndex.value <= 0) {
-            playIndex.value = songList.value.length;
-        }
-        let num = (playIndex.value - 1) % songList.value.length;
-        let url = "http://localhost:8080/music/" + songList.value[num].url;
-        $(audioTag).attr('src', url)
-        audioTag.play()
-        playState.value = true
-        playIndex.value = num
-    })
-});
-
 
 /**
  * 创建音乐对象
@@ -247,6 +159,98 @@ onMounted(() => {
         console.log("获取vip状态错误")
     })
 });
+
+onMounted(function () {
+    $(document).ready(function () {
+        audioTag = $('#audioPlayer')[0];
+        // console.log(audioTag,$(audioTag))
+        progressBar = $('#progressBar');
+        progressBarFill = $(progressBar).find('.progress-bar-fill');
+
+        duration = 0;
+
+        // 进度条初始状态
+        $(progressBarFill).width(0)
+
+        // 音频加载完成时获取音频时长
+        $(audioTag).on('loadedmetadata', function () {
+            duration = audioTag.duration;
+        });
+
+        // 更新进度条位置
+        $(audioTag).on('timeupdate', function () {
+            let progress = (audioTag.currentTime / duration);
+            $(progressBarFill).width(173 * progress)
+        });
+
+        // 播放完,进度条设置为0
+        $(audioTag).on('ended', function () {
+            $(progressBarFill).width(0)
+        });
+
+        // 点击进度条跳转到相应位置
+        progressBar.on('click', function (event) {
+            let progressWidth = progressBar.width();
+            let clickX = event.offsetX;
+            let seekTime = (clickX / progressWidth) * duration;
+            audioTag.currentTime = seekTime;
+        });
+
+        // 播放按钮点击事件
+        $('#playBtn').on('click', function () {
+            audioTag.play();
+            playState.value = true;
+        });
+
+        // 暂停按钮点击事件
+        $('#pauseBtn').on('click', function () {
+            audioTag.pause();
+            playState.value = false;
+        });
+
+        // 停止按钮点击事件
+        $('#stopBtn').on('click', function () {
+            audioTag.pause();
+            audio.currentTime = 0;
+        });
+
+        // 随机播放
+        $('#randomBtn').on('click', function () {
+            let num = randInt(0, songList.value.length - 1)
+            let url = "http://localhost:8080/music/" + songList.value[num].url;
+            $(audioTag).attr('src', url)
+            audioTag.play()
+            playState.value = true
+            playIndex.value = num
+
+        })
+        // 下一首
+        $('#nextBtn').on('click', function () {
+            if (playIndex.value === -1) {
+                playIndex.value = 0;
+            }
+            let num = (playIndex.value + 1) % songList.value.length;
+            let url = "http://localhost:8080/music/" + songList.value[num].url;
+            $(audioTag).attr('src', url)
+            audioTag.play()
+            playState.value = true
+            playIndex.value = num
+
+        })
+        $('#prevBtn').on('click', function () {
+            if (playIndex.value <= 0) {
+                playIndex.value = songList.value.length;
+            }
+            let num = (playIndex.value - 1) % songList.value.length;
+            let url = "http://localhost:8080/music/" + songList.value[num].url;
+            $(audioTag).attr('src', url)
+            audioTag.play()
+            playState.value = true
+            playIndex.value = num
+        })
+    });
+
+})
 onUnmounted(() => {
     if (playState.value) {
         audioTag.pause();
@@ -269,7 +273,7 @@ onUnmounted(() => {
             <!-- 音乐部分 -->
             <div class="mt-[20px]  bg-[#ecfeff]" ref="musicList" id="tou">
                 <!-- 歌曲头部 -->
-                <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]" >
+                <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]">
                     <div class=" w-[560px]">歌曲名</div>
                     <div class=" w-[280px]">专辑/歌手</div>
                     <div class=" w-[160px] flex flex-row justify-end">
@@ -335,8 +339,8 @@ onUnmounted(() => {
         <div class="bg-amber-200 absolute w-[200px] h-[60px] left-0 top-[400px] rounded-r-full py-[10px]">
             <audio id="audioPlayer" src="http://localhost:8080/music/1.mp3" class="hidden"></audio>
             <div class="progress pl-[7px] pr-[20px]">
-                <div id="progressBar" class="progress-bar">
-                    <div class="progress-bar-fill"></div>
+                <div id="progressBar" class="progress-bar rounded-full">
+                    <div class="progress-bar-fill rounded-full"></div>
                 </div>
             </div>
             <div class="controls  flex flex-row justify-between pl-[7px] pr-[20px]">
@@ -471,7 +475,6 @@ onUnmounted(() => {
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
-
 
 
 @keyframes movement {
