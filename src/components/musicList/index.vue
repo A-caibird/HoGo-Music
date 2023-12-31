@@ -4,7 +4,9 @@ import {useRouter, useRoute} from 'vue-router';
 import {getSongList, getVipInfo} from '/src/api/api.js';
 import {ElMessage, ElNotification} from 'element-plus';
 import $ from 'jquery';
+import axios from 'axios'
 import {randInt} from "three/src/math/MathUtils.js";
+import FileSaver from 'file-saver'
 
 const router = useRouter();
 const route = useRoute();
@@ -16,6 +18,7 @@ let playIndex = ref(-1);
 
 // 音乐对象
 let audio = ref(null);
+
 
 // 音乐控件
 /**
@@ -33,6 +36,13 @@ let progressBar = null
  * @type {null|Element}
  */
 let progressBarFill = null
+
+let textContainer = null
+
+let textWrapper = null
+
+let scrollingText = null
+
 
 /**
  * 歌曲播放进度
@@ -55,6 +65,7 @@ function newMusic(path, index) {
 
     playState.value = true;
     playIndex.value = index;
+    $(scrollingText).html(songList.value[index].musicName)
 
     $(audioTag).on('ended', () => {
         console.log('音频播放结束');
@@ -81,6 +92,7 @@ function playMusic(path, index, state) {
 
             playState.value = false;
             playIndex.value = index;
+            $(scrollingText).html(songList.value[index].musicName)
         }
         newMusic(path, index);
     }
@@ -133,7 +145,27 @@ function downloadMusic(path, index) {
             message: '音乐下载为会员专享特权!',
             offset: 100,
         })
+        return;
     }
+    // axios({
+    //     url,
+    //     method: 'GET',
+    //     responseType: 'blob', // 指定响应数据类型为Blob
+    // }).then(response => {
+    //     const url = window.URL.createObjectURL(new Blob([response.data]));
+    //     const link = document.createElement('a');
+    //     link.href = url;
+    //     link.setAttribute('download', path);
+    //     document.body.appendChild(link);
+    //     link.click();
+    //
+    //     // 清理URL对象和链接元素
+    //     window.URL.revokeObjectURL(url);
+    //     document.body.removeChild(link);
+    // }).catch(error => {
+    //     console.error(error);
+    //     // 处理错误
+    // });
 }
 
 /**
@@ -160,13 +192,22 @@ onMounted(() => {
     })
 });
 
+
 onMounted(function () {
-    $(document).ready(function () {
+    $(function () {
         audioTag = $('#audioPlayer')[0];
-        // console.log(audioTag,$(audioTag))
+
         progressBar = $('#progressBar');
+
         progressBarFill = $(progressBar).find('.progress-bar-fill');
 
+        textContainer = $('#textContainer');
+
+        textWrapper = $('#textWrapper');
+
+        scrollingText = $('#scrollingText');
+    })
+    $(document).ready(function () {
         duration = 0;
 
         // 进度条初始状态
@@ -180,7 +221,7 @@ onMounted(function () {
         // 更新进度条位置
         $(audioTag).on('timeupdate', function () {
             let progress = (audioTag.currentTime / duration);
-            $(progressBarFill).width(173 * progress)
+            $(progressBarFill).width($(progressBar).width() * progress)
         });
 
         // 播放完,进度条设置为0
@@ -222,7 +263,7 @@ onMounted(function () {
             audioTag.play()
             playState.value = true
             playIndex.value = num
-
+            $(scrollingText).html(songList.value[num].musicName)
         })
         // 下一首
         $('#nextBtn').on('click', function () {
@@ -235,6 +276,7 @@ onMounted(function () {
             audioTag.play()
             playState.value = true
             playIndex.value = num
+            $(scrollingText).html(songList.value[num].musicName)
 
         })
         $('#prevBtn').on('click', function () {
@@ -247,8 +289,25 @@ onMounted(function () {
             audioTag.play()
             playState.value = true
             playIndex.value = num
+            $(scrollingText).html(songList.value[num].musicName)
         })
     });
+
+    $(function () {
+        $(document).ready(function () {
+            // 动态设置文本容器宽度为文本内容的宽度
+            let textWidth = $(progressBar).width()
+            textContainer.width(textWidth);
+
+
+            // 当窗口大小改变时，重新计算文本容器宽度
+            $(window).resize(function () {
+                textWidth = scrollingText.width();
+                textContainer.width(textWidth);
+            });
+        });
+
+    })
 
 })
 onUnmounted(() => {
@@ -280,7 +339,7 @@ onUnmounted(() => {
                         时长
                     </div>
                 </div>
-                <div class=" h-[540px] overflow-auto relative">
+                <div class=" h-[640px] overflow-auto relative">
                     <div class="flex flex-row px-[25px] py-[10px] group  ease-linear duration-[800ms]" v-for="(item, index) of displayTable"
                          :key="index"
                          :class="{ 'playing': (playState === true) && playIndex === index}" :id="'music'+index">
@@ -310,7 +369,7 @@ onUnmounted(() => {
                                     <i-ep-Download/>
                                 </el-icon>
                                 <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
-                                   v-bind:id="index">下载文件</a>
+                                   v-bind:id="index+'musicdowload'" @click="downloadMusic(item.url,index)">下载文件</a>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
@@ -336,14 +395,20 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        <div class="bg-amber-200 absolute w-[200px] h-[60px] left-0 top-[400px] rounded-r-full py-[10px]">
+        <div class="bg-amber-200 absolute w-[260px] h-[100px] left-0 top-[400px] rounded-r-full py-[10px] pl-[7px] pr-[30px] z-10">
+            <div id="textContainer" class="mb-[20px]">
+                <div id="textWrapper">
+                    <span id="scrollingText">暂无歌曲播放,听听试试看吧</span>
+                </div>
+            </div>
+
             <audio id="audioPlayer" src="http://localhost:8080/music/1.mp3" class="hidden"></audio>
-            <div class="progress pl-[7px] pr-[20px]">
+            <div class="progress ">
                 <div id="progressBar" class="progress-bar rounded-full">
                     <div class="progress-bar-fill rounded-full"></div>
                 </div>
             </div>
-            <div class="controls  flex flex-row justify-between pl-[7px] pr-[20px]">
+            <div class="controls  flex flex-row justify-between  mb-[8px] mt-[5px]">
                 <button id="prevBtn" class="btn btn-primary"><i class="fas fa-step-backward"></i></button>
                 <button id="randomBtn" class="btn btn-primary"><i class="fas fa-random"></i></button>
                 <button id="playBtn" class="btn btn-primary"><i class="fas fa-play"></i></button>
@@ -437,6 +502,27 @@ onUnmounted(() => {
     animation-timing-function: linear;
     animation-iteration-count: infinite;
     transition: all 4s linear;
+}
+
+#textContainer {
+    width: 200px;
+    height: 20px;
+    overflow: hidden;
+}
+
+#textWrapper {
+    white-space: nowrap;
+    animation: scrollText 5s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+        transform: translateX(100%);
+    }
+
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
 
