@@ -1,7 +1,10 @@
 <script setup>
 import {onMounted, ref, computed, onUnmounted} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
-import {getSongList, deleteMusic} from '/src/api/api.js';
+import {getSongList, deleteMusic} from '@/api/api.js';
+import ModifyMusic from '@/components/modifyMusic/index.vue'
+import {musicDiago} from "@/pinia/store.js";
+import $ from "jquery";
 
 const router = useRouter();
 const route = useRoute();
@@ -21,6 +24,8 @@ let displayTable = computed(() => {
         });
     }
 })
+
+let dis = musicDiago()
 
 // 跳转到音乐详情页面
 function goToMusicHome(name, time, singer) {
@@ -52,7 +57,8 @@ function handleModify(musicName, singerName, length) {
     localStorage.setItem('modifyMusicName', musicName);
     localStorage.setItem('modifyAlbumName', singerName);
     localStorage.setItem('modifyLength', length);
-    router.push({path: `/modifyMusic/${musicName}`});
+    dis.open();
+
 }
 
 // 拿到数据库的音乐列表
@@ -119,6 +125,7 @@ onMounted(() => {
                 </div>
             </div>
         </div>
+        <modify-music></modify-music>
     </div>
 </template>
 <style scoped>
