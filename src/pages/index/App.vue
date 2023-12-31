@@ -94,14 +94,24 @@ onMounted(() => {
         LogoutSocket.send("heartbeat")
     }, 60 * 1000 * 3)
     LogoutSocket.onmessage = function (data) {
-        if (data === 'logout') {
+        if (data.data === 'logout') {
             alert("账户下线通告")
             ElMessage.error("在线状态已经过期,即将跳转到登录页面,请重新登录!")
 
+            // 关闭websocket链接
+            // 状态码 1008 "Policy Violation"。这个状态码用于指示连接关闭的原因是违反了连接策略。
+            // 用户会话过期可以被视为一种策略违规，因此发送 1008 状态码是合适的做法。
+            try {
+                LogoutSocket.close(1000, "HttpSession过期!");
+                ComboSocket.close(1000, "HttpSession过期!");
+            } catch (e) {
+                console.log(e);
+            }
             localStorage.clear()
+
             setTimeout(() => {
                 window.location.href = '../login/index.html'
-            }, 2000)
+            }, 800)
         }
     };
     LogoutSocket.onclose = function () {
