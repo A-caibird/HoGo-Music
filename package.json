@@ -39,10 +39,9 @@
         "vite": "^4.5.1",
         "vitest": "^1.1.0",
         "vue": "^3.3.13",
-        "vue-router": "^4.2.5"
-    },
-    "dependencies": {
+        "vue-router": "^4.2.5",
         "@stomp/stompjs": "^7.0.0",
-        "bootstrap-icons": "^1.11.2"
+        "bootstrap-icons": "^1.11.2",
+        "file-saver": "^2.0.5"
     }
 }

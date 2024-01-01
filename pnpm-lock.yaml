@@ -4,14 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-dependencies:
-  '@stomp/stompjs':
-    specifier: ^7.0.0
-    version: 7.0.0
-  bootstrap-icons:
-    specifier: ^1.11.2
-    version: 1.11.2
-
 devDependencies:
   '@element-plus/icons-vue':
     specifier: ^2.3.1
@@ -22,6 +14,9 @@ devDependencies:
   '@iconify-json/ep':
     specifier: ^1.1.14
     version: 1.1.14
+  '@stomp/stompjs':
+    specifier: ^7.0.0
+    version: 7.0.0
   '@types/stompjs':
     specifier: ^2.3.9
     version: 2.3.9
@@ -37,6 +32,9 @@ devDependencies:
   axios:
     specifier: ^1.6.2
     version: 1.6.2
+  bootstrap-icons:
+    specifier: ^1.11.2
+    version: 1.11.2
   cors:
     specifier: ^2.8.5
     version: 2.8.5
@@ -46,6 +44,9 @@ devDependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  file-saver:
+    specifier: ^2.0.5
+    version: 2.0.5
   jquery:
     specifier: ^3.7.1
     version: 3.7.1
@@ -883,7 +884,7 @@ packages:
 
   /@stomp/stompjs@7.0.0:
     resolution: {integrity: sha512-fGdq4wPDnSV/KyOsjq4P+zLc8MFWC3lMmP5FBgLWKPJTYcuCbAIrnRGjB7q2jHZdYCOD5vxLuFoKIYLy5/u8Pw==}
-    dev: false
+    dev: true
 
   /@sxzz/popperjs-es@2.11.7:
     resolution: {integrity: sha512-Ccy0NlLkzr0Ex2FKvh2X+OyERHXJ88XJ1MXtsI9y9fGexlaXaVTPzBCRBwIxFkORuOb+uBqeu+RqnpgYTEZRUQ==}
@@ -1540,7 +1541,7 @@ packages:
 
   /bootstrap-icons@1.11.2:
     resolution: {integrity: sha512-TgdiPv+IM9tgDb+dsxrnGIyocsk85d2M7T0qIgkvPedZeoZfyeG/j+yiAE4uHCEayKef2RP05ahQ0/e9Sv75Wg==}
-    dev: false
+    dev: true
 
   /bplist-parser@0.2.0:
     resolution: {integrity: sha512-z0M+byMThzQmD9NILRniCUXYsYpjwnlO8N5uCFaCqIOpqRsJCrQL9NK3JsD67CN5a08nF5oIL2bD6loTdHOuKw==}
@@ -2368,6 +2369,10 @@ packages:
     resolution: {integrity: sha512-cE1qsB/VwyQozZ+q1dGxR8LBYNZeofhEdUNGSMbQD3Gw2lAzX9Zb3uIU6Ebc/Fmyjo9AWWfnn0AUCHqtevs/8g==}
     dependencies:
       pend: 1.2.0
+    dev: true
+
+  /file-saver@2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==}
     dev: true
 
   /fill-range@7.0.1:
