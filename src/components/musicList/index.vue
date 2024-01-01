@@ -367,8 +367,6 @@ onUnmounted(() => {
                                 <el-icon @click="downloadMusic(item.url,index)">
                                     <i-ep-Download/>
                                 </el-icon>
-                                <a v-bind:href="'http://localhost:8080/music/' + item.url" download class="hidden"
-                                   v-bind:id="index+'musicdowload'">下载文件</a>
                             </span>
                         </el-tooltip>
                         <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
