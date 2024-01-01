@@ -3,15 +3,26 @@ import {ref, onMounted} from 'vue'
 import $ from 'jquery'
 import {getVipInfo} from "@/api/api.js";
 
+
+// 设置全局的请求配置
+$.ajaxSetup({
+    xhrFields: {
+        withCredentials: true
+    }
+});
+
 const isVip = ref(false)
+
 const form = ref({
     name: '',
     email: '',
     password: ''
 })
+
 let username = localStorage.getItem('name')
 
 const avatar = ref('/avatar/default.jpg')
+
 onMounted(function () {
     getVipInfo({
         username
@@ -21,9 +32,24 @@ onMounted(function () {
         console.error(e)
         console.log("获取vip状态错误")
     })
-
+    $.ajax({
+        url: 'http://localhost:8080/getAvatarUrl',
+        type: 'GET',
+        data: {
+            name: username // Replace 'John' with the actual name you want to query
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (response) {
+            avatar.value = "http://localhost:8080/avatar/" + response
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            // Handle the error here
+        }
+    });
 })
-
 
 
 onMounted(function () {
@@ -50,12 +76,7 @@ onMounted(function () {
                 const formData = new FormData();
                 formData.append('avatar', file)
                 formData.append('name', localStorage.getItem('name'));
-                // 设置全局的请求配置
-                $.ajaxSetup({
-                    xhrFields: {
-                        withCredentials: true
-                    }
-                });
+
 
                 // 发起POST请求
                 $.ajax({
