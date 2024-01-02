@@ -110,7 +110,7 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="grid grid-cols-[200px_auto_200px] h-full py-[60px] w-full">
+    <div class="grid grid-cols-[360px_auto_360px] h-full py-[60px] w-full">
         <div class="cols-start-2 col-end-3 ] h-[600px] rounded-lg grid grid-cols-[200px_auto]">
             <div class="col-span-1 h-full border-r-2 border-black bg-[#EF6351]">
                 <div class="flex flex-col items-center">
