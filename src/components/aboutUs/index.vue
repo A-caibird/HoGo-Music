@@ -1,5 +1,7 @@
 <script setup>
-import { onMounted, ref, computed, onUnmounted } from 'vue';
+function goBlog() {
+    window.open('http://a-caibird.github.io','_blank')
+}
 </script>
 <template>
     <div class="relative mt-[40px] flex flex-col justify-between h-[100vh]">
@@ -24,8 +26,8 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
                             1.2.4
                         </span>
                     </div>
-                    <span>
-                        &copy; 2003-2023 Dvil.com 版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admin Email:newcoder@icloud.com
+                    <span @click="goBlog">
+                        &copy; 2003-2023 a-caibird.github.io 版权所有&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Admin Email:newcoder@icloud.com
                     </span>
                 </div>
             </div>
@@ -61,8 +63,9 @@ import { onMounted, ref, computed, onUnmounted } from 'vue';
 * {
     color: #f87171;
 }
+
 ::-webkit-scrollbar {
-  display: none;
+    display: none;
 }
 
 </style>
