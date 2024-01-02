@@ -2,7 +2,7 @@
 import {ref, onMounted} from 'vue'
 import $ from 'jquery'
 import {getVipInfo} from "@/api/api.js";
-
+import {ElMessage, ElMessageBox} from 'element-plus'
 
 // 设置全局的请求配置
 $.ajaxSetup({
@@ -13,17 +13,73 @@ $.ajaxSetup({
 
 const isVip = ref(false)
 
+const dialogVisible = ref(false)
+
+const vertifycode = ref('')
+
+let username = localStorage.getItem('name')
+
+
+const avatar = ref('/avatar/default.jpg')
+
+const info = ref({
+    name: '',
+    email: '',
+    password: ''
+})
+
 const form = ref({
     name: '',
     email: '',
     password: ''
 })
 
-let username = localStorage.getItem('name')
 
-const avatar = ref('/avatar/default.jpg')
+function submitInfo() {
+    $.ajax({
+        url: 'http://localhost:8080/upgradeUserInfo',
+        type: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + vertifycode.value
+        },
+        data: JSON.stringify({
+            oldName: info.value.name,
+            username: form.value.name,
+            passoword: form.value.password,
+            email: form.value.email
+        }),
+        processData: false,
+        contentType: "application/json",
+        success: function (response) {
+            console.log('Response: ', response);
+            dialogVisible.value = false
+            ElMessage({
+                type: 'success',
+                message: `修改账户信息成功!`,
+            })
+
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
+            dialogVisible.value = false
+            if (xhr.status === 403)
+                ElMessage({
+                    type: 'error',
+                    message: `验证码错误.修改账户信息失败!`,
+                })
+            else if(xhr.status === 500){
+                ElMessage({
+                    type: 'error',
+                    message: `服务器内错误.修改账户信息失败,请稍后再试!`,
+                })
+            }
+        }
+    });
+}
 
 onMounted(function () {
+
+    // 初始用户vip信息
     getVipInfo({
         username
     }).then(res => {
@@ -32,6 +88,8 @@ onMounted(function () {
         console.error(e)
         console.log("获取vip状态错误")
     })
+
+    // 页面加载,获取用户头像
     $.ajax({
         url: 'http://localhost:8080/getAvatarUrl',
         type: 'GET',
@@ -47,6 +105,32 @@ onMounted(function () {
         error: function (xhr, status, error) {
             console.error('Error:', error);
             // Handle the error here
+        }
+    });
+
+    // 页面加载, 获取用户信息
+
+    $.ajax({
+        url: 'http://localhost:8080/getUserInfo',
+        type: 'GET',
+        data: {
+            'name': username
+        },
+        xhrFields: {
+            withCredentials: true
+        },
+        success: function (response, xhr, status) {
+            console.log('Response: ', response);
+            console.log(status)
+            console.log(xhr)
+            info.value.name = response[0].name
+            info.value.password = response[0].password
+            info.value.email = response[0].email
+            form.value = info.value
+            console.log(form.value)
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
         }
     });
 })
@@ -103,6 +187,59 @@ onMounted(function () {
             $(inputFile).trigger('click');
         })
     })
+
+    // 提交信息
+    $("#submitbtn").on('click', function () {
+        if (form.value.password === info.value.password) {
+            let res = alert("新密码与旧密码相同是否修改?")
+            if (res === false) return;
+        }
+        ElMessageBox.alert('敏感操作,需要向注册邮箱获取验证码验证身份!', '系统提醒', {
+            confirmButtonText: 'OK',
+            callback: (action) => {
+                if (action === "cancel") {
+                    ElMessage({
+                        type: 'info',
+                        message: `修改账户信息操作已取消`,
+                    })
+                } else {
+                    dialogVisible.value = true;
+                    ElMessage({
+                        type: 'info',
+                        message: `请稍等一会,验证码发送成功将会提示~`,
+                    })
+                    $.ajax({
+                        url: 'http://localhost:8080/authmail',
+                        type: 'POST',
+                        data: {
+                            username: info.value.name,
+                            email: info.value.email
+                        },
+                        processData: true,  //将参数作为查询参数,添加到url上去
+                        contentType: "application/x-www-form-urlencoded",
+                        success: function (response) {
+                            // 请求成功的处理逻辑
+                            console.log('上传成功', response);
+                            ElMessage({
+                                type: 'success',
+                                message: `验证码已经发送,请查看邮件!`,
+                            })
+                        },
+                        error: function (xhr, status, error) {
+                            // 请求失败的处理逻辑
+                            ElMessage({
+                                type: 'warn',
+                                message: `服务器错误,请稍后再试!`,
+                            })
+                            console.log('', error);
+                        }
+                    });
+                }
+            },
+        })
+
+    })
+
 })
 </script>
 <template>
@@ -124,7 +261,7 @@ onMounted(function () {
                     </p>
                 </div>
             </div>
-            <div class="right bg-inherit col-span-1 p-[40px] flex flex-col gap-y-[30px] ">
+            <div class="right bg-inherit col-span-1 p-[40px] flex flex-col gap-y-[30px] relative">
                 <div class="w-full transition ease-linear duration-700 flex flex-row gap-x-100px">
                     <span class="text-amber-50 w-[60px] mr-[100px]">
                         用户名:
@@ -152,6 +289,25 @@ onMounted(function () {
                                class="w-[200px] bg-inherit rounded-full border-2 border-white outline-0 text-amber-200"/>
                     </div>
                 </div>
+
+                <div class="flex w-full justify-center mt-[70px] " id="submitbtn">
+                    <span class="bg-cyan-600 p-2 w-[180px] rounded-full text-center">提交信息</span>
+                </div>
+                <el-dialog v-model="dialogVisible" title="Tips" width="30%" :close-on-click-modal="true">
+                    <div class="flex flex-col justify-center">
+                        <div>
+                            请查看邮件,输入验证码!
+                        </div>
+                        <div>
+                            <el-input v-model="vertifycode"></el-input>
+                        </div>
+                        <div class="flex justify-center ">
+                            <span class="px-2 w-[80px] rounded-full bg-cyan-600 text-center mt-[20px]" @click="submitInfo">
+                                确认
+                            </span>
+                        </div>
+                    </div>
+                </el-dialog>
             </div>
         </div>
     </div>
