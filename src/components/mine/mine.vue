@@ -67,7 +67,7 @@ function submitInfo() {
                     type: 'error',
                     message: `验证码错误.修改账户信息失败!`,
                 })
-            else if(xhr.status === 500){
+            else if (xhr.status === 500) {
                 ElMessage({
                     type: 'error',
                     message: `服务器内错误.修改账户信息失败,请稍后再试!`,
@@ -261,14 +261,14 @@ onMounted(function () {
                     </p>
                 </div>
             </div>
-            <div class="right bg-inherit col-span-1 p-[40px] flex flex-col gap-y-[30px] relative">
+            <div class="right bg-inherit col-span-1 p-[40px] flex flex-col gap-y-[30px] relative w-full justify-around">
                 <div class="w-full transition ease-linear duration-700 flex flex-row gap-x-100px">
                     <span class="text-amber-50 w-[60px] mr-[100px]">
                         用户名:
                     </span>
                     <span>
                         <input v-model="form.name"
-                               class="w-[200px] bg-inherit rounded-full border-2 border-white outline-0 text-amber-200"/>
+                               class="w-[300px] bg-inherit rounded-full border-2 border-white outline-0 text-blue-100 text-center"/>
                     </span>
                 </div>
                 <div class="w-full transition ease-linear duration-700 flex flex-row gap-x-100px">
@@ -277,16 +277,16 @@ onMounted(function () {
                     </div>
                     <div>
                         <input v-model="form.email"
-                               class="w-[200px] bg-inherit rounded-full border-2 border-white outline-0 text-amber-200"/>
+                               class="w-[300px] bg-inherit rounded-full border-2 border-white outline-0 text-blue-100 text-center"/>
                     </div>
                 </div>
-                <div class="w-full transition ease-linear duration-700 flex flex-row gap-x-100px">
+                <div class="w-full transition ease-linear duration-700 flex flex-row gap-x-100px">s
                     <div class="text-amber-50 w-[60px] mr-[100px]">
                         密码:
                     </div>
                     <div>
                         <input v-model="form.password"
-                               class="w-[200px] bg-inherit rounded-full border-2 border-white outline-0 text-amber-200"/>
+                               class="w-[300px] bg-inherit rounded-full border-2 border-white outline-0 text-blue-100 text-center"/>
                     </div>
                 </div>
 

@@ -143,7 +143,7 @@ onMounted(() => {
                         </el-icon>
                         用户中心
                     </template>
-                    <el-menu-item index="3-1">账号管理</el-menu-item>
+                    <el-menu-item index="3-1">账号设置</el-menu-item>
                     <el-menu-item index="3-2">VIP购买</el-menu-item>
                     <el-menu-item index="3-3">安全退出</el-menu-item>
                 </el-sub-menu>
