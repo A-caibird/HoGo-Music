@@ -407,8 +407,8 @@ onUnmounted(() => {
             </div>
             <div class="controls  flex flex-row justify-between  mb-[8px] mt-[5px]">
                 <button id="prevBtn" class="btn btn-primary"><i class="fas fa-step-backward"></i></button>
-                <button id="randomBtn" class="btn btn-primary"><i class="fas fa-random"></i></button>
                 <button id="playBtn" class="btn btn-primary"><i class="fas fa-play"></i></button>
+                <button id="randomBtn" class="btn btn-primary"><i class="fas fa-random"></i></button>
                 <button id="pauseBtn" class="btn btn-primary"><i class="fas fa-pause"></i></button>
                 <button id="nextBtn" class="btn btn-primary"><i class="fas fa-step-forward"></i></button>
             </div>
