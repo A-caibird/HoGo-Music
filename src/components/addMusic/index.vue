@@ -7,13 +7,14 @@ import $ from 'jquery'
 let modifyMusicName = ref('');
 let modifyAlbumName = ref('');
 let modifyLength = ref('');
-let musicFileName = ref('请点击左侧按钮选择音频文件');
+let musicFileName = ref('请点击左侧文本选择音频文件');
 /**
  * 文件选择,根据 HTML 规范，默认情况下input type="file"> 标签允许选择一个文件。这是因为 type="file" 的输入字段被设计为单个文件选择器。
  * @type {Ref<UnwrapRef<null>>}
  */
 let fileInput = ref(null);
 
+const checkList = ref(['国风', '舒缓'])
 /**
  * 文件表单
  * @type {Ref<UnwrapRef<null>>}
@@ -126,12 +127,27 @@ function submitForm() {
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 时长</div>
                         <el-input v-model="modifyLength" placeholder="请上传音频文件,自动计算歌曲时长!" disabled/>
                     </div>
+                    <div class="flex items-center mt-[20px]">
+                        <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 音乐类型</div>
+                        <div>
+                            <el-checkbox-group v-model="checkList">
+                                <el-checkbox label="国风"/>
+                                <el-checkbox label="电子"/>
+                                <el-checkbox label="纯音乐"/>
+                                <el-checkbox label="欧美"/>
+                                <el-checkbox label="校园"/>
+                                <el-checkbox label="听书"/>
+                                <el-checkbox label="儿童"/>
+                                <el-checkbox label="Kpop"/>
+                            </el-checkbox-group>
+                        </div>
+                    </div>
                     <div class="mt-[20px]">
                         <span @click="handleSelectFile" class="inline-block w-[90px] text-[#D5554C]">
                             音频文件
                         </span>
                         <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile"/>
-                        <span class="font-serif text-[12px]"
+                        <span class="font-serif text-[15px]"
                               :class="{ 'text-[#ef4444]': musicFileName === '请点击左侧按钮选择音频文件' }">{{
                                 musicFileName
                             }}</span>
