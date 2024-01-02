@@ -1,8 +1,9 @@
 <script setup>
-import { ref, onMounted } from 'vue';
-import { useRouter, useRoute } from 'vue-router';
-import { getSongComment, commentSong } from '/src/api/api.js';
-import { ElMessage } from 'element-plus';
+import {ref, onMounted} from 'vue';
+import {useRouter, useRoute} from 'vue-router';
+import {getSongComment, commentSong} from '/src/api/api.js';
+import {ElMessage} from 'element-plus';
+
 const router = useRouter();
 const route = useRoute();
 console.log(document.getElementsByClassName("mt-[20px]").length)
@@ -63,9 +64,9 @@ onMounted(() => {
     <div class="flex flex-col items-center font-sans">
         <div class="w-[1000px] min-h-[600px] mt-[20px] box-border p-[20px] rounded-lg ">
             <!-- 歌曲详情 -->
-            <div class="m-full h-[200px] bg-[#a5f3fc] flex flex-row ">
+            <div class="m-full h-[200px] bg-yellow-50 flex flex-row ">
                 <span class="box-border p-[10px] w-[200px] h-[200px] bg-yellow-50 inline-block">
-                    <img class=" w-full h-full" src="/comment.png" />
+                    <img class=" w-full h-full" src="/comment.png"/>
                 </span>
                 <span class="box-border flex flex-col w-full p-[10px]">
                     <p class=" self-center">
@@ -79,24 +80,25 @@ onMounted(() => {
                             歌曲时长: {{ time }}
                         </p>
                     </div>
-                    <el-input v-model="yourComment" :rows="2" type="textarea" placeholder="留下评论,共探讨音乐的美好" class="font-san"
-                        @keydown.enter="handleComment" />
+                    <el-input v-model="yourComment" :rows="2" type="textarea"
+                              placeholder="留下评论,共探讨音乐的美好!      注意:shift+enter换行,enter评论!" class="font-san"
+                              @keydown.enter="handleComment"/>
                 </span>
             </div>
             <!-- 歌曲评论 -->
-            <div class="bg-[#A0F6D2] p-4">
-                <div class="mt-[20px] border-b-2 border-[#72DFD0]" v-for="(item, index) of musicComment" :key="index">
+            <div class="bg-[#A0F6D2] p-4 overflow-auto h-[600px] panel">
+                <div class="mt-[20px] border-b-2 border-[#72DFD0]" v-for="(item,index) of musicComment" :key="index">
                     <div class="">
                         <div class="relative">
                             <span class="text-yellow-900">
-                                {{ item.userName }}
+                                用户名:{{ musicComment[musicComment.length - index - 1].userName }}
                             </span>
-                            <span class="font-sans text-zinc-400 text-[12px]/[12px] absolute right-0">
-                                {{ item.date }}
+                            <span class="font-sans  text-[12px]/[12px] absolute right-0">
+                                评论时间: {{ musicComment[musicComment.length - index - 1].date }}
                             </span>
                         </div>
-                        <div class="min-h-[20px] w-full  rounded-md py-[10px] text-gray-500 font-serif">
-                            {{ item.commentContent }}
+                        <div class="min-h-[20px] w-full  rounded-md py-[10px]  font-serif">
+                            {{ musicComment[musicComment.length - index - 1].commentContent }}
                         </div>
                     </div>
                 </div>
@@ -122,12 +124,10 @@ onMounted(() => {
 }
 
 .panel {
-    background: #2980B9;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to top, #FFFFFF, #6DD5FA, #2980B9);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to top, #FFFFFF, #6DD5FA, #2980B9);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
+    background-image: linear-gradient(25deg, #026a92, #6588ac, #a3a7c7, #dec6e2);
+    background-image: linear-gradient(25deg, #ed4c79, #ea8c66, #e1c04c, #d0ef13);
+    background-image: linear-gradient(25deg, #149cc9, #7daaa3, #aab87a, #cbc849)
 }
+
+
 </style>

@@ -4,7 +4,6 @@
 /* The components layer is for class-based styles that you want to be able to override with utilities.*/
 @tailwind utilities;
 /*  */
-
 /* Tailwind工具类css */
 @layer utilities {
     .a {
@@ -12,6 +11,8 @@
     }
 }
 
+@layer
+@import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
 
 /* 全局字体 */
 @font-face {

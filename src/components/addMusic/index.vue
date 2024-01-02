@@ -1,22 +1,57 @@
 <script setup>
-import { ref } from 'vue';
-import { uploadMusicFile, addMusic } from '/src/api/api.js'
-import { ElMessage } from 'element-plus'
+import {ref} from 'vue';
+import {uploadMusicFile, addMusic} from '/src/api/api.js'
+import {ElMessage} from 'element-plus'
+import $ from 'jquery'
+
 let modifyMusicName = ref('');
 let modifyAlbumName = ref('');
 let modifyLength = ref('');
-let musicFileName = ref('请点击左侧按钮选择音频文件');
-let fileInput = ref(null);  // 文件选择,根据 HTML 规范，默认情况下，<input type="file"> 标签允许选择一个文件。这是因为 type="file" 的输入字段被设计为单个文件选择器。
-let fileForm = ref(null);  // 文件表单
-// 点击选择文件
+let musicFileName = ref('请点击左侧文本选择音频文件');
+/**
+ * 文件选择,根据 HTML 规范，默认情况下input type="file"> 标签允许选择一个文件。这是因为 type="file" 的输入字段被设计为单个文件选择器。
+ * @type {Ref<UnwrapRef<null>>}
+ */
+let fileInput = ref(null);
+
+const checkList = ref(['国风', '舒缓'])
+/**
+ * 文件表单
+ * @type {Ref<UnwrapRef<null>>}
+ */
+let fileForm = ref(null);
+
+/**
+ * 点击选择文件
+ */
 function handleSelectFile() {
     fileInput.value.click();
 }
+
+/**
+ * 获取上传的mp3文件播放时长
+ */
+$(document).ready(function () {
+    $('input[name="mp3"]').on('change', function () {
+        let file = this.files[0];
+        let audio = new Audio();
+
+        // 创建一个临时链接
+        let objectURL = URL.createObjectURL(file);
+        audio.src = objectURL;
+
+        audio.addEventListener('loadedmetadata', function () {
+            var duration = audio.duration;
+            modifyLength.value = Math.floor(duration / 60) + ':' + Math.floor(duration % 60);
+        });
+    })
+})
 
 // 显示选择的文件列表
 function getFile() {
     musicFileName.value = fileInput.value.files[0].name
 }
+
 // 提交专辑信息
 function submitForm() {
     if (fileInput.value.files.length == 0) {
@@ -26,7 +61,7 @@ function submitForm() {
         })
         return;
     }
-    if (modifyAlbumName.value.trim() == '' || modifyMusicName.value.trim() == '' || modifyLength.value.trim() == '') {
+    if (modifyAlbumName.value.trim() === '' || modifyMusicName.value.trim() === '' || modifyLength.value.trim() === '') {
         ElMessage({
             message: '请完善歌曲信息!',
             type: 'warning',
@@ -54,8 +89,7 @@ function submitForm() {
             }).catch(err => {
                 ElMessage.error("服务器错误,请稍后再试")
             })
-        }
-        catch (err) {
+        } catch (err) {
             console.error(err);
         }
     })();
@@ -69,7 +103,7 @@ function submitForm() {
             <!-- 左边 -->
             <div class="col-span-1  p-[20px]">
                 <div class="w-full h-full">
-                    <img class="w-full h-full" src="/album.jpg" />
+                    <img class="w-full h-full" src="/album.jpg"/>
 
                 </div>
             </div>
@@ -81,30 +115,47 @@ function submitForm() {
                 <div class="justify-center flex flex-col">
                     <div class="flex items-center">
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]">
-                            歌曲名</div>
-                        <el-input v-model="modifyMusicName" placeholder="歌曲名" />
+                            歌曲名
+                        </div>
+                        <el-input v-model="modifyMusicName" placeholder="歌曲名"/>
                     </div>
                     <div class="flex items-center mt-[20px]">
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]">歌手/专辑名</div>
-                        <el-input v-model="modifyAlbumName" placeholder="歌曲名" />
+                        <el-input v-model="modifyAlbumName" placeholder="歌手名"/>
                     </div>
                     <div class="flex items-center mt-[20px]">
                         <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 时长</div>
-                        <el-input v-model="modifyLength" placeholder="如3:42" />
+                        <el-input v-model="modifyLength" placeholder="请上传音频文件,自动计算歌曲时长!" disabled/>
+                    </div>
+                    <div class="flex items-center mt-[20px]">
+                        <div class="w-[100px] whitespace-nowrap text-[#D5554C]"> 音乐类型</div>
+                        <div>
+                            <el-checkbox-group v-model="checkList">
+                                <el-checkbox label="国风"/>
+                                <el-checkbox label="电子"/>
+                                <el-checkbox label="纯音乐"/>
+                                <el-checkbox label="欧美"/>
+                                <el-checkbox label="校园"/>
+                                <el-checkbox label="听书"/>
+                                <el-checkbox label="儿童"/>
+                                <el-checkbox label="Kpop"/>
+                            </el-checkbox-group>
+                        </div>
                     </div>
                     <div class="mt-[20px]">
                         <span @click="handleSelectFile" class="inline-block w-[90px] text-[#D5554C]">
                             音频文件
                         </span>
-                        <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile" />
-                        <span class="font-serif text-[12px]"
-                            :class="{ 'text-[#ef4444]': musicFileName == '请点击左侧按钮选择音频文件' }">{{ musicFileName
+                        <input ref="fileInput" type="file" accept=".mp3" name="mp3" class="hidden" @change="getFile"/>
+                        <span class="font-serif text-[15px]"
+                              :class="{ 'text-[#ef4444]': musicFileName === '请点击左侧按钮选择音频文件' }">{{
+                                musicFileName
                             }}</span>
                     </div>
                 </div>
                 <div class=" flex flex-col items-center justify-center box-border  h-full">
                     <div class="inline-block rounded-2xl bg-slate-300 px-[100px] py-[5px] hover:bg-blue-300 text-red-400"
-                        @click="submitForm">
+                         @click="submitForm">
                         完成
                     </div>
                 </div>

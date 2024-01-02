@@ -1,5 +1,4 @@
-import { LogIn, SignUp } from '@/api/api.js';
-import { ComboSocket } from '@/websocket/socket.js'
+import {LogIn, SignUp} from '@/api/api.js';
 import $ from 'jquery';
 
 // 1. 样式切换按钮
@@ -44,18 +43,6 @@ let getButtons = (e) => {
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
                 console.log(document.cookie);
-
-                // 连接websocket
-                ComboSocket.onopen = function () {
-                    const message = 'Hello from client:Combo';
-                    this.send(message);
-                };
-                logoutSocket.onopen = function(){
-                    const message = 'Hello from client:logout';
-                    this.send(message); 
-                }
-
-                // 跳转
                 window.location.href = "../index/index.html";
             }
         }).catch(error => {
@@ -64,20 +51,16 @@ let getButtons = (e) => {
             if (error.response) {
                 if (error.response.status == 500) {
                     alert("服务器错误,请稍后再试");
-                }
-                else if (error.response.status == 401) {
+                } else if (error.response.status == 401) {
                     alert("用户名或密码错误,请重新输入");
-                }
-                else if (error.response.status == 403) {
+                } else if (error.response.status == 403) {
                     alert("该账户已被停用,请联系管理员");
-                }
-                else if (error.response.status == 404) {
+                } else if (error.response.status == 404) {
                     alert("该用户不存在,请注册");
                 }
             }
         })
-    }
-    else {
+    } else {
         let UserName = SignUp_Name.value;
         let Password = SignUp_Password.value;
         let Email = SignUp_Email.value;
@@ -95,8 +78,7 @@ let getButtons = (e) => {
             console.log(error);
             if (error.response.status == 409) {
                 alert("用户名已存在,请重新注册");
-            }
-            else {
+            } else {
                 alert("服务器内部错误,Server internal appear error");
             }
         })

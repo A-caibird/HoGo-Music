@@ -1,10 +1,10 @@
 <script setup>
-import { shopVip, payVip, getVipInfo,getComboList} from '@/api/api.js'
-import { ref, onMounted, computed, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { ElMessage, ElNotification } from 'element-plus'
-import { Client } from '@stomp/stompjs';
-import { ComboSocket } from '@/websocket/socket.js'
+import {shopVip, payVip, getVipInfo, getComboList} from '@/api/api.js'
+import {ref, onMounted} from 'vue'
+import {useRouter, useRoute} from 'vue-router'
+import {ElMessage} from 'element-plus'
+import {vipInfo} from '@/pinia/store.js'
+import {Client} from '@stomp/stompjs';
 
 
 const router = useRouter()
@@ -21,6 +21,7 @@ const curTime = ref(curYear.value + "-" + curMonth.value + "-" + time.getDate())
 const destTime = ref((curYear.value + 1) + "-" + (curMonth.value) + "-" + time.getDate())
 
 const arr = ref([1, 0, 0, 0])
+
 function funcClickSelect(t, p, index) {
     // 改变vip时间
     price.value = p
@@ -40,6 +41,7 @@ function funcClickSelect(t, p, index) {
 }
 
 const selectPayMethods = ref(true)
+
 function funcSelectPay(index) {
     if (index === 1) {
         selectPayMethods.value = true;
@@ -49,7 +51,7 @@ function funcSelectPay(index) {
 }
 
 function funcClickPay() {
-    payVip({ price: price.value, name: localStorage.getItem("name") }).then(res => {
+    payVip({price: price.value, name: localStorage.getItem("name")}).then(res => {
         shopVip({
             username: localStorage.getItem('name'),
             startDate: curTime.value,
@@ -65,7 +67,7 @@ function funcClickPay() {
             let ok = confirm("余额不足,请充值")
             if (ok) {
                 ElMessage.success("即将跳转到充值页面")
-                router.push({ path: '/topin' })
+                router.push({path: '/topin'})
             }
         } else {
             ElMessage.error("服务器内部错误,请稍后再试")
@@ -86,7 +88,7 @@ let comboInfo = ref([])
         }
     )
 }
-
+const VipInfo = vipInfo()
 onMounted(() => {
     getVipInfo({
         username: localStorage.getItem('name')
@@ -97,31 +99,14 @@ onMounted(() => {
         console.log("获取vip状态错误")
     })
     getComboList().then(res => {
-        comboInfo.value = res.data
+        VipInfo.$patch((state) => {
+                state.vipinfo = res.data
+            }
+        )
+        comboInfo.value = VipInfo.vipinfo
     }).catch(e => {
         console.log(e)
     })
-
-    // 通过WebSocket接收最新的套餐信d
-    {
-        ComboSocket.onmessage = function (data) {
-            let temp = JSON.parse(data.data)
-            console.log(temp)
-            comboInfo.value = temp.list
-            console.log(comboInfo.value)
-            if (temp.type && name !== 'root') {
-                ElNotification({
-                    title: '系统消息',
-                    message: "VIP套餐价格变更",
-                    position: 'top-left',
-                })
-            }
-        };
-
-        ComboSocket.onclose = function () {
-            console.log('Disconnected from WebSocket server');
-        };
-    }
 })
 </script>
 <template>
@@ -177,7 +162,7 @@ onMounted(() => {
                         </span>
                         <span class="flex  gap-x-[20px]" v-if="comboInfo.length > 0">
                             <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
-                                :class="{
+                                  :class="{
                                     'border-white': arr[0]
                                 }" @click="funcClickSelect(12, 180, 0)">
                                 <div class="flex gap-2">
@@ -198,7 +183,7 @@ onMounted(() => {
                                 </div>
                             </span>
                             <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
-                                @click="funcClickSelect(6, 90, 1)" :class="{
+                                  @click="funcClickSelect(6, 90, 1)" :class="{
                                     'border-white': arr[1]
                                 }">
                                 <div class="flex gap-2">
@@ -219,7 +204,7 @@ onMounted(() => {
                                 </div>
                             </span>
                             <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300 "
-                                @click="funcClickSelect(3, 45, 2)" :class="{
+                                  @click="funcClickSelect(3, 45, 2)" :class="{
                                     'border-white': arr[2]
                                 }">
                                 <div class="flex gap-2">
@@ -240,7 +225,7 @@ onMounted(() => {
                                 </div>
                             </span>
                             <span class="border-[1px] flex items-center flex-col justify-center p-[10px] border-red-300"
-                                @click="funcClickSelect(1, 15, 3)" :class="{
+                                  @click="funcClickSelect(1, 15, 3)" :class="{
                                     'border-white': arr[3]
                                 }">
                                 <div class="flex gap-2">
@@ -300,13 +285,13 @@ onMounted(() => {
                         </div>
                         <div class="flex justify-center gap-[60px]">
                             <div class="w-[100px] h-[100px] hover:"
-                                :class="{ 'border': selectPayMethods, 'border-indigo-600': selectPayMethods, 'drop-shadow-2xl': selectPayMethods }"
-                                @click="funcSelectPay(1)">
+                                 :class="{ 'border': selectPayMethods, 'border-indigo-600': selectPayMethods, 'drop-shadow-2xl': selectPayMethods }"
+                                 @click="funcSelectPay(1)">
                                 <img src="/pay/WePay.png" class="w-full h-full">
                             </div>
                             <div class="w-[100px] h-[100px]"
-                                :class="{ 'border': !selectPayMethods, 'border-indigo-600': !selectPayMethods, 'drop-shadow-2xl': !selectPayMethods }"
-                                @click="funcSelectPay(2)">
+                                 :class="{ 'border': !selectPayMethods, 'border-indigo-600': !selectPayMethods, 'drop-shadow-2xl': !selectPayMethods }"
+                                 @click="funcSelectPay(2)">
                                 <img src="/pay/AliPay.png" class="w-full h-full scale-[1]">
                             </div>
                         </div>
