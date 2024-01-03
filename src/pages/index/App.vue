@@ -5,6 +5,7 @@ import {SignOut} from '@/api/api.js';
 import modifyCombo from '/src/components/modifyCombo/index.vue'
 import {drawerStatus, vipInfo} from '@/pinia/store.js'
 import {ElMessage, ElNotification} from 'element-plus'
+import $ from "jquery";
 
 const router = useRouter()
 const route = useRoute()
@@ -33,7 +34,7 @@ function handleSelect(index) {
             })
     } else if (index === '2-4') {
         router.push({path: '/userMange'})
-    } else if (index === '7') {
+    } else if (index === '7-2') {
         router.push({path: '/aboutUs'})
     } else if (index === '2-2') {
         router.push({path: '/musicMange'})
@@ -43,7 +44,46 @@ function handleSelect(index) {
         router.push({path: '/vip'})
     } else if (index === '2-5') {
         drawer.open()
+    } else if (index === '7-1') {
+        uploadMdFile();
     }
+}
+
+function uploadMdFile() {
+    let inputFile = $('<input type="file">').get(0);
+    $(inputFile).on('change', function (e) {
+        let file = e.target.files[0];
+        if (file && file.name.endsWith('.md')) {
+            const formData = new FormData();
+            formData.append('md', file)
+            formData.append('name', localStorage.getItem('name'));
+
+            // 发起POST请求
+            $.ajax({
+                url: 'http://localhost:8080/uploadMdFile',
+                type: 'POST',
+                data: formData,
+                xhrFields: {
+                    withCredentials: true
+                },
+                processData: false,
+                contentType: false,
+                success: function (response) {
+                    console.log(response)
+                    ElMessage.success("网站动态更新成功,即将打开对应的动态页面!")
+                    window.open(response, '_blank')
+                },
+                error: function (xhr, status, error) {
+                    ElMessage.error("文件失败上传失败,请稍后再试!")
+                }
+            });
+        } else {
+            ElMessage.warning("文件格式错误!")
+        }
+
+    })
+    $(inputFile).trigger('click');
+    ElMessage.success("请选择对应的md文件,文件名请命名为此次网站动态更新的标题!")
 }
 
 // 获取存储的用户信息
@@ -159,12 +199,16 @@ onMounted(() => {
                     </el-icon>
                     帮助中心
                 </el-menu-item>
-                <el-menu-item index="7">
-                    <el-icon>
-                        <i-ep-ElementPlus/>
-                    </el-icon>
-                    关于我们
-                </el-menu-item>
+                <el-sub-menu index="7">
+                    <template #title>
+                        <el-icon>
+                            <i-ep-ElementPlus/>
+                        </el-icon>
+                        关于我们
+                    </template>
+                    <el-menu-item index="7-1">新增网站动态</el-menu-item>
+                    <el-menu-item index="7-2">HoGo版本信息</el-menu-item>
+                </el-sub-menu>
             </el-menu>
         </div>
         <router-view></router-view>
