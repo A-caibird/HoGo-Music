@@ -229,8 +229,8 @@ onMounted(function () {
         });
 
         // 点击进度条跳转到相应位置
-        progressBar.on('click', function (event) {
-            let progressWidth = progressBar.width();
+        $(progressBar).on('click', function (event) {
+            let progressWidth = $(this).width();
             let clickX = event.offsetX;
             let seekTime = (clickX / progressWidth) * duration;
             audioTag.currentTime = seekTime;
@@ -308,11 +308,6 @@ onMounted(function () {
 
     })
 
-})
-onUnmounted(() => {
-    // if (playState.value) {
-    //     audioTag.pause();
-    // }
 })
 </script>
 <template>
@@ -392,15 +387,15 @@ onUnmounted(() => {
                 </div>
             </div>
         </div>
-        <div class="bg-amber-200 absolute w-[260px] h-[100px] left-0 top-[400px] rounded-r-full py-[10px] pl-[7px] pr-[30px] z-10">
-            <div id="textContainer" class="mb-[20px]">
+        <div class="bg-amber-200 absolute w-[210px] h-[100px] left-0 top-[400px] rounded-r-full py-[10px] pl-[7px] pr-[30px] z-10">
+            <div id="textContainer" class="mb-[20px] mr-[20px]">
                 <div id="textWrapper">
                     <span id="scrollingText">暂无歌曲播放,听听试试看吧</span>
                 </div>
             </div>
 
             <audio id="audioPlayer" src="http://localhost:8080/music/1.mp3" class="hidden"></audio>
-            <div class="progress ">
+            <div class="progress">
                 <div id="progressBar" class="progress-bar rounded-full">
                     <div class="progress-bar-fill rounded-full"></div>
                 </div>

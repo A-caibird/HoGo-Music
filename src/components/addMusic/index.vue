@@ -41,7 +41,7 @@ $(document).ready(function () {
         audio.src = objectURL;
 
         audio.addEventListener('loadedmetadata', function () {
-            var duration = audio.duration;
+            const duration = audio.duration;
             modifyLength.value = Math.floor(duration / 60) + ':' + Math.floor(duration % 60);
         });
     })
@@ -54,7 +54,7 @@ function getFile() {
 
 // 提交专辑信息
 function submitForm() {
-    if (fileInput.value.files.length == 0) {
+    if (fileInput.value.files.length === 0) {
         ElMessage({
             message: '请选择音乐文件!',
             type: 'warning',
