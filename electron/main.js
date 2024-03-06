@@ -3,8 +3,8 @@ import { app, BrowserWindow } from 'electron'
 
 const createWindow = () => {
     const mainWindow = new BrowserWindow({
-        width: 800,
-        height: 600,
+        width: 1200,
+        height: 800,
     })
 
     // 主要改了这里
