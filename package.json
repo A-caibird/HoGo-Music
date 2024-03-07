@@ -1,9 +1,12 @@
 {
-    "name": "my-project",
+    "name": "HoGo Music",
     "private": true,
-    "version": "0.0.0",
+    "version": "1.0.0",
     "main": "electron/main.js",
     "type": "module",
+    "build":{
+        "productName": "HoGo Music"
+    },
     "scripts": {
         "dev": "vite",
         "build": "vite build",
