@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
+import  $ from 'jquery'
 const router = useRouter()
 const route = useRoute()
 
@@ -75,6 +76,27 @@ function goSearch() {
     router.push({ path: pathUrl})
 }
 
+
+onMounted(function (){
+    $(function (){
+        $(window).resize(function() {
+            // 获取轮播图容器左右padding在全屏状态下所占屏幕的比例
+            // 全屏下左右padding默认是200
+            let scale = 200 / screen.width;
+
+            // 获取浏览器宽度
+            let windowWidth = $(window).width();
+
+
+
+            // 计算新的左右padding宽度
+            let newPadding = windowWidth * scale;
+
+            let el_carousel__item = $("div.el-carousel__item")
+            el_carousel__item.css("padding-right",String(newPadding+"px")).css("padding-left",String(newPadding+"px"))
+        });
+    })
+})
 </script>
 <template>
     <!-- 这里设置为repeat(1,1fr)可以添加歌曲列表什么的 -->
@@ -88,7 +110,7 @@ function goSearch() {
                     </el-input>
                 </div>
             </div>
-            <div class="w-full   col-start-2 col-end-3  ">
+            <div class="w-full   col-start-2 col-end-3">
                 <div class="title flex flex-col ">
                     <h1 class="self-center font-serif text-[black] text-4xl">歌单推荐</h1>
                     <ul class="flex flex-row gap-[10px_20px]  justify-center font-sans m-[20px]">
@@ -101,7 +123,7 @@ function goSearch() {
                     </ul>
                 </div>
             </div>
-            <div class="col-span-3 " ref="elCarousel1">
+            <div class="col-span-3" ref="elCarousel1">
                 <el-carousel :height="CarouselHeight">
                     <el-carousel-item v-for="(item1, index) in itemList" :key="index"
                         class="grid grid-cols-[repeat(5,1fr)] gap-[0_20px] ">
@@ -111,7 +133,7 @@ function goSearch() {
                                 <img class="w-full h-full transition ease-in-out delay-200 scale-[1.1] hover:scale-[1.5] rounded-lg"
                                     :src="item2.imgPath" alt="a" />
                             </div>
-                            <p class="diyFont mt-[20px] text-[#d1cbcb]">{{ item2.title }}</p>
+                            <p class="diyFont mt-[20px] text-[#d1cbcb] ">{{ item2.title }}</p>
                         </div>
                     </el-carousel-item>
                 </el-carousel>
