@@ -78,6 +78,8 @@ onMounted(function (){
         $(window).resize(function (){
             let scale = 1050/screen.width
             let newWidth = scale*$(window).width()
+
+            // jquery添加css important最高级语句
             $("#search").css("cssText","width:"+newWidth+"px !important")
         })
     })
@@ -86,7 +88,7 @@ onMounted(function (){
 <template>
     <div class="container flex flex-col items-center w-full font-sans">
         <!-- 搜索框 -->
-        <div class="bg-[white]  w-[1050px] mt-[40px] rounded-[20px] p-2 flex items-center" id="search">
+        <div class="bg-[white]  w-[1050px] mt-[40px] rounded-[20px] p-2 flex items-center transition-[width] ease-in-out duration-200" id="search">
             <el-icon>
                 <i-ep-Search/>
             </el-icon>
