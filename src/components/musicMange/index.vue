@@ -73,10 +73,12 @@ onMounted(() => {
     }
 });
 
+// 搜索框响应式
 onMounted(function (){
     $(function (){
         $(window).resize(function (){
-            let scale = 1050/screen.width
+            // 1512 是 screen.width,屏幕的物理宽度
+            let scale = 1050/1512
             let newWidth = scale*$(window).width()
 
             // jquery添加css important最高级语句
@@ -84,6 +86,8 @@ onMounted(function (){
         })
     })
 })
+
+//
 </script>
 <template>
     <div class="container flex flex-col items-center w-full font-sans">
