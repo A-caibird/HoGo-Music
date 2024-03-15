@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref, computed, onUnmounted} from 'vue';
+import {onMounted, ref, computed} from 'vue';
 import {useRouter, useRoute} from 'vue-router';
 import {getSongList, deleteMusic} from '@/api/api.js';
 import ModifyMusic from '@/components/modifyMusic/index.vue'
@@ -14,7 +14,7 @@ let musicName = ref('');
 
 // 网页上显示的表格数据
 let displayTable = computed(() => {
-    if (musicName.value == '') {
+    if (musicName.value === '') {
         return songList.value;
     } else {
         return songList.value.filter(function (item, index) {
@@ -72,18 +72,29 @@ onMounted(() => {
         musicName.value = route.params.musicName;
     }
 });
+
+onMounted(function (){
+    $(function (){
+        $(window).resize(function (){
+            let scale = 1050/screen.width
+            let newWidth = scale*$(window).width()
+            $("#search").css("cssText","width:"+newWidth+"px !important")
+        })
+    })
+})
 </script>
 <template>
     <div class="container flex flex-col items-center w-full font-sans">
         <!-- 搜索框 -->
-        <div class="bg-[white]  w-[1050px]   mt-[40px] rounded-[20px] p-2 flex flex-row  items-center">
+        <div class="bg-[white]  w-[1050px] mt-[40px] rounded-[20px] p-2 flex items-center" id="search">
             <el-icon>
                 <i-ep-Search/>
             </el-icon>
             <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
-                      input-style="font-family:PingFang SC;color:">
+                      input-style="font-family:PingFang SC;">
             </el-input>
         </div>
+
         <!-- 音乐部分 -->
         <div class="mt-[20px] " ref="musicList">
             <!-- 歌曲头部 -->
