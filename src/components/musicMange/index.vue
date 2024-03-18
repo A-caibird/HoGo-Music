@@ -88,6 +88,21 @@ onMounted(function (){
 })
 
 //
+onMounted(()=>{
+    $(function (){
+        $(window).resize(()=>{
+            let scale = 560/1512
+            let newWidth = scale*$(window).width()
+            $('div.music').css("cssText","width:"+newWidth+"px !important")
+            
+            let scale2 = 280/1512
+            let newWidth2 = scale2*$(window).width()
+            $('div.songer').css("cssText","width:"+newWidth2+"px !important") 
+        })
+
+    })
+
+})
 </script>
 <template>
     <div class="container flex flex-col items-center w-full font-sans">
@@ -105,8 +120,8 @@ onMounted(function (){
         <div class="mt-[20px] " ref="musicList">
             <!-- 歌曲头部 -->
             <div class="flex flex-row bg-[#a5f3fc] px-[25px] py-[10px]">
-                <div class=" w-[560px]">歌曲名</div>
-                <div class=" w-[280px]">专辑/歌手</div>
+                <div class=" w-[560px] music">歌曲名</div>
+                <div class=" w-[280px] songer">专辑/歌手</div>
                 <div class=" w-[160px] flex flex-row justify-end">
                     时长
                 </div>
@@ -119,8 +134,8 @@ onMounted(function (){
             <div class="overflow-auto h-[570px]">
                 <div class="flex flex-row px-[25px] py-[10px] bg-[#ecfeff] group " v-for="(item, index) of displayTable"
                      :key="index">
-                    <div class=" w-[560px]">{{ item.musicName }}</div>
-                    <div class=" w-[280px]">{{ item.singerName_album }}</div>
+                    <div class=" w-[560px] music">{{ item.musicName }}</div>
+                    <div class=" w-[280px] songer">{{ item.singerName_album }}</div>
                     <div class=" w-[160px] flex flex-row justify-end items-center">
                     <span>
                         {{ item.timeLength }}
