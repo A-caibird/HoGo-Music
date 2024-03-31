@@ -14,6 +14,8 @@ export default {
     darkMode: 'class', // or 'media' or 'class',class为手动设置网页为暗黑模式
     content: [
         "./src/**/*.{vue,js,ts,jsx,tsx}",
+        "./login/**/*.{vue,js,ts,jsx,tsx}",
+        "./home/**/*.{vue,js,ts,jsx,tsx}"
     ],
     theme: {
         extend: {

@@ -46,7 +46,7 @@ export default defineConfig({
         }
     },
     server: {
-        open: '/src/pages/login/index.html', //设置项目启动打开的首页,
+        open: '/login/index.html', //设置项目启动打开的首页,
         proxy: {                              //配置跨域请求
             "/download": {
                 target: "http://localhost:8080",

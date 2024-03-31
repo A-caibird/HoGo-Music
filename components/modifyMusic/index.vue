@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onMounted, defineComponent} from 'vue';
-import {modifyMusic} from '@/api/api.js'
-import {musicDiago} from "@/pinia/store.js";
+import {modifyMusic} from '/api/api.js'
+import {musicDiago} from "/pinia/store.js";
 import $ from 'jquery'
 
 let modifyMusicName = ref("");

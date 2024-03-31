@@ -3,7 +3,7 @@
     "beforeBuildCommand": "npm run build",
     "beforeDevCommand": "npm run dev",
     "devPath": "http://localhost:5173/src/pages/login/index.html",
-    "distDir": "../dist/src/login"
+    "distDir": "../dist/src/pages/login"
   },
   "package": {
     "productName": "HoGo-Music",
@@ -28,7 +28,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "com.acaibird.dev",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -55,10 +55,10 @@
     "windows": [
       {
         "fullscreen": false,
-        "height": 600,
+        "height": 800,
         "resizable": true,
         "title": "HoGo-Music",
-        "width": 800
+        "width": 1200
       }
     ]
   }
