@@ -6,7 +6,6 @@ import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-import Postcss from 'postcss'
 const pathSrc = path.resolve(__dirname, 'src')
 export default defineConfig({
     outDir: path.resolve(__dirname, ""),
