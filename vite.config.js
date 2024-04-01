@@ -6,7 +6,7 @@ import IconsResolver from 'unplugin-icons/resolver'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
 import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
-const pathSrc = path.resolve(__dirname, 'src')
+const pathSrc = path.resolve(__dirname, 'home')
 export default defineConfig({
     outDir: path.resolve(__dirname, ""),
     plugins: [vue(),
@@ -18,14 +18,12 @@ export default defineConfig({
                 prefix: 'Icon',
             }),
         ],
-        dts: path.resolve(pathSrc, 'auto-imports.d.ts'),
     }),
     Components({
         resolvers: [ElementPlusResolver(),
         IconsResolver({
             enabledCollections: ['ep'],
         }),],
-        dts: path.resolve(pathSrc, 'components.d.ts'),
     }),
     Icons({
         autoInstall: true,
@@ -34,8 +32,9 @@ export default defineConfig({
         rollupOptions: {
             input: {
                 // 配置所有页面路径，使得所有页面都会被打包
-                home: path.resolve(__dirname, 'src/pages/index/index.html'),
-                login: path.resolve(__dirname, 'src/pages/login/index.html'),
+                home: path.resolve(__dirname, './home/index.html'),
+                login: path.resolve(__dirname, './login/index.html'),
+                index: path.resolve(__dirname, './index.html'),
             }
         }
     },
@@ -46,7 +45,7 @@ export default defineConfig({
         }
     },
     server: {
-        open: '/login/index.html', //设置项目启动打开的首页,
+        open: '', //设置项目启动打开的首页,
         proxy: {                              //配置跨域请求
             "/download": {
                 target: "http://localhost:8080",

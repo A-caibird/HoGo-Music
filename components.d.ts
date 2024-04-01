@@ -7,8 +7,6 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AboutUs: typeof import('./components/aboutUs/index.vue')['default']
-    AddMusic: typeof import('./components/addMusic/index.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElCarousel: typeof import('element-plus/es')['ElCarousel']
     ElCarouselItem: typeof import('element-plus/es')['ElCarouselItem']
@@ -32,17 +30,7 @@ declare module 'vue' {
     IEpUser: typeof import('~icons/ep/user')['default']
     IEpVideoPause: typeof import('~icons/ep/video-pause')['default']
     IEpVideoPlay: typeof import('~icons/ep/video-play')['default']
-    Index: typeof import('./components/index/index.vue')['default']
-    Mine: typeof import('./components/mine/mine.vue')['default']
-    ModifyCombo: typeof import('./components/modifyCombo/index.vue')['default']
-    ModifyMusic: typeof import('./components/modifyMusic/index.vue')['default']
-    MusicComment: typeof import('./components/musicComment/index.vue')['default']
-    MusicList: typeof import('./components/musicList/index.vue')['default']
-    MusicMange: typeof import('./components/musicMange/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TopIn: typeof import('./components/top-in/index.vue')['default']
-    UserMange: typeof import('./components/userMange/userMange.vue')['default']
-    Vip: typeof import('./components/vip/index.vue')['default']
   }
 }

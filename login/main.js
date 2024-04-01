@@ -1,4 +1,4 @@
-import {LogIn, SignUp} from '@/api/api.js';
+import {LogIn, SignUp} from '/api/api.js';
 import $ from 'jquery';
 
 // 1. 样式切换按钮

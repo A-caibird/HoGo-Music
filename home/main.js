@@ -10,9 +10,9 @@ import 'element-plus/dist/index.css'
 const isLoggedIn = !!localStorage.getItem('name'); // 前端检查用户是否已登录
 const currentPath = window.location.pathname; // 获取当前路径
 console.log(currentPath)
-if (currentPath === '/src/pages/index/index.html' && !isLoggedIn) {
+if (currentPath === '/index/index.html' && !isLoggedIn) {
     // 用户未登录且访问的是 "/home"，重定向到登录页
-    window.location.href = '/src/pages/login/index.html';
+    window.location.href = '/login/index.html';
     console.log("用户没有登录");
 }
 /*

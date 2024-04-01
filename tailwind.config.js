@@ -6,7 +6,6 @@ export default {
     important: true,
     corePlugins: {}, // 禁用部分核心插件
     prefix: '', // 自定义实用类前缀
-    content: ['./src/**/*.{vue,js,ts,jsx,tsx}'],
     blocklist: [
         'container',
         'collapse',
@@ -15,7 +14,8 @@ export default {
     content: [
         "./src/**/*.{vue,js,ts,jsx,tsx}",
         "./login/**/*.{vue,js,ts,jsx,tsx}",
-        "./home/**/*.{vue,js,ts,jsx,tsx}"
+        "./home/**/*.{vue,js,ts,jsx,tsx}",
+        "./components/**/*.{vue,js,ts,jsx,tsx}"
     ],
     theme: {
         extend: {
