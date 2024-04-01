@@ -43,7 +43,7 @@ let getButtons = (e) => {
                 document.cookie = "name=" + UserName;
                 document.cookie = "password=" + Password;
                 console.log(document.cookie);
-                window.location.href = "../index/index.html";
+                window.location.href = "../home/index.html";
             }
         }).catch(error => {
             // handle error
