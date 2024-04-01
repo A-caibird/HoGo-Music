@@ -1,12 +1,12 @@
 <script setup>
-import {onMounted, ref, computed, onUnmounted} from 'vue';
-import {useRouter, useRoute} from 'vue-router';
-import {getSongList, getVipInfo} from '/api/api.js';
-import {ElMessage, ElNotification} from 'element-plus';
+import { onMounted, ref, computed, onUnmounted } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+import { getSongList, getVipInfo } from '/api/api.js';
+import { ElMessage, ElNotification } from 'element-plus';
 import $ from 'jquery';
 import axios from 'axios'
-import {randInt} from "three/src/math/MathUtils.js";
-import {saveAs} from 'file-saver';
+import { randInt } from "three/src/math/MathUtils.js";
+import { saveAs } from 'file-saver';
 
 const router = useRouter();
 const route = useRoute();
@@ -148,14 +148,14 @@ function downloadMusic(path, index) {
         return;
     }
 
-    axios.get(url, {responseType: 'arraybuffer'})
+    axios.get(url, { responseType: 'arraybuffer' })
         .then(response => {
             // 处理响应数据
             const audioData = response.data;
             console.log(audioData)
 
             // 创建Blob对象
-            const blob = new Blob([audioData], {type: 'audio/mp3'});
+            const blob = new Blob([audioData], { type: 'audio/mp3' });
 
             // 保存文件
             saveAs(blob, 'audio.mp3');
@@ -315,12 +315,12 @@ onMounted(function () {
         <div class="container flex flex-col items-center w-full font-sans relative">
             <!-- 搜索框 -->
             <div class="bg-[white]  w-[1050px]   mt-[40px] rounded-[20px] p-2 flex flex-row  items-center"
-                 style="font-family:inherit;">
+                style="font-family:inherit;">
                 <el-icon>
-                    <i-ep-Search/>
+                    <i-ep-Search />
                 </el-icon>
                 <el-input placeholder="歌曲名" class="input-with-select" :clearable="true" v-model="musicName"
-                          input-style="font-family:PingFang SC;color:">
+                    input-style="font-family:PingFang SC;color:">
                 </el-input>
             </div>
             <!-- 音乐部分 -->
@@ -334,60 +334,62 @@ onMounted(function () {
                     </div>
                 </div>
                 <div class=" h-[640px] overflow-auto relative">
-                    <div class="flex flex-row px-[25px] py-[10px] group  ease-linear duration-[800ms]" v-for="(item, index) of displayTable"
-                         :key="index"
-                         :class="{ 'playing': (playState === true) && playIndex === index}" :id="'music'+index">
+                    <div class="flex flex-row px-[25px] py-[10px] group  ease-linear duration-[800ms]"
+                        v-for="(item, index) of displayTable" :key="index"
+                        :class="{ 'playing': (playState === true) && playIndex === index }" :id="'music' + index">
                         <div class=" w-[560px]">{{ item.musicName }}</div>
                         <div class=" w-[280px]">{{ item.singerName_album }}</div>
                         <div class=" w-[160px] flex flex-row justify-end items-center">
-                    <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
-                        <template v-if="(playState === true) && playIndex === index">
-                            <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
-                                <span @click="playMusic(item.url, index, 'stop')" class="stop">
-                                    <el-icon><i-ep-VideoPause/></el-icon>
-                                </span>
-                            </el-tooltip>
-                        </template>
-                        <template v-else>
-                            <el-tooltip class="box-item" effect="dark" content="开始播放" placement="top-start">
-                                <span @click="playMusic(item.url, index, 'play')">
-                                    <el-icon>
-                                        <i-ep-VideoPlay/>
-                                    </el-icon>
-                                </span>
-                            </el-tooltip>
-                        </template>
-                        <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
-                            <span @click="downloadMusic(item.url, index)">
-                                <el-icon @click="downloadMusic(item.url,index)">
-                                    <i-ep-Download/>
-                                </el-icon>
+                            <span class="relative top-[3px] invisible group-hover:visible mr-[20px] flex gap-x-[5px]">
+                                <template v-if="(playState === true) && playIndex === index">
+                                    <el-tooltip class="box-item" effect="dark" content="暂停播放" placement="top-start">
+                                        <span @click="playMusic(item.url, index, 'stop')" class="stop">
+                                            <el-icon><i-ep-VideoPause /></el-icon>
+                                        </span>
+                                    </el-tooltip>
+                                </template>
+                                <template v-else>
+                                    <el-tooltip class="box-item" effect="dark" content="开始播放" placement="top-start">
+                                        <span @click="playMusic(item.url, index, 'play')">
+                                            <el-icon>
+                                                <i-ep-VideoPlay />
+                                            </el-icon>
+                                        </span>
+                                    </el-tooltip>
+                                </template>
+                                <el-tooltip class="box-item" effect="dark" content="下载单曲" placement="top-start">
+                                    <span @click="downloadMusic(item.url, index)">
+                                        <el-icon @click="downloadMusic(item.url, index)">
+                                            <i-ep-Download />
+                                        </el-icon>
+                                    </span>
+                                </el-tooltip>
+                                <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
+                                    <span>
+                                        <el-icon>
+                                            <i-ep-Star />
+                                        </el-icon>
+                                    </span>
+                                </el-tooltip>
+                                <el-tooltip class="box-item" effect="dark" content="评论单曲" placement="top-start">
+                                    <span
+                                        @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
+                                        <el-icon>
+                                            <i-ep-Comment />
+                                        </el-icon>
+                                    </span>
+                                </el-tooltip>
                             </span>
-                        </el-tooltip>
-                        <el-tooltip class="box-item" effect="dark" content="收藏单曲" placement="top-start">
                             <span>
-                                <el-icon>
-                                    <i-ep-Star/>
-                                </el-icon>
+                                {{ item.timeLength }}
                             </span>
-                        </el-tooltip>
-                        <el-tooltip class="box-item" effect="dark" content="评论单曲" placement="top-start">
-                            <span @click="goToMusicHome(item.musicName, item.timeLength, item.singerName_album)">
-                                <el-icon>
-                                    <i-ep-Comment/>
-                                </el-icon>
-                            </span>
-                        </el-tooltip>
-                    </span>
-                            <span>
-                        {{ item.timeLength }}
-                    </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bg-amber-200 absolute w-[210px] h-[100px] left-0 top-[400px] rounded-r-full py-[10px] pl-[7px] pr-[30px] z-10">
+        <div
+            class="bg-amber-200 absolute w-[210px] h-[100px] left-0 top-[400px] rounded-r-full py-[10px] pl-[7px] pr-[30px] z-10">
             <div id="textContainer" class="mb-[20px] mr-[20px]">
                 <div id="textWrapper">
                     <span id="scrollingText">暂无歌曲播放,听听试试看吧</span>
@@ -415,7 +417,7 @@ onMounted(function () {
     color: #64748b !important;
 }
 
-.stop > :deep(.el-icon) {
+.stop> :deep(.el-icon) {
     color: red !important;
 }
 
@@ -460,27 +462,35 @@ onMounted(function () {
     0% {
         background: linear-gradient(50deg, #e66465, #9198e5);
     }
+
     15% {
         background: linear-gradient(75deg, #e66465, #9198e5);
     }
+
     25% {
         background: linear-gradient(90deg, #e66465, #9198e5);
     }
+
     40% {
         background: linear-gradient(105deg, #e66465, #9198e5);
     }
+
     50% {
         background: linear-gradient(120deg, #e66465, #9198e5);
     }
+
     60% {
         background: linear-gradient(138deg, #e66465, #9198e5);
     }
+
     75% {
         background: linear-gradient(150deg, #e66465, #9198e5);
     }
+
     90% {
         background: linear-gradient(167deg, #e66465, #9198e5);
     }
+
     100% {
         background: linear-gradient(180deg, #e66465, #9198e5);
     }
@@ -520,24 +530,25 @@ onMounted(function () {
 
 #tou {
     font-family: 'Quicksand', sans-serif;
+    position: relative;
     margin: 0;
     min-height: 10px;
     background-color: #e493d0;
     background-image: radial-gradient(closest-side, rgba(235, 105, 78, 1), rgba(235, 105, 78, 0)),
-    radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
-    radial-gradient(closest-side, rgba(254, 234, 131, 1), rgba(254, 234, 131, 0)),
-    radial-gradient(closest-side, rgba(170, 142, 245, 1), rgba(170, 142, 245, 0)),
-    radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
+        radial-gradient(closest-side, rgba(243, 11, 164, 1), rgba(243, 11, 164, 0)),
+        radial-gradient(closest-side, rgba(254, 234, 131, 1), rgba(254, 234, 131, 0)),
+        radial-gradient(closest-side, rgba(170, 142, 245, 1), rgba(170, 142, 245, 0)),
+        radial-gradient(closest-side, rgba(248, 192, 147, 1), rgba(248, 192, 147, 0));
     background-size: 130vmax 130vmax,
-    80vmax 80vmax,
-    90vmax 90vmax,
-    110vmax 110vmax,
-    90vmax 90vmax;
+        80vmax 80vmax,
+        90vmax 90vmax,
+        110vmax 110vmax,
+        90vmax 90vmax;
     background-position: -80vmax -80vmax,
-    60vmax -30vmax,
-    10vmax 10vmax,
-    -30vmax -10vmax,
-    50vmax 50vmax;
+        60vmax -30vmax,
+        10vmax 10vmax,
+        -30vmax -10vmax,
+        50vmax 50vmax;
     background-repeat: no-repeat;
     animation: 10s movement linear infinite;
 }
@@ -545,64 +556,68 @@ onMounted(function () {
 #tou::after {
     content: '';
     display: block;
-    position: fixed;
+    position: relative;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    /* -webkit-backdrop-filter: blur(10px); */
 }
 
-
 @keyframes movement {
-    0%, 100% {
+
+    0%,
+    100% {
         background-size: 130vmax 130vmax,
-        80vmax 80vmax,
-        90vmax 90vmax,
-        110vmax 110vmax,
-        90vmax 90vmax;
+            80vmax 80vmax,
+            90vmax 90vmax,
+            110vmax 110vmax,
+            90vmax 90vmax;
         background-position: -80vmax -80vmax,
-        60vmax -30vmax,
-        10vmax 10vmax,
-        -30vmax -10vmax,
-        50vmax 50vmax;
+            60vmax -30vmax,
+            10vmax 10vmax,
+            -30vmax -10vmax,
+            50vmax 50vmax;
     }
+
     25% {
         background-size: 100vmax 100vmax,
-        90vmax 90vmax,
-        100vmax 100vmax,
-        90vmax 90vmax,
-        60vmax 60vmax;
+            90vmax 90vmax,
+            100vmax 100vmax,
+            90vmax 90vmax,
+            60vmax 60vmax;
         background-position: -60vmax -90vmax,
-        50vmax -40vmax,
-        0vmax -20vmax,
-        -40vmax -20vmax,
-        40vmax 60vmax;
+            50vmax -40vmax,
+            0vmax -20vmax,
+            -40vmax -20vmax,
+            40vmax 60vmax;
     }
+
     50% {
         background-size: 80vmax 80vmax,
-        110vmax 110vmax,
-        80vmax 80vmax,
-        60vmax 60vmax,
-        80vmax 80vmax;
+            110vmax 110vmax,
+            80vmax 80vmax,
+            60vmax 60vmax,
+            80vmax 80vmax;
         background-position: -50vmax -70vmax,
-        40vmax -30vmax,
-        10vmax 0vmax,
-        20vmax 10vmax,
-        30vmax 70vmax;
+            40vmax -30vmax,
+            10vmax 0vmax,
+            20vmax 10vmax,
+            30vmax 70vmax;
     }
+
     75% {
         background-size: 90vmax 90vmax,
-        90vmax 90vmax,
-        100vmax 100vmax,
-        90vmax 90vmax,
-        70vmax 70vmax;
+            90vmax 90vmax,
+            100vmax 100vmax,
+            90vmax 90vmax,
+            70vmax 70vmax;
         background-position: -50vmax -40vmax,
-        50vmax -30vmax,
-        20vmax 0vmax,
-        -10vmax 10vmax,
-        40vmax 60vmax;
+            50vmax -30vmax,
+            20vmax 0vmax,
+            -10vmax 10vmax,
+            40vmax 60vmax;
     }
 }
 </style>
