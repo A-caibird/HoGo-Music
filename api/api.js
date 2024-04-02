@@ -8,39 +8,12 @@ const instance = axios.create({
 });
 
 // 定义接口函数
-export function LogIn(userData) {
-    return instance.post('/LogIn', userData);
-};
-
-export function SignUp(userData) {
-    return axios.post('/SignUp', userData);
-};
-
-export function userList() {
-    return instance.get('/userList');
-}
-
-export function deleteUser(name) {
-    return instance.post('/deleteUser', name);
-}
-
-export function upgradeUserActiveStatus(params) {
-    return instance.post('/upgradeUserActiveStatus', params);
-}
-
-export function getSongList() {
-    return instance.get('/getSongList');
-}
-
 export function commentSong(name) {
     return instance.post('/commentSong', name);
 }
 
 export function getSongComment(name) {
     return instance.get('/getSongComment', name);
-}
-export function deleteMusic(name) {
-    return instance.post('/deleteMusic', name);
 }
 
 export function uploadMusicFile(formData) {

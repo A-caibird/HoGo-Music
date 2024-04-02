@@ -3,6 +3,7 @@ import {ref, onMounted} from 'vue'
 import $ from 'jquery'
 import {getVipInfo} from "/api/api.js";
 import {ElMessage, ElMessageBox} from 'element-plus'
+import {Fetch} from "root/api/fetch.js";
 
 // 设置全局的请求配置
 $.ajaxSetup({
@@ -80,14 +81,18 @@ function submitInfo() {
 onMounted(function () {
 
     // 初始用户vip信息
-    getVipInfo({
-        username
-    }).then(res => {
-        isVip.value = res.data.vipStatus;
-    }).catch(e => {
-        console.error(e)
-        console.log("获取vip状态错误")
-    })
+    const params = new URLSearchParams();
+    params.append('username', 'root');
+    Fetch('/getVipInfo'+'?'+encodeURIComponent(params.toString()) , {
+        method: 'GET',
+        header: {
+        },
+    }).then(async res => {
+        console.log(await res.json())
+        isVip.value = (await res.json()).vipStatus;
+    }).catch(error => {
+        console.error(error)
+    });
 
     // 页面加载,获取用户头像
     $.ajax({
