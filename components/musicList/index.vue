@@ -185,7 +185,7 @@ onMounted(() => {
 
     const params = new URLSearchParams();
     params.append('username', 'root');
-    Fetch('/getVipInfo'+'?'+encodeURIComponent(params.toString()) , {
+    Fetch('/getVipInfo'+'?'+params.toString() , {
         method: 'GET',
         header: {
         },

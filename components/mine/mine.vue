@@ -83,7 +83,7 @@ onMounted(function () {
     // 初始用户vip信息
     const params = new URLSearchParams();
     params.append('username', 'root');
-    Fetch('/getVipInfo'+'?'+encodeURIComponent(params.toString()) , {
+    Fetch('/getVipInfo'+'?'+params.toString() , {
         method: 'GET',
         header: {
         },

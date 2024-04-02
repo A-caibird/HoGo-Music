@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:8080';
 axios.defaults.withCredentials = true;
+axios.defaults.timeout=5000
+axios.defaults.headers.common['Authorization'] = 'Bearer your_token'; // 添加全局通用请求头
+
 // 创建 axios 实例
 const instance = axios.create({
     baseURL: API_URL
