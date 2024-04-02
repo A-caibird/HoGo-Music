@@ -1,5 +1,4 @@
-import {LogIn, SignUp} from '/api/api.js';
-import $ from 'jquery';
+import {Fetch} from "/api/fetch.js"
 
 // 1. 样式切换按钮
 let switchCtn = document.querySelector("#switch-cnt");
@@ -22,20 +21,29 @@ let SignUp_Email = document.querySelector("#SignUp-Email");
 let getButtons = (e) => {
     e.preventDefault();
     console.log(e.target.textContent);
-    if (e.target.textContent == "SIGN IN") {
+    if (e.target.textContent === "SIGN IN") {
         let UserName = LogIn_Name.value.trim();
         let Password = LogIn_Password.value.trim();
         if (!UserName || !Password) {
             alert("用户名或密码不能为空");
             return;
         }
-        LogIn({
-            name: UserName,
-            password: Password
-        }).then(response => {
-            // handle success
-            console.log(response)
-            if (response.data == "success") {
+        Fetch('/LogIn', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: UserName,
+                password: Password
+            })
+        }).then(async response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const text = await response.text();
+            console.log(text);
+            if (text === "success") {
                 // 存储用户信息
                 localStorage.setItem("name", UserName);
 
@@ -46,47 +54,66 @@ let getButtons = (e) => {
                 window.location.href = "../home/index.html";
             }
         }).catch(error => {
-            // handle error
             console.log(error);
-            if (error.response) {
-                if (error.response.status == 500) {
-                    alert("服务器错误,请稍后再试");
-                } else if (error.response.status == 401) {
-                    alert("用户名或密码错误,请重新输入");
-                } else if (error.response.status == 403) {
-                    alert("该账户已被停用,请联系管理员");
-                } else if (error.response.status == 404) {
-                    alert("该用户不存在,请注册");
+            if (error.message.startsWith("HTTP error!")) {
+                const status = error.message.split(": ")[1];
+                switch (status) {
+                    case '500':
+                        alert("服务器错误,请稍后再试");
+                        break;
+                    case '401':
+                        alert("用户名或密码错误,请重新输入");
+                        break;
+                    case '403':
+                        alert("该账户已被停用,请联系管理员");
+                        break;
+                    case '404':
+                        alert("该用户不存在,请注册");
+                        break;
+                    default:
+                        alert("未知错误");
+                        break;
                 }
             }
-        })
+        });
     } else {
         let UserName = SignUp_Name.value;
         let Password = SignUp_Password.value;
         let Email = SignUp_Email.value;
-        SignUp({
-            name: UserName,
-            password: Password,
-            email: Email
-        }).then(response => {
-            // handle success
-            console.log(response);
+        Fetch('/SignUp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                name: UserName,
+                password: Password,
+                email: Email
+            })
+        }).then(async response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             localStorage.setItem("name", UserName);
             window.location.href = "../home/index.html";
         }).catch(error => {
-            // handle error
-            console.log(error);
-            if (error.response.status == 409) {
-                alert("用户名已存在,请重新注册");
-            } else {
-                alert("服务器内部错误,Server internal appear error");
+            if (error.message.startsWith("HTTP error!")) {
+                const status = error.message.split(": ")[1];
+                switch (status) {
+                    case '409':
+                        alert("用户名已存在,请重新注册!");
+                        break;
+                    default:
+                        alert("服务器未知错误!");
+                        break;
+                }
             }
-        })
+        });
     }
 }
 
 // 切换登录和注册的表单
-let changeForm = (e) => {
+let changeForm = () => {
     // 修改类名
     switchCtn.classList.add("is-gx");
     setTimeout(function () {
@@ -105,12 +132,12 @@ let changeForm = (e) => {
 }
 
 // 点击切换
-let shell = (e) => {
-    for (var i = 0; i < allButtons.length; i++) {
+let shell = () => {
+    for (let i = 0; i < allButtons.length; i++) {
         allButtons[i].addEventListener("click", getButtons);
     }
 
-    for (var i = 0; i < switchBtn.length; i++) {
+    for (let i = 0; i < switchBtn.length; i++) {
         switchBtn[i].addEventListener("click", changeForm);
 
     }
