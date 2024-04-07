@@ -9,6 +9,8 @@ import musicMange from '/components/musicMange/index.vue';
 import addMusic from '/components/addMusic/index.vue';
 import vip from '/components/vip/index.vue'
 import TopIn from '/components/top-in/index.vue'
+import 'nprogress/nprogress.css'
+import { useNProgress } from '@vueuse/integrations/useNProgress'
 const routes = [
     { path: '/', component: Home },
     { path: '/mine', component: mine },
@@ -25,5 +27,19 @@ const routes = [
 const router = createRouter({
     history: createWebHashHistory(),
     routes,
+})
+
+// 通过useNProgress，导出一个isLoading
+const { isLoading } = useNProgress(null, {
+    showSpinner: false
+})
+// 在路由进入和离开的时候时候，改变isLoading
+router.beforeEach((to, from, next) => {
+    isLoading.value = true
+    next()
+})
+router.afterEach((to, from, next) => {
+    isLoading.value = false
+    next()
 })
 export default router;
