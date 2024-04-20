@@ -1,0 +1,4 @@
+:5173 {
+    root * ./dist
+    file_server
+}
