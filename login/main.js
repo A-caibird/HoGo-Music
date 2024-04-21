@@ -1,4 +1,4 @@
-import {Fetch} from "/api/fetch.js"
+import { Fetch } from "/api/fetch.js"
 
 // 1. 样式切换按钮
 let switchCtn = document.querySelector("#switch-cnt");
@@ -28,13 +28,13 @@ let getButtons = (e) => {
             alert("用户名或密码不能为空");
             return;
         }
-        Fetch('/LogIn', {
+        Fetch('/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                name: UserName,
+                username: UserName,
                 password: Password
             })
         }).then(async response => {
@@ -59,19 +59,21 @@ let getButtons = (e) => {
                 const status = error.message.split(": ")[1];
                 switch (status) {
                     case '500':
-                        alert("服务器错误,请稍后再试");
+                        alert("服务器错误,请稍后再试!");
                         break;
                     case '401':
-                        alert("用户名或密码错误,请重新输入");
+                        alert("用户名或密码错误,请重新输入!");
                         break;
                     case '403':
-                        alert("该账户已被停用,请联系管理员");
+                        alert("该账户已被停用,请联系管理员!");
                         break;
                     case '404':
-                        alert("该用户不存在,请注册");
+                        alert("该用户不存在,请注册!");
                         break;
+                    case '409':
+                        alert("账号已登录!请勿重复登录")
                     default:
-                        alert("未知错误");
+                        alert("未知错误,请稍后再试!");
                         break;
                 }
             }
